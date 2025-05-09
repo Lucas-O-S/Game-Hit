@@ -16,28 +16,40 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     UsuarioRepository usuarioRepository;
 
     @Override
-    public void salvar(UsuarioModel model) {
+    public void Inserir(UsuarioModel model) {
         usuarioRepository.save(model);
     }
 
     @Override
-    public void editar(UsuarioModel model) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void Editar(UsuarioModel model) {
+
+        if(usuarioRepository.existsById(model.getId())){
+            usuarioRepository.save(model);
+
+        }
+
     }
 
     @Override
-    public void excluir(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void Excluir(Long id) {
+        if(usuarioRepository.existsById(id)){
+            usuarioRepository.deleteById(id);
+
+        }    
     }
 
     @Override
-    public Object buscarPorId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public UsuarioModel BuscarPorId(Long id) {
+        if(usuarioRepository.existsById(id)){
+            return usuarioRepository.findById(id).get();
+        }else{
+            return null;
+        }
     }
 
     @Override
-    public List<Object> listarTodos() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<UsuarioModel> ListarTodos() {
+        return usuarioRepository.findAll();
     }
 
 }
