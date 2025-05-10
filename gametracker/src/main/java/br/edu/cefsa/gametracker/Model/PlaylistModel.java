@@ -1,9 +1,8 @@
 package br.edu.cefsa.gametracker.Model;
-
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @lombok.NoArgsConstructor
-
-public class PlaylistModel {
+public class PlaylistModel extends PadraoModel {
         public PlaylistModel(String nome) {
         this.nome = nome;
     }
@@ -20,5 +18,12 @@ public class PlaylistModel {
     @Column(name = "nome")
     private String nome;
 
-    private List<RegistroModel> Playlist;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioModel Usuario;
+
+
+    @ManyToOne
+    @JoinColumn(name = "registro_id")
+    private RegistroModel Playlist;
 }

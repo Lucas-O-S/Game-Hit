@@ -1,8 +1,10 @@
 package br.edu.cefsa.gametracker.Model;
 
 import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +14,7 @@ import lombok.Setter;
 @Setter
 @lombok.NoArgsConstructor
 
-public class RegistroModel {
+public class RegistroModel extends PadraoModel {
     public RegistroModel(LocalDate tempoJogo, LocalDate dataFinalizacao, Integer nota, String comentarios) {
         this.tempoJogo = tempoJogo;
         this.dataFinalizacao = dataFinalizacao;
@@ -33,8 +35,10 @@ public class RegistroModel {
     private String comentarios;
 
     @ManyToOne
+    @JoinColumn(name = "jogo_id")
     private JogoModel Jogo;
 
     @ManyToOne
+    @JoinColumn(name = "usuario_id")
     private UsuarioModel Usuario;
 }

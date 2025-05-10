@@ -3,9 +3,9 @@ package br.edu.cefsa.gametracker.Model;
 import java.io.FileInputStream;
 import java.time.LocalDate;
 
-import jakarta.persistence.Transient;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @lombok.NoArgsConstructor
-
-public class JogoModel {
+public class JogoModel extends PadraoModel{
         public JogoModel(String nome, LocalDate dataLancamento, String sinopse, String criador) {
         this.nome = nome;
         this.dataLancamento = dataLancamento;
@@ -22,7 +21,7 @@ public class JogoModel {
         this.criador = criador;
     }
 
-    @Column(name = "nome, nullable = false")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
     @Column(name = "dataLancamento")
