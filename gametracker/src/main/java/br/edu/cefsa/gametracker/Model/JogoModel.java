@@ -1,5 +1,42 @@
 package br.edu.cefsa.gametracker.Model;
 
-public class JogoModel {
+import java.io.FileInputStream;
+import java.time.LocalDate;
 
+import jakarta.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity // mapeia a classe como uma entidade do banco de dados
+@Getter
+@Setter
+@lombok.NoArgsConstructor
+
+public class JogoModel {
+        public JogoModel(String nome, LocalDate dataLancamento, String sinopse, String criador) {
+        this.nome = nome;
+        this.dataLancamento = dataLancamento;
+        this.sinopse = sinopse;
+        this.criador = criador;
+    }
+
+    @Column(name = "nome, nullable = false")
+    private String nome;
+
+    @Column(name = "dataLancamento")
+    private LocalDate dataLancamento;
+
+    @Column(name = "sinopse")
+    private String sinopse;
+
+    @Column(name = "criador")
+    private String criador;
+
+    @Column(name = "foto")
+    private byte[] fotoByte;
+
+    @Transient // não mapeia o campo como coluna no banco de dados
+    private FileInputStream foto;
 }

@@ -22,8 +22,6 @@ public class UsuarioModel extends PadraoModel{
         this.adminstrador = adminstrador;
     }
 
-
-
     @Column(name = "nome", nullable = false)
     private String nome;
 
@@ -44,5 +42,4 @@ public class UsuarioModel extends PadraoModel{
 
     @Column(name = "administrador", nullable = false,  columnDefinition = "BOOLEAN DEFAULT true")
     private Boolean adminstrador;
-
 }
