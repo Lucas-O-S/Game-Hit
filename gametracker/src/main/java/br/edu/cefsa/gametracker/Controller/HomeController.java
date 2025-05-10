@@ -5,10 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/gametracker")
-public class GameTrackerController {
-        @GetMapping("")
+@RequestMapping("")
+public class HomeController {
+    
+    @GetMapping("/index")
     public String index(){
-        return "/index";
+        return "home/index";
+    }
+
+    @GetMapping("")
+    public String RedirectToIndex(){
+        return "redirect:/index";
     }
 }
