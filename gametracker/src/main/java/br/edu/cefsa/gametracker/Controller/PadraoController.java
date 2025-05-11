@@ -12,7 +12,6 @@ public abstract  class PadraoController<T>{
     protected abstract String Cadastro(Model model);
 
     protected abstract boolean Validar(T model, char operacao);
-    protected abstract String Retornar(Model model, T modelValores, char operacao, String pagina);
 
 
 }

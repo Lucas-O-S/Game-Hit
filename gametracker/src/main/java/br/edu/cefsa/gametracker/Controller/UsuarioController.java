@@ -84,19 +84,14 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         if(model.getSenha() == null || model.getSenha().isEmpty() || model.getSenha().length() > 250){
             return false;
         }
+
+
         if(model.getTelefone() == null || model.getTelefone().isEmpty() || model.getTelefone().length() > 250){
             return false;
         }
         return true;
     }
 
-    @Override
-    protected String Retornar(Model model, UsuarioModel modelValores, char operacao, String pagina){
-        model.addAttribute("usuario", new UsuarioModel());
-        model.addAttribute("operacao", 'I');
-        
-        return pagina;
-    }
 
 
 
