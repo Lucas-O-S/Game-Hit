@@ -52,4 +52,8 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
         return usuarioRepository.findAll();
     }
 
+    public boolean VerificarEmail(String email){
+        return usuarioRepository.existsByEmail(email) != null;
+    }
+
 }

@@ -14,12 +14,12 @@ import lombok.Setter;
 @lombok.NoArgsConstructor
 public class UsuarioModel extends PadraoModel{
     
-    public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adminstrador) {
+    public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adm) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
-        this.adminstrador = adminstrador;
+        this.adm = adm;
     }
 
     @Column(name = "nome", nullable = false)
@@ -40,6 +40,6 @@ public class UsuarioModel extends PadraoModel{
     @Transient // não mapeia o campo como coluna no banco de dados
     private FileInputStream foto;
 
-    @Column(name = "administrador", nullable = false,  columnDefinition = "BOOLEAN DEFAULT true")
-    private Boolean adminstrador;
+    @Column(name = "adm", nullable=false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean adm = false;
 }

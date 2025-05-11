@@ -7,8 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract  class PadraoController{
+public abstract  class PadraoController<T>{
     protected String formLink = "/form";
-    protected abstract String Form(Model model);
+    protected abstract String Cadastro(Model model);
+
+    protected abstract boolean Validar(T model, char operacao);
+    protected abstract String Retornar(Model model, T modelValores, char operacao, String pagina);
+
 
 }
