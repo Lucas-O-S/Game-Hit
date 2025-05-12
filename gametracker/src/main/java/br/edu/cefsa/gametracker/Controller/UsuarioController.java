@@ -1,5 +1,8 @@
 package br.edu.cefsa.gametracker.Controller;
 
+
+import java.io.InputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.edu.cefsa.gametracker.Model.UsuarioModel;
 import br.edu.cefsa.gametracker.service.UsuarioService;
@@ -25,7 +29,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     UsuarioService usuarioService;
 
     UsuarioController(){
-        this.precisaLogar = true;
+        this.precisaLogar = false;
     }
 
     @Override
@@ -44,17 +48,20 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
     @PostMapping("/Salvar")
-    public String Save(@ModelAttribute UsuarioModel model, @RequestParam("operacao") char operecao, Model valores) {
+    public String Save(
+        @ModelAttribute UsuarioModel model,
+         @RequestParam("operacao") char operecao,
+          Model valores,
+          @RequestParam("imagem") MultipartFile imagem
+          ) {
         try{
-            if(Validar(model, operecao)){
+            if(Validar(model, operecao)){                    
+                if (imagem != null && !imagem.isEmpty()) {
+                    model.setFotoByte(imagem.getBytes());
+                }
+
                 if(operecao == 'I'){
 
-                    System.out.println("Operacao: " + operecao);
-                    System.out.println("Usuario: " + model.getNome());
-                    System.out.println("Email: " + model.getEmail());
-                    System.out.println("Senha: " + model.getSenha());
-                    System.out.println("Telefone: " + model.getTelefone());
-                    System.out.println("Administrador: " + model.getAdm());
 
                     usuarioService.Inserir(model);
 
@@ -71,6 +78,8 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
                     }
                 }
+                return "redirect:/index";
+
             }
             else{
                 valores.addAttribute("usuario", model);
@@ -80,6 +89,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
         }
         catch(Exception e){
+
             System.out.println("Erro ao salvar usuario: " + e.getMessage());
         }
         return "redirect:/index";

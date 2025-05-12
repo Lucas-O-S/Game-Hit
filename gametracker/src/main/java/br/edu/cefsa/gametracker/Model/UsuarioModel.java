@@ -31,14 +31,11 @@ public class UsuarioModel extends PadraoModel{
     @Column(name = "senha", nullable = false)
     private String senha;
 
-    @Column(name = "foto")
+    @Column(name = "foto", columnDefinition = "BLOB")
     private byte[] fotoByte;
 
     @Column(name = "telefone")
     private String telefone;
-
-    @Transient // não mapeia o campo como coluna no banco de dados
-    private FileInputStream foto;
 
     @Column(name = "adm", nullable=false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean adm = false;

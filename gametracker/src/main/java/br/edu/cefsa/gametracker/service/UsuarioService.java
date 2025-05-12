@@ -50,7 +50,7 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     }
 
     public boolean VerificarEmail(String email){
-        return usuarioRepository.existsByEmail(email) != null;
+        return  usuarioRepository.existsByEmail(email);
     }
 
     public UsuarioModel Login(String email, String senha){
