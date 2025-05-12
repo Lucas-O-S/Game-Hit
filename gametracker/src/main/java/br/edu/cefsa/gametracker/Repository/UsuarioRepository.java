@@ -9,5 +9,5 @@ import br.edu.cefsa.gametracker.Model.UsuarioModel;
 @Repository
 public interface  UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
     public UsuarioModel existsByEmail(String email);
-
+    public UsuarioModel findByEmailAndSenha(String email, String Senha);
 }

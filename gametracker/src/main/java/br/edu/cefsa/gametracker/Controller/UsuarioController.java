@@ -2,8 +2,8 @@ package br.edu.cefsa.gametracker.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,13 +11,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.cefsa.gametracker.Model.UsuarioModel;
 import br.edu.cefsa.gametracker.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
+import lombok.Setter;
 
 @Controller
 @RequestMapping("/Usuario")
+@Getter
+@Setter
 public class UsuarioController extends PadraoController <UsuarioModel> {
 
     @Autowired
     UsuarioService usuarioService;
+
+    UsuarioController(){
+        this.precisaLogar = true;
+    }
 
     @Override
     @RequestMapping("/Cadastro")
@@ -25,6 +34,13 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         valores.addAttribute("usuario", new UsuarioModel());
         valores.addAttribute("operacao", 'I');
         return "Usuario/Cadastro";
+    }
+
+    
+    @RequestMapping("/Login")
+    public String Login(Model valores){
+        valores.addAttribute("usuario", new UsuarioModel());
+        return "Usuario/Login";
     }
 
     @PostMapping("/Salvar")
@@ -42,12 +58,18 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
                     usuarioService.Inserir(model);
 
-                    return "redirect:/index";
-
                 }
                 else{
+                    if(usuarioService.BuscarPorId(model.getId()) != null){
+                        usuarioService.Editar(model);
 
-                    usuarioService.Editar(model);
+                    }
+                    else{
+                        valores.addAttribute("usuario", model);
+                        valores.addAttribute("operacao", operecao);
+                        return "/Usuario/Cadastro";
+
+                    }
                 }
             }
             else{
@@ -62,6 +84,31 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         }
         return "redirect:/index";
     }
+
+
+    @GetMapping("/Autenticar")
+    public String Autenticar(Model valores, UsuarioModel model, HttpSession session){
+        try{
+            if(usuarioService.Login(model.getEmail(), model.getSenha()) != null){
+                session.setAttribute("usuario", model);
+                return "redirect:/index";
+            }
+        }
+        catch(Exception e){
+            System.out.println("Erro ao salvar usuario: " + e.getMessage());
+        }
+        return "redirect:/index";
+
+    }
+
+
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); 
+        return "redirect:/login";
+    }
+
 
 
     @Override
