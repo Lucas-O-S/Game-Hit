@@ -101,7 +101,14 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         try{
             if(usuarioService.Login(model.getEmail(), model.getSenha()) != null){
                 session.setAttribute("usuario", model);
+                
                 return "redirect:/index";
+            }
+            else{
+                valores.addAttribute("usuario", new UsuarioModel());
+
+                return "/Usuario/Login";
+
             }
         }
         catch(Exception e){
@@ -114,9 +121,10 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, Model valores) {
         session.invalidate(); 
-        return "redirect:/login";
+        valores.addAttribute("usuario", new UsuarioModel());
+        return "redirect:/Usuario/Login";
     }
 
 
