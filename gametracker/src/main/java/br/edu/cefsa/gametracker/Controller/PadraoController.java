@@ -15,7 +15,7 @@ public abstract class PadraoController<T>{
     protected abstract String Cadastro(Model model);
     protected abstract String Editar(Model model, HttpSession session);
 
-    protected abstract boolean Validar(T model, char operacao);
+    protected abstract boolean Validar(T model, char operacao, Model valores);
 
     protected boolean Perfil(HttpSession session){
         return session.getAttribute("usuario") != null;
