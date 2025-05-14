@@ -13,6 +13,8 @@ public abstract class PadraoController<T>{
     public Boolean precisaLogar = false;
 
     protected abstract String Cadastro(Model model);
+    protected abstract String Editar(Model model, HttpSession session);
+
     protected abstract boolean Validar(T model, char operacao);
 
     protected boolean Perfil(HttpSession session){

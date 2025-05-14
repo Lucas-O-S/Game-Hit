@@ -14,7 +14,9 @@
 
         <form th:action="@{/Usuario/Salvar}" method="post" enctype="multipart/form-data"  th:object="${usuario}">
 
-            <input type="hidden" th:value="${operacao}" name="operacao" />
+            <input type="text" th:value="${operacao}" name="operacao" />
+            <input type="text" th:field="*{id}" name="operacao" />
+
 
                  <!-- Campo de imagem -->
                  <div class="mb-3">

@@ -7,3 +7,6 @@ SELECT EMAIL, SENHA FROM USUARIO [42102-232]
 2025-05-13 20:12:44.163711-03:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USUARIO" not found; SQL statement:
 SELECT EMAIL, SENHA FROM USUARIO [42102-232]
+2025-05-13 21:37:40.733484-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select senha * [*]from USUARIO_MODEL"; SQL statement:
+select senha * from USUARIO_MODEL [42000-232]

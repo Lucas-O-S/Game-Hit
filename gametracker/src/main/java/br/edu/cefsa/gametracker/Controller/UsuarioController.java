@@ -40,6 +40,15 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         return "Usuario/Cadastro";
     }
 
+    @Override
+    @RequestMapping("/Editar")
+    public String Editar(Model valores, HttpSession session){
+        valores.addAttribute("usuario", session.getAttribute("usuario"));
+
+        valores.addAttribute("operacao", 'E');
+        return "Usuario/Cadastro";
+    }
+
     
     @RequestMapping("/Login")
     public String Login(Model valores){
@@ -99,8 +108,9 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @GetMapping("/Autenticar")
     public String Autenticar(Model valores, UsuarioModel model, HttpSession session){
         try{
-            if(usuarioService.Login(model.getEmail(), model.getSenha()) != null){
-                session.setAttribute("usuario", model);
+            UsuarioModel usuario = usuarioService.Login(model.getEmail(), model.getSenha());
+            if(usuario != null){
+                session.setAttribute("usuario", usuario);
                 
                 return "redirect:/index";
             }
