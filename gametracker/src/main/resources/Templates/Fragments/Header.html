@@ -23,20 +23,15 @@
                     <li class="nav-item" >
                         <a class="nav-link" th:href="@{/}">Home</a>
                     </li>
-                   <li class="nav-item">
+                    <li class="nav-item"  th:if="${usuarioLogado == null}">
                         <a class="nav-link" th:href="@{/Usuario/Login}">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item"  th:if="${usuarioLogado == null}">
                         <a class="nav-link" th:href="@{/Usuario/Cadastro}">Cadastrar</a>
                     </li>
 
                     <li class="nav-item"  th:if="${usuarioLogado != null}">
-                        <a class="nav-link" th:href="@{/}">Perfil</a>
-                    </li>
-
-                    
-                    <li class="nav-item"  th:if="${usuarioLogado != null}">
-                        <a class="nav-link" th:href="@{/Usuario/Editar}">Editar Perfil</a>
+                        <a class="nav-link" th:href="@{/Usuario/Perfil}">Perfil</a>
                     </li>
 
                     <li class="nav-item"  th:if="${usuarioLogado != null}">

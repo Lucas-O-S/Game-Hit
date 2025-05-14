@@ -53,13 +53,20 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         return "Usuario/Login";
     }
 
+    @RequestMapping("/Perfil")
+    public String Perfil(Model valores, HttpSession session){
+        valores.addAttribute("usuario", session.getAttribute("usuario"));
+        return "Usuario/Perfil";
+    }
+
     @PostMapping("/Salvar")
     public String Save(
         @ModelAttribute UsuarioModel model,
          @RequestParam("operacao") char operecao,
           Model valores,
-          @RequestParam("imagem") MultipartFile imagem
-          ) {
+          @RequestParam("imagem") MultipartFile imagem,
+        HttpSession session
+        ) {
         try{
             if(Validar(model, operecao)){                    
                 if (imagem != null && !imagem.isEmpty()) {
@@ -75,7 +82,8 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
                 else{
                     if(usuarioService.BuscarPorId(model.getId()) != null){
                         usuarioService.Editar(model);
-
+                        model.setFotoBase64(java.util.Base64.getEncoder().encodeToString(model.getFotoByte()));
+                        session.setAttribute("usuario", model);
                     }
                     else{
                         valores.addAttribute("usuario", model);
