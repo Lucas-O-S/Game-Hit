@@ -1,8 +1,6 @@
 package br.edu.cefsa.gametracker.Controller;
 
 
-import java.io.InputStream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +42,6 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @RequestMapping("/Editar")
     public String Editar(Model valores, HttpSession session){
         valores.addAttribute("usuario", session.getAttribute("usuario"));
-
         valores.addAttribute("operacao", 'E');
         return "Usuario/Cadastro";
     }
@@ -110,6 +107,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         try{
             UsuarioModel usuario = usuarioService.Login(model.getEmail(), model.getSenha());
             if(usuario != null){
+                usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
                 session.setAttribute("usuario", usuario);
                 
                 return "redirect:/index";

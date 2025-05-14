@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
-    <head th:replace="~{fragments/head :: head('Cadastro')}"></head>
+    <head th:replace="~{fragments/head :: head('Form')}"></head>
     <!--
     <additions>
         Dicione css e js exclusivos a esta pagina caso nescessario-
@@ -14,9 +14,9 @@
 
         <form th:action="@{/Usuario/Salvar}" method="post" enctype="multipart/form-data"  th:object="${usuario}">
 
-            <input type="text" th:value="${operacao}" name="operacao" />
-            <input type="text" th:field="*{id}" name="operacao" />
-
+            <input type="hidden" th:value="${operacao}" name="operacao" />
+            <input type="hidden" th:field="*{id}" name="operacao" />
+            
 
                  <!-- Campo de imagem -->
                  <div class="mb-3">
@@ -25,8 +25,13 @@
                 </div>
     
                 <!-- Preview da imagem -->
-                <div class="mb-3">
-                    <img id="preview" src="#" alt="Pré-visualização da imagem" style="max-width: 200px; display: none;" />
+                <div th:switch="${operacao}">
+                    <div th:case="'I'">
+                        <img id="preview" src="#" alt="Pré-visualização da imagem" style="max-width: 200px; display: none;" />
+                    </div>
+                    <div th:case="*">
+                        <img id="preview" th:src="|data:image/png;base64,${usuario.fotoBase64}|" alt="Pré-visualização da imagem" style="max-width: 200px;" />
+                    </div>
                 </div>
 
 
@@ -50,7 +55,7 @@
                 <input type="tel" class="form-control" id="telefone" placeholder="Digite seu telefone" th:field="*{telefone}" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
 
         </form>
 
@@ -60,6 +65,8 @@
 
     <div th:insert="fragments/Footer :: Footer"></div>
     <script th:src="@{/JS/ImageScripts.js}"></script>
+    <script th:src="@{/JS/Form.js}"></script>
+
 
 
 </body>

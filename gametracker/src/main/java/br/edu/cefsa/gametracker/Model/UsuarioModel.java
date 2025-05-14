@@ -1,7 +1,5 @@
 package br.edu.cefsa.gametracker.Model;
 
-import java.io.FileInputStream;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
@@ -14,12 +12,14 @@ import lombok.Setter;
 @lombok.NoArgsConstructor
 public class UsuarioModel extends PadraoModel{
     
-    public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adm) {
+    public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adm, byte[] fotoByte) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
         this.adm = adm;
+        this.fotoByte = fotoByte;
+        fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
     }
 
     @Column(name = "nome", nullable = false)
@@ -39,4 +39,7 @@ public class UsuarioModel extends PadraoModel{
 
     @Column(name = "adm", nullable=false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean adm = false;
+
+    @Transient
+    String fotoBase64;
 }
