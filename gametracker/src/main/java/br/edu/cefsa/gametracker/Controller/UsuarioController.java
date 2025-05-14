@@ -35,6 +35,8 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     public String Cadastro(Model valores){
         valores.addAttribute("usuario", new UsuarioModel());
         valores.addAttribute("operacao", 'I');
+        valores.addAttribute("erro", "");
+
         return "Usuario/Cadastro";
     }
 
@@ -43,6 +45,8 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     public String Editar(Model valores, HttpSession session){
         valores.addAttribute("usuario", session.getAttribute("usuario"));
         valores.addAttribute("operacao", 'E');
+        valores.addAttribute("erro", "");
+
         return "Usuario/Cadastro";
     }
 
@@ -68,7 +72,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         HttpSession session
         ) {
         try{
-            if(Validar(model, operecao)){                    
+            if(Validar(model, operecao, valores)){                    
                 if (imagem != null && !imagem.isEmpty()) {
                     model.setFotoByte(imagem.getBytes());
                 }
@@ -146,7 +150,8 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
 
     @Override
-    protected boolean Validar(UsuarioModel model, char operacao) {
+    protected boolean Validar(UsuarioModel model, char operacao, Model valores) {
+        valores.addAttribute("erro", "Erro ao validar usuario");
         if(model.getNome() == null || model.getNome().isEmpty() || model.getNome().length() > 250){
             return false;
         }
