@@ -19,25 +19,19 @@
         <!-- Exibição do nome -->
         <div class="mb-3">
             <label for="nome" class="form-label"> Nome </label>
-            <input type="text" class="form-control" id="nome" value="${usuario.nome}" readonly />
+            <input type="text" class="form-control" id="nome" th:th:value="${usuario.nome}" readonly />
         </div>
 
         <!-- Exibição do email -->
         <div class="mb-3">
             <label for="email" class="form-label"> Email </label>
-            <input type="text" class="form-control" id="email" value="${usuario.email}" readonly />
-        </div>
-
-        <!-- Exibição da senha (escondida para segurança) -->
-        <div class="mb-3">
-            <label for="senha" class="form-label"> Senha </label>
-            <input type="password" class="form-control" id="senha" value="********" readonly />
+            <input type="text" class="form-control" id="email" th:value="${usuario.email}" readonly />
         </div>
 
         <!-- Exibição do telefone -->
         <div class="mb-3">
             <label for="telefone" class="form-label"> Telefone </label>
-            <input type="tel" class="form-control" id="telefone" value="${usuario.telefone}" readonly />
+            <input type="tel" class="form-control" id="telefone" th:value="${usuario.telefone}" readonly />
         </div>
 
         <a th:href="@{/Usuario/Editar}" class="btn btn-secondary">Editar Perfil</a>
