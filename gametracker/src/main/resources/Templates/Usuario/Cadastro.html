@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head th:replace="~{fragments/head :: head('Form')}"></head>
+    <!--
+    <additions>
+        Dicione css e js exclusivos a esta pagina caso nescessario-
+    </additions>
+    -->
+<body>
+    <div th:insert="fragments/header :: Header"></div>
+
+    <div class="container mt-5 form" >
+
+
+        <form th:action="@{/Usuario/Salvar}" method="post" enctype="multipart/form-data"  th:object="${usuario}">
+
+            <input type="hidden" th:value="${operacao}" name="operacao" />
+            <input type="hidden" th:field="*{id}" name="operacao" />
+            
+
+                 <!-- Campo de imagem -->
+                 <div class="mb-3">
+                    <label for="imagem" class="form-label">Imagem de perfil</label>
+                    <input type="file" class="form-control" id="imagem" name="imagem" accept="image/*" onchange="previewImagem(event)">
+                </div>
+    
+                <!-- Preview da imagem -->
+                <div th:switch="${operacao}">
+                    <div th:case="'I'">
+                        <img id="preview" src="#" alt="Pré-visualização da imagem" style="max-width: 200px; display: none;" />
+                    </div>
+                    <div th:case="*">
+                        <img id="preview" th:src="|data:image/png;base64,${usuario.fotoBase64}|" alt="Pré-visualização da imagem" style="max-width: 200px;" />
+                    </div>
+                </div>
+
+
+            <div class="mb-3">
+                <label for="nome" class="form-label"> Nome </label>
+                <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" th:field="*{nome}" required >
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label"> Email </label>
+                <input type="text" class="form-control" id="email" placeholder="Digite seu email" th:field="*{email}"  required>
+            </div>
+
+            <div class="mb-3">
+                <label for="senha" class="form-label"> Senha </label>
+                <input type="password" class="form-control" id="senha" placeholder="Digite uma senha" th:field="*{senha}"  required>
+            </div>
+
+            <div class="mb-3">
+                <label for="telefone" class="form-label"> Telefone </label>
+                <input type="tel" class="form-control" id="telefone" placeholder="Digite seu telefone" th:field="*{telefone}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+
+        </form>
+
+
+
+    </div>
+
+    <div th:insert="fragments/Footer :: Footer"></div>
+    <script th:src="@{/JS/ImageScripts.js}"></script>
+    <script th:src="@{/JS/Form.js}"></script>
+
+
+
+</body>
+</html>

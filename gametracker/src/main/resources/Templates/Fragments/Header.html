@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!--Lembre-se se não estiver com o bootstrap na pagina principal o header quebra-->    
+
+<header>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">Logo</a>
+
+            <!-- Botão para mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" >
+                        <a class="nav-link" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item"  th:if="${usuarioLogado == null}">
+                        <a class="nav-link" th:href="@{/Usuario/Login}">Login</a>
+                    </li>
+                    <li class="nav-item"  th:if="${usuarioLogado == null}">
+                        <a class="nav-link" th:href="@{/Usuario/Cadastro}">Cadastrar</a>
+                    </li>
+
+                    <li class="nav-item"  th:if="${usuarioLogado != null}">
+                        <a class="nav-link" th:href="@{/Usuario/Perfil}">Perfil</a>
+                    </li>
+
+                    <li class="nav-item"  th:if="${usuarioLogado != null}">
+                        <a class="nav-link" th:href="@{/Usuario/logout}">LogOut</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+</body>
+</html>

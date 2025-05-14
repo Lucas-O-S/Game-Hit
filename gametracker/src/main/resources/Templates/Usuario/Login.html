@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head th:replace="~{fragments/head :: head('Login')}"></head>
+    <!--
+    <additions>
+        Dicione css e js exclusivos a esta pagina caso nescessario-
+    </additions>
+    -->
+<body>
+    <div th:insert="fragments/header :: Header"></div>
+
+    <div class="container mt-5 form" >
+
+
+        <form th:action="@{/Usuario/Autenticar}" method="get" th:object="${usuario}">
+
+            
+            <div class="mb-3">
+                <label for="email" class="form-label"> Email </label>
+                <input type="text" class="form-control" id="email" placeholder="Digite seu email" th:field="*{email}"  required>
+            </div>
+
+            <div class="mb-3">
+                <label for="senha" class="form-label"> Senha </label>
+                <input type="password" class="form-control" id="senha" placeholder="Digite uma senha" th:field="*{senha}"  required>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Fazer Login</button>
+
+        </form>
+
+
+
+    </div>
+
+    <div th:insert="fragments/Footer :: Footer"></div>
+
+
+</body>
+</html>

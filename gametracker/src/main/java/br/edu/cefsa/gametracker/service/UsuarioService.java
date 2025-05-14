@@ -23,10 +23,7 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     @Override
     public void Editar(UsuarioModel model) {
 
-        if(usuarioRepository.existsById(model.getId())){
             usuarioRepository.save(model);
-
-        }
 
     }
 
@@ -50,6 +47,14 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     @Override
     public List<UsuarioModel> ListarTodos() {
         return usuarioRepository.findAll();
+    }
+
+    public boolean VerificarEmail(String email){
+        return  usuarioRepository.existsByEmail(email);
+    }
+
+    public UsuarioModel Login(String email, String senha){
+        return usuarioRepository.findByEmailAndSenha(email, senha);
     }
 
 }

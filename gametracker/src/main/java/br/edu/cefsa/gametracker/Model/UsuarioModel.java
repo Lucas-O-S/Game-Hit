@@ -1,7 +1,5 @@
 package br.edu.cefsa.gametracker.Model;
 
-import java.io.FileInputStream;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
@@ -14,12 +12,14 @@ import lombok.Setter;
 @lombok.NoArgsConstructor
 public class UsuarioModel extends PadraoModel{
     
-    public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adminstrador) {
+    public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adm, byte[] fotoByte) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
-        this.adminstrador = adminstrador;
+        this.adm = adm;
+        this.fotoByte = fotoByte;
+        fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
     }
 
     @Column(name = "nome", nullable = false)
@@ -31,15 +31,15 @@ public class UsuarioModel extends PadraoModel{
     @Column(name = "senha", nullable = false)
     private String senha;
 
-    @Column(name = "foto")
+    @Column(name = "foto", columnDefinition = "BLOB")
     private byte[] fotoByte;
 
     @Column(name = "telefone")
     private String telefone;
 
-    @Transient // não mapeia o campo como coluna no banco de dados
-    private FileInputStream foto;
+    @Column(name = "adm", nullable=false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean adm = false;
 
-    @Column(name = "administrador", nullable = false,  columnDefinition = "BOOLEAN DEFAULT true")
-    private Boolean adminstrador;
+    @Transient
+    String fotoBase64;
 }

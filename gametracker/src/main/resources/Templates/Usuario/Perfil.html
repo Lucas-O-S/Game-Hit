@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head th:replace="~{fragments/head :: head('Perfil')}"></head>
+    <!--
+    <additions>
+        Adicione css e js exclusivos a esta página, caso necessário.
+    </additions>
+    -->
+<body>
+    <div th:insert="fragments/header :: Header"></div>
+
+    <div class="container mt-5 form">
+        <!-- Exibição da foto de perfil -->
+        <div class="mb-3">
+            <label for="imagem" class="form-label">Imagem de Perfil</label>
+            <img th:src="|data:image/png;base64,${usuario.fotoBase64}|" alt="Imagem de Perfil" style="max-width: 200px; border-radius: 8px;" />
+        </div>
+
+        <!-- Exibição do nome -->
+        <div class="mb-3">
+            <label for="nome" class="form-label"> Nome </label>
+            <input type="text" class="form-control" id="nome" value="${usuario.nome}" readonly />
+        </div>
+
+        <!-- Exibição do email -->
+        <div class="mb-3">
+            <label for="email" class="form-label"> Email </label>
+            <input type="text" class="form-control" id="email" value="${usuario.email}" readonly />
+        </div>
+
+        <!-- Exibição da senha (escondida para segurança) -->
+        <div class="mb-3">
+            <label for="senha" class="form-label"> Senha </label>
+            <input type="password" class="form-control" id="senha" value="********" readonly />
+        </div>
+
+        <!-- Exibição do telefone -->
+        <div class="mb-3">
+            <label for="telefone" class="form-label"> Telefone </label>
+            <input type="tel" class="form-control" id="telefone" value="${usuario.telefone}" readonly />
+        </div>
+
+        <a th:href="@{/Usuario/Editar}" class="btn btn-secondary">Editar Perfil</a>
+    </div>
+
+    <div th:insert="fragments/Footer :: Footer"></div>
+
+    <script th:src="@{/JS/ImageScripts.js}"></script>
+    <script th:src="@{/JS/Form.js}"></script>
+
+</body>
+</html>
