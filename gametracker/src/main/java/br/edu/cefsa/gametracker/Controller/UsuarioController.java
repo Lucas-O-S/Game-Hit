@@ -66,6 +66,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         return "Usuario/Perfil";
     }
 
+    @Override
     @RequestMapping("/Excluir")
     public String Excluir(HttpSession session){
         if(!VerificarLogin(session)){
@@ -88,6 +89,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         return "Usuario/Busca";
     }
 
+    @Override
     @GetMapping("/Buscar")
     public String Buscar(HttpSession session, Model valores, @RequestParam("nomeBuscar") String nome){
         if(!VerificarLogin(session)){

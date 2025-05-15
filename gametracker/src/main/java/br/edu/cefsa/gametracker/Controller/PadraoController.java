@@ -9,18 +9,24 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class PadraoController<T>{
-    
-    protected Boolean VerificarLogin(HttpSession session){
 
-        return !(session.getAttribute("usuario") == null);
-    }
     protected abstract String Cadastro(Model model);
+
     protected abstract String Editar(Model model, HttpSession session);
 
     protected abstract boolean Validar(T model, char operacao, Model valores);
 
+    protected abstract String Buscar(HttpSession session, Model valores, String valor);
+
+    protected abstract String Excluir(HttpSession session);
+
     protected boolean Perfil(HttpSession session){
         return session.getAttribute("usuario") != null;
+    }
+        
+    protected Boolean VerificarLogin(HttpSession session){
+
+        return !(session.getAttribute("usuario") == null);
     }
 
 
