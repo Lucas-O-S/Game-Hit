@@ -19,7 +19,7 @@
         <!-- Exibição do nome -->
         <div class="mb-3">
             <label for="nome" class="form-label"> Nome </label>
-            <input type="text" class="form-control" id="nome" th:th:value="${usuario.nome}" readonly />
+            <input type="text" class="form-control" id="nome" th:value="${usuario.nome}" readonly />
         </div>
 
         <!-- Exibição do email -->
@@ -37,10 +37,8 @@
         <a th:href="@{/Usuario/Editar}" class="btn btn-secondary">Editar Perfil</a>
     </div>
 
-    <div th:insert="fragments/Footer :: Footer"></div>
-
-    <script th:src="@{/JS/ImageScripts.js}"></script>
     <script th:src="@{/JS/Form.js}"></script>
+    <div th:insert="fragments/Footer :: Footer"></div>
 
 </body>
 </html>

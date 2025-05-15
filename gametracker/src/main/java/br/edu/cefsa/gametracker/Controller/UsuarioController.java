@@ -26,16 +26,11 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @Autowired
     UsuarioService usuarioService;
 
-    UsuarioController(){
-        this.precisaLogar = false;
-    }
-
     @Override
     @RequestMapping("/Cadastro")
     public String Cadastro(Model valores){
         valores.addAttribute("usuario", new UsuarioModel());
         valores.addAttribute("operacao", 'I');
-        valores.addAttribute("erro", "");
 
         return "Usuario/Cadastro";
     }
@@ -43,9 +38,11 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @Override
     @RequestMapping("/Editar")
     public String Editar(Model valores, HttpSession session){
+        if(!VerificarLogin(valores, session)){
+            return "redirect:/Usuario/Login";
+        }        
         valores.addAttribute("usuario", session.getAttribute("usuario"));
         valores.addAttribute("operacao", 'E');
-        valores.addAttribute("erro", "");
 
         return "Usuario/Cadastro";
     }
@@ -59,6 +56,9 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
     @RequestMapping("/Perfil")
     public String Perfil(Model valores, HttpSession session){
+        if(!VerificarLogin(valores, session)){
+            return "redirect:/Usuario/Login";
+        }        
         valores.addAttribute("usuario", session.getAttribute("usuario"));
         return "Usuario/Perfil";
     }
@@ -126,7 +126,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             }
             else{
                 valores.addAttribute("usuario", new UsuarioModel());
-
+                valores.addAttribute("erro", "Email ou senha inválidos");
                 return "/Usuario/Login";
 
             }
@@ -151,28 +151,39 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
     @Override
     protected boolean Validar(UsuarioModel model, char operacao, Model valores) {
-        valores.addAttribute("erro", "Erro ao validar usuario");
         if(model.getNome() == null || model.getNome().isEmpty() || model.getNome().length() > 250){
+            valores.addAttribute("erro", "Erro ao validar Nome");
+
             return false;
         }
         if(model.getEmail() == null || model.getEmail().isEmpty() || model.getEmail().length() > 250){
+        valores.addAttribute("erro", "Erro ao validar Email");
+
             return false;
         }
         if (model.getEmail().contains("@") == false || model.getEmail().contains(".") == false){
+            valores.addAttribute("erro", "Email não é válido");
+
             return false;
             
         }
 
         if (usuarioService.VerificarEmail(model.getEmail()) && operacao == 'I'){
+            valores.addAttribute("erro", "Email já cadastrado");
+
             return false;
         }
 
         if(model.getSenha() == null || model.getSenha().isEmpty() || model.getSenha().length() > 250){
+            valores.addAttribute("erro", "Erro ao validar senha");
+
             return false;
         }
 
 
         if(model.getTelefone() == null || model.getTelefone().isEmpty() || model.getTelefone().length() > 250){
+            valores.addAttribute("erro", "Erro ao validar Telefone");
+
             return false;
         }
         return true;

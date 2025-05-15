@@ -10,8 +10,10 @@ import lombok.Setter;
 @Setter
 public abstract class PadraoController<T>{
     
-    public Boolean precisaLogar = false;
+    protected Boolean VerificarLogin(Model model, HttpSession session){
 
+        return !(session.getAttribute("usuario") == null);
+    }
     protected abstract String Cadastro(Model model);
     protected abstract String Editar(Model model, HttpSession session);
 

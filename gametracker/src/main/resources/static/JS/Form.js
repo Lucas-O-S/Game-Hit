@@ -9,5 +9,8 @@ function ErrorAlert(error) {
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM carregado!");
   const error = document.getElementById("error").value;
-  ErrorAlert(error);
+  if(error != "" && error != null && error != undefined){
+    ErrorAlert(error);
+
+  }
 })
