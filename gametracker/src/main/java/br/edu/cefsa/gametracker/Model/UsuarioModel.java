@@ -1,5 +1,10 @@
 package br.edu.cefsa.gametracker.Model;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
+import org.springframework.core.io.ClassPathResource;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
@@ -11,7 +16,7 @@ import lombok.Setter;
 @Setter
 @lombok.NoArgsConstructor
 public class UsuarioModel extends PadraoModel{
-    
+
     public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adm, byte[] fotoByte) {
         this.nome = nome;
         this.email = email;
@@ -19,7 +24,20 @@ public class UsuarioModel extends PadraoModel{
         this.telefone = telefone;
         this.adm = adm;
         this.fotoByte = fotoByte;
-        fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
+
+        if (fotoByte != null) {
+            this.fotoByte = fotoByte;
+            this.fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
+        } else {
+            try {
+                ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
+                this.fotoByte = Files.readAllBytes(imgFile.getFile().toPath());
+            } catch (IOException e) {
+                this.fotoByte = null;
+                this.fotoBase64 = null;
+                e.printStackTrace();
+            }
+        }
     }
 
     @Column(name = "nome", nullable = false)

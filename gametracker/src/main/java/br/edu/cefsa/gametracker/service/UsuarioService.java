@@ -38,7 +38,9 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     @Override
     public UsuarioModel BuscarPorId(Long id) {
         if(usuarioRepository.existsById(id)){
-            return usuarioRepository.findById(id).get();
+            UsuarioModel usuario = usuarioRepository.findById(id).get();
+            usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
+            return usuario;
         }else{
             return null;
         }
@@ -59,5 +61,14 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
 
     public List<UsuarioModel> BuscarPorNome(String nome){
         return usuarioRepository.findByNomeContainingIgnoreCase(nome);
+    }
+
+    public void MudarAdm(boolean status, long id){
+        if(usuarioRepository.findById(id) != null){
+            UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow();
+            usuario.setAdm(status);
+            usuarioRepository.save(usuario);
+        }
+
     }
 }

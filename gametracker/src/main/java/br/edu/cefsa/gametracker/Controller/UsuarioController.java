@@ -1,10 +1,12 @@
 package br.edu.cefsa.gametracker.Controller;
 
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,11 +42,13 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
     @Override
     @RequestMapping("/Editar")
-    public String Editar(Model valores, HttpSession session){
+    public String Editar(Model valores, HttpSession session, @RequestParam("id") Long id){
         if(!VerificarLogin(session)){
             return "redirect:/Usuario/Login";
         }        
-        valores.addAttribute("usuario", session.getAttribute("usuario"));
+
+        UsuarioModel usuario = usuarioService.BuscarPorId(id);
+        valores.addAttribute("usuario", usuario);
         valores.addAttribute("operacao", 'E');
 
         return "Usuario/Cadastro";
@@ -58,24 +62,33 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
     @RequestMapping("/Perfil")
-    public String Perfil(Model valores, HttpSession session){
+    public String Perfil(Model valores, HttpSession session, @RequestParam("id") Long id){
         if(!VerificarLogin( session)){
             return "redirect:/Usuario/Login";
         }        
-        valores.addAttribute("usuario", session.getAttribute("usuario"));
+
+        UsuarioModel usuario = usuarioService.BuscarPorId(id);
+        valores.addAttribute("usuario", usuario);
         return "Usuario/Perfil";
     }
 
     @Override
     @RequestMapping("/Excluir")
-    public String Excluir(HttpSession session){
+    protected String Excluir(HttpSession session,@RequestParam("id") long id){
         if(!VerificarLogin(session)){
             return "redirect:/Usuario/Login";
         }       
         var usuario = (UsuarioModel) session.getAttribute("usuario");
-        usuarioService.Excluir(usuario.getId()); 
-        session.invalidate(); 
-        return "redirect:/Usuario/Login";
+        usuarioService.Excluir(id); 
+
+        if(usuario.getId() == id){
+            session.invalidate(); 
+            return "redirect:/Usuario/Login";
+
+        }
+        usuarioService.Excluir(id); 
+        return "redirect:/index";
+
     }
 
     @RequestMapping("/BuscarPerfil")
@@ -110,9 +123,16 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         ) {
         try{
             if(Validar(model, operecao, valores)){                    
+                
+                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
                 if (imagem != null && !imagem.isEmpty()) {
                     model.setFotoByte(imagem.getBytes());
                 }
+                else{
+                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
+                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));  
+                }
+                
 
                 if(operecao == 'I'){
 
@@ -123,7 +143,6 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
                 else{
                     if(usuarioService.BuscarPorId(model.getId()) != null){
                         usuarioService.Editar(model);
-                        model.setFotoBase64(java.util.Base64.getEncoder().encodeToString(model.getFotoByte()));
                         session.setAttribute("usuario", model);
                     }
                     else{
@@ -156,7 +175,6 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         try{
             UsuarioModel usuario = usuarioService.Login(model.getEmail(), model.getSenha());
             if(usuario != null){
-                usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
                 session.setAttribute("usuario", usuario);
                 
                 return "redirect:/index";
@@ -185,6 +203,11 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
 
+    @RequestMapping("/MudarAdm")
+    public String MudarAdm(@RequestParam("id") long id, @RequestParam("status") boolean status){
+        usuarioService.MudarAdm(status, id);
+        return "redirect:/Usuario/Perfil?id=" + id;
+    }
 
     @Override
     protected boolean Validar(UsuarioModel model, char operacao, Model valores) {

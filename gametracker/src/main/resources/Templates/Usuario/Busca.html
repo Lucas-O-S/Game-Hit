@@ -21,11 +21,18 @@
 
         <div th:if="${usuarios}">
             <h2>Resultados da Busca:</h2>
-            <ul>
-                <li th:each="usuario : ${usuarios}">
-                    <a th:href="@{/Usuario/Perfil(id=${usuario.id})}" th:text="${usuario.nome}"></a>
-                </li>
-            </ul>
+            <table class="table">
+                <tr>
+                    <th>Nome</th>
+                </tr>
+                <tr th:each="usuario : ${usuarios}">
+                    <a th:href="@{/Usuario/Perfil(id=${usuario.id})}">
+                        <td>
+                            <a th:href="@{/Usuario/Perfil(id=${usuario.id})}" th:text="${usuario.nome}"></a>
+                        </td>
+                    </a>
+                </tr>
+            </table>
         </div>
 
         <div th:if="${usuarios == null or #lists.isEmpty(usuarios)}">

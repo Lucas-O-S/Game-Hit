@@ -12,6 +12,6 @@ import br.edu.cefsa.gametracker.Model.UsuarioModel;
 public interface  UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
     public Boolean existsByEmail(String email);
     public UsuarioModel findByEmailAndSenha(String email, String Senha);
-    List<UsuarioModel> findByNomeContainingIgnoreCase(String nome);
-
+    public List<UsuarioModel> findByNomeContainingIgnoreCase(String nome);
+    
 }
