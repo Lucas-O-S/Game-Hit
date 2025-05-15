@@ -57,4 +57,7 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
         return usuarioRepository.findByEmailAndSenha(email, senha);
     }
 
+    public List<UsuarioModel> BuscarPorNome(String nome){
+        return usuarioRepository.findByNomeContainingIgnoreCase(nome);
+    }
 }

@@ -1,6 +1,9 @@
 package br.edu.cefsa.gametracker.Controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +41,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @Override
     @RequestMapping("/Editar")
     public String Editar(Model valores, HttpSession session){
-        if(!VerificarLogin(valores, session)){
+        if(!VerificarLogin(session)){
             return "redirect:/Usuario/Login";
         }        
         valores.addAttribute("usuario", session.getAttribute("usuario"));
@@ -56,11 +59,43 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
     @RequestMapping("/Perfil")
     public String Perfil(Model valores, HttpSession session){
-        if(!VerificarLogin(valores, session)){
+        if(!VerificarLogin( session)){
             return "redirect:/Usuario/Login";
         }        
         valores.addAttribute("usuario", session.getAttribute("usuario"));
         return "Usuario/Perfil";
+    }
+
+    @RequestMapping("/Excluir")
+    public String Excluir(HttpSession session){
+        if(!VerificarLogin(session)){
+            return "redirect:/Usuario/Login";
+        }       
+        var usuario = (UsuarioModel) session.getAttribute("usuario");
+        usuarioService.Excluir(usuario.getId()); 
+        session.invalidate(); 
+        return "redirect:/Usuario/Login";
+    }
+
+    @RequestMapping("/BuscarPerfil")
+    public String BuscarPerfil(HttpSession session, Model valores){
+        if(!VerificarLogin(session)){
+            return "redirect:/Usuario/Login";
+        }        
+        List<UsuarioModel> usuarios = new ArrayList<UsuarioModel>();
+        valores.addAttribute("usuarios", usuarios);
+
+        return "Usuario/Busca";
+    }
+
+    @GetMapping("/Buscar")
+    public String Buscar(HttpSession session, Model valores, @RequestParam("nomeBuscar") String nome){
+        if(!VerificarLogin(session)){
+            return "redirect:/Usuario/Login";
+        }        
+        List<UsuarioModel> usuarios = usuarioService.BuscarPorNome(nome);
+        valores.addAttribute("usuarios", usuarios);
+        return "Usuario/Busca";
     }
 
     @PostMapping("/Salvar")

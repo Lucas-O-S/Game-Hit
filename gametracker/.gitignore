@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### Banco de Dados ###
-**/data/
+data/gametracker-db.mv.db

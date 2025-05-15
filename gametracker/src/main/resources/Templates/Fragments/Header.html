@@ -37,6 +37,10 @@
                     <li class="nav-item"  th:if="${usuarioLogado != null}">
                         <a class="nav-link" th:href="@{/Usuario/logout}">LogOut</a>
                     </li>
+                    
+                    <li class="nav-item"  th:if="${usuarioLogado != null}">
+                        <a class="nav-link" th:href="@{/Usuario/BuscarPerfil}">Buscar Usuarios</a>
+                    </li>
                 </ul>
             </div>
         </div>
