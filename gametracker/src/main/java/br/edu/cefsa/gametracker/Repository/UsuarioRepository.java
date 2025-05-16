@@ -14,9 +14,8 @@ public interface  UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
     //Verifica se o email existe
     public Boolean existsByEmail(String email);
 
-    //Acha se existe um usuario com o email e senha enviados
-    public UsuarioModel findByEmailAndSenha(String email, String Senha);
-
+    public UsuarioModel findByEmail(String email);
+    
     //Devolve uma lista com todos os usuarios que contenha a string enviada e ignora se esta maiusculo ou minusculo
     public List<UsuarioModel> findByNomeContainingIgnoreCase(String nome);
     

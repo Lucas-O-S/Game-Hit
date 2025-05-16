@@ -11,23 +11,22 @@
 
     <div class="container mt-5 form" >
 
-        <input type="hidden" th:value="${erro}" name="erro" id="error" />
+        <input type="hidden" th:value="${erro}" name="erro" id="erro" />
 
-        <form th:action="@{/Usuario/Autenticar}" method="get" th:object="${usuario}">
+        <form th:action="@{/Usuario/Autenticar}" method="post" th:object="${usuario}">
 
-            
             <div class="mb-3">
-                <label for="email" class="form-label"> Email </label>
-                <input type="text" class="form-control" id="email" placeholder="Digite seu email" th:field="*{email}"  required>
+                <label for="username" class="form-label">Email</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Digite seu email" required>
             </div>
 
             <div class="mb-3">
-                <label for="senha" class="form-label"> Senha </label>
-                <input type="password" class="form-control" id="senha" placeholder="Digite uma senha" th:field="*{senha}"  required>
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
             </div>
-
 
             <button type="submit" class="btn btn-primary">Fazer Login</button>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         </form>
 
@@ -35,8 +34,8 @@
 
     </div>
 
+    <script th:src="@{/js/FormFunc.js}"></script>
     <div th:insert="fragments/Footer :: Footer"></div>
-    <script th:src="@{/JS/Form.js}"></script>
 
 
 </body>

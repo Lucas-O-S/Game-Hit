@@ -8,9 +8,11 @@ function ErrorAlert(error) {
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM carregado!");
-  const error = document.getElementById("error").value;
-  if(error != "" && error != null && error != undefined){
-    ErrorAlert(error);
+  const errorElement = document.getElementById("erro").value;
 
+  if (errorElement) {
+    if (errorElement) {  
+      ErrorAlert(errorElement);
+    }
   }
-})
+});
