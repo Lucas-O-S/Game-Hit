@@ -32,3 +32,46 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "delete f
 delete from USUARIO_MODEL where id = 101
 
 select id, nome from USUARIO_MODEL [42000-232]
+2025-05-16 14:12:57.086426-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from USUARIO_MODEL \000d\000a\000d\000aupdate [*]adm from USUARIO_MODEL where adm = true"; SQL statement:
+select * from USUARIO_MODEL 
+
+update adm from USUARIO_MODEL where adm = true [42000-232]
+2025-05-16 14:13:04.962252-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from USUARIO_MODEL \000d\000a\000d\000aupdate [*]adm from USUARIO_MODEL where id= true"; SQL statement:
+select * from USUARIO_MODEL 
+
+update adm from USUARIO_MODEL where id= true [42000-232]
+2025-05-16 14:13:06.407789-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from USUARIO_MODEL \000d\000a\000d\000aupdate [*]adm from USUARIO_MODEL where id= true"; SQL statement:
+select * from USUARIO_MODEL 
+
+update adm from USUARIO_MODEL where id= true [42000-232]
+2025-05-16 14:13:15.053332-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ADM" not found; SQL statement:
+update adm from USUARIO_MODEL where id= 110 [42102-232]
+2025-05-16 14:13:45.794276-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from USUARIO_MODEL \000d\000a\000d\000aupdate [*]USUARIO_MODEL set adm = true where id= 110"; SQL statement:
+select * from USUARIO_MODEL 
+
+update USUARIO_MODEL set adm = true where id= 110 [42000-232]
+2025-05-16 14:51:58.681630-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "update USUARIO_MODEL  set adm = true \000d\000a\000d\000a[*]select * from USUARIO_MODEL"; SQL statement:
+update USUARIO_MODEL  set adm = true 
+
+select * from USUARIO_MODEL [42000-232]
+2025-05-16 14:52:00.428093-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "update USUARIO_MODEL  set adm = true \000d\000a\000d\000a[*]select * from USUARIO_MODEL"; SQL statement:
+update USUARIO_MODEL  set adm = true 
+
+select * from USUARIO_MODEL [42000-232]
+2025-05-16 14:52:01.140941-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "update USUARIO_MODEL  set adm = true \000d\000a\000d\000a[*]select * from USUARIO_MODEL"; SQL statement:
+update USUARIO_MODEL  set adm = true 
+
+select * from USUARIO_MODEL [42000-232]
+2025-05-16 14:52:13.068289-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "update USUARIO_MODEL  set adm = true \000d\000a\000d\000a[*]select * from USUARIO_MODEL"; SQL statement:
+update USUARIO_MODEL  set adm = true 
+
+select * from USUARIO_MODEL [42000-232]

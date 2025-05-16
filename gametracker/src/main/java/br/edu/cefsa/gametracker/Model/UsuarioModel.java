@@ -2,6 +2,7 @@ package br.edu.cefsa.gametracker.Model;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Base64;
 
 import org.springframework.core.io.ClassPathResource;
 
@@ -31,14 +32,14 @@ public class UsuarioModel extends PadraoModel{
             this.fotoByte = fotoByte;
 
             //Preenche a foto em base 64 com a foto em byte 
-            this.fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
+            this.fotoBase64 = Base64.getEncoder().encodeToString(fotoByte);
         } else {
             try {
 
                 //Busca a imagem generica e preenche foto byte para depois preencher em base 64
                 ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
                 this.fotoByte = Files.readAllBytes(imgFile.getFile().toPath());
-                this.fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
+                this.fotoBase64 = (this.fotoByte != null) ? Base64.getEncoder().encodeToString(this.fotoByte) : null;
 
                 //Caso de erro
             } catch (IOException e) {
@@ -71,4 +72,10 @@ public class UsuarioModel extends PadraoModel{
     //Transient que dizer que não ira para o BD
     @Transient
     String fotoBase64;
+
+    public UsuarioModel orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    }
+
 }

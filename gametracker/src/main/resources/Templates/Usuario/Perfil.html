@@ -37,8 +37,18 @@
         <!--Botões que apenas o adm ou usuario dono tem acesso-->
         <div name="BotoesControle" class="mb-3" style="display: flex; gap: 10px;" th:if="${usuarioLogado.id == usuario.id || usuarioLogado.Adm == true}">
             <a th:href="@{/Usuario/Editar(id=${usuario.id})}" class="btn btn-secondary">Editar Perfil</a>
-            <a th:href="@{/Usuario/Excluir(id=${usuario.id})}" class="btn btn-secondary">Excluir Perfil</a>
-
+            
+            <form th:action="@{/Usuario/Excluir(id=${usuario.id})}" method="post"
+                onsubmit="return confirm('Tem certeza que deseja excluir seu perfil?')">
+                
+                <!-- Simula método DELETE -->
+                <input type="hidden" name="_method" value="delete" />
+                
+                <!-- CSRF -->
+                <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                
+                <button type="submit" class="btn btn-danger">Excluir Perfil</button>
+            </form>
             <!--Mudar status de adm-->
             <a th:href="@{/Usuario/MudarAdm(id=${usuario.id}, status=${true})}" th:if="${usuarioLogado.Adm == true and usuario.Adm == false}" class="btn btn-secondary">Tornar administrador</a>
             <a th:href="@{/Usuario/MudarAdm(id=${usuario.id}, status=${false})}" th:if="${usuarioLogado.Adm == true and usuario.Adm == true}" class="btn btn-secondary">Remover administrador</a>

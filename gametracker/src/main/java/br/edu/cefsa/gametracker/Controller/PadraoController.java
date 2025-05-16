@@ -14,7 +14,7 @@ public abstract class PadraoController<T>{
     protected abstract String Cadastro(Model model);
 
     //Função abstrata para a tela de editar
-    protected abstract String Editar(Model model, HttpSession session, Long id);
+    protected abstract String Editar(Model model, Long id);
 
     //Função abstrata para validar model
     protected abstract boolean Validar(T model, char operacao, Model valores);

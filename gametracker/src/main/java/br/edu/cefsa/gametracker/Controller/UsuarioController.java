@@ -7,8 +7,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +45,9 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @Autowired
     UsuarioService usuarioService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     //Manda para a pagina de formulario para cadastrar
     @Override
     @RequestMapping("/Cadastro")
@@ -47,6 +55,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         //Adiciona a model um usuario vazio e uma operação
         valores.addAttribute("usuario", new UsuarioModel());
         valores.addAttribute("operacao", 'I');
+        valores.addAttribute("error", "");
 
         return "Usuario/Form";
     }
@@ -54,12 +63,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     //Manda para a pagina de Formulario para editar
     @Override
     @RequestMapping("/Editar")
-    public String Editar(Model valores, HttpSession session, @RequestParam("id") Long id){
-
-        //Verifica se está logado com base na session
-        if(!VerificarLogin(session)){
-            return "redirect:/Usuario/Login";
-        }        
+    public String Editar(Model valores, @RequestParam("id") Long id){    
 
         //Devolve um usuario com base no id
         UsuarioModel usuario = usuarioService.BuscarPorId(id);
@@ -74,19 +78,22 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         return "Usuario/Form";
     }
 
-    //Manda para a pagina de login
     @RequestMapping("/Login")
-    public String Login(Model valores){
-        valores.addAttribute("usuario", new UsuarioModel());
+    public String Login(
+            Model valores, 
+            @RequestParam(value = "error", required = false) String error
+    ) {        
+        if (error != null) {
+            valores.addAttribute("erro", "Email ou senha inválidos");
+        }
+
         return "Usuario/Login";
     }
 
+
     //Manda para a pagina de perfil
     @RequestMapping("/Perfil")
-    public String Perfil(Model valores, HttpSession session, @RequestParam("id") Long id){
-        if(!VerificarLogin( session)){
-            return "redirect:/Usuario/Login";
-        }        
+    public String Perfil(Model valores, @RequestParam("id") Long id){   
 
         UsuarioModel usuario = usuarioService.BuscarPorId(id);
         
@@ -98,20 +105,16 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         return "Usuario/Perfil";
     }
 
-    //Exclui um usuario
+    //Exclui o usuario
     @Override
-    @RequestMapping("/Excluir")
+    @PostMapping("/Excluir")
     protected String Excluir(HttpSession session, @RequestParam("id") long id){
-        try{
-            if(!VerificarLogin(session)){
-                return "redirect:/Usuario/Login";
-            }   
-
-            //Pega o usuario da session
-            var usuarioLogado = (UsuarioModel) session.getAttribute("usuario");
+   //Pega o usuario da session
+         try{ 
+            var usuarioLogado = (UsuarioModel) session.getAttribute("usuarioLogado");
 
             //Se o usuario que esta na session não for adm ou se não for o dono da conta ele sera redirecionado
-            if (usuarioLogado.getAdm() == false || usuarioLogado.getId() != id ) {
+            if (usuarioLogado.getAdm() == false && usuarioLogado.getId() != id ) {
                 return "redirect:/index";
             }
 
@@ -132,17 +135,14 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         }
 
         return "redirect:/index";
-
     }
+
 
     //Busca usuarios com base no nome
     @Override
     @GetMapping("/Buscar")
     public String Buscar(HttpSession session, Model valores, @RequestParam(name = "nomeBuscar", required = false) String nome){
-        try{
-            if(!VerificarLogin(session)){
-                return "redirect:/Usuario/Login";
-            }   
+        try{ 
 
             List<UsuarioModel> usuarios = new ArrayList<>();
             
@@ -171,8 +171,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         @ModelAttribute UsuarioModel model,
         @RequestParam("operacao") char operecao,
         Model valores,
-        @RequestParam("imagem") MultipartFile imagem,
-        HttpSession session
+        @RequestParam("imagem") MultipartFile imagem
     ) {
         try{
             //Valida o usuario antes de seguir, caso não aceite sera devolvido um erro e retornara para a pagina de onde veio
@@ -215,7 +214,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
 
     //Autentica o usuario na tela de login
-    @GetMapping("/Autenticar")
+    @PostMapping("/Autenticar")
     public String Autenticar(Model valores, UsuarioModel model, HttpSession session){
         try{
             //Busca o usuario 
@@ -242,17 +241,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         return "redirect:/index";
 
     }
-
-
-
-    //Destroi a sessão
-    @GetMapping("/logout")
-    public String logout(HttpSession session, Model valores) {
-        session.invalidate(); 
-        valores.addAttribute("usuario", new UsuarioModel());
-        return "redirect:/Usuario/Login";
-    }
-
+    
 
     //Muda o status de adm
     @RequestMapping("/MudarAdm")
@@ -303,7 +292,9 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
 
-
+    public boolean checarSenha(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 
   
 

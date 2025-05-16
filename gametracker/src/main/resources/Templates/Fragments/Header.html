@@ -33,9 +33,11 @@
                     <li class="nav-item"  th:if="${usuarioLogado != null}">
                         <a class="nav-link" th:href="@{/Usuario/Perfil(id=${usuarioLogado.id})}">Perfil</a>
                     </li>
-
-                    <li class="nav-item"  th:if="${usuarioLogado != null}">
-                        <a class="nav-link" th:href="@{/Usuario/logout}">LogOut</a>
+                    <li class="nav-item" th:if="${usuarioLogado != null}">
+                    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">LogOut</a>
+                    <form id="logout-form" th:action="@{/logout}" method="post" style="display:none;">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    </form>
                     </li>
                     
                     <li class="nav-item"  th:if="${usuarioLogado != null}">
@@ -45,6 +47,7 @@
             </div>
         </div>
     </nav>
+
 </header>
 
 

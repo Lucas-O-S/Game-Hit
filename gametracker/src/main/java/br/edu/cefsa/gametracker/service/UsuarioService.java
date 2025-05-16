@@ -3,6 +3,7 @@ package br.edu.cefsa.gametracker.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.edu.cefsa.gametracker.Interfaces.InterfaceService;
@@ -14,10 +15,12 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
 
     @Autowired // Injeção de dependência do repositório
     UsuarioRepository usuarioRepository;
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     //Só inseri um usuario
     @Override
     public void Inserir(UsuarioModel model) {
+        model.setSenha(passwordEncoder.encode(model.getSenha()));
         usuarioRepository.save(model);
     }
 
@@ -25,9 +28,21 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     @Override
     public void Editar(UsuarioModel model) {
         if(usuarioRepository.existsById(model.getId())){
+            model.setSenha(passwordEncoder.encode(model.getSenha()));
             usuarioRepository.save(model);
         }
 
+    }
+
+    public UsuarioModel Login(String email, String senha) {
+        UsuarioModel usuario = usuarioRepository.findByEmail(email);
+        if (usuario != null) {
+            // Compara a senha em texto com a senha criptografada
+            if (passwordEncoder.matches(senha, usuario.getSenha())) {
+                return usuario;
+            }
+        }
+        return null;
     }
 
     //Exclui o usuario caso exista
@@ -72,11 +87,6 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
         return usuarioRepository.existsByEmail(email);
     }
 
-    //Devolve um usuario com email e senha enviados
-    public UsuarioModel Login(String email, String senha){
-        return usuarioRepository.findByEmailAndSenha(email, senha);
-    }
-
     //Lista todos os usuarios que contenha a string pedida
     public List<UsuarioModel> BuscarPorNome(String nome){
         return usuarioRepository.findByNomeContainingIgnoreCase(nome);
@@ -90,5 +100,9 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
             usuarioRepository.save(usuario);
         }
 
+    }
+
+    public UsuarioModel BuscarEmail(String email){
+        return usuarioRepository.findByEmail(email);
     }
 }
