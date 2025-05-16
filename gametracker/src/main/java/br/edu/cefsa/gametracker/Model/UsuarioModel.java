@@ -17,6 +17,7 @@ import lombok.Setter;
 @lombok.NoArgsConstructor
 public class UsuarioModel extends PadraoModel{
 
+    //Construtor de model
     public UsuarioModel(String nome, String email, String senha, String telefone, Boolean adm, byte[] fotoByte) {
         this.nome = nome;
         this.email = email;
@@ -25,18 +26,27 @@ public class UsuarioModel extends PadraoModel{
         this.adm = adm;
         this.fotoByte = fotoByte;
 
+        //Se não tiver foto usa uma default
         if (fotoByte != null) {
             this.fotoByte = fotoByte;
+
+            //Preenche a foto em base 64 com a foto em byte 
             this.fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
         } else {
             try {
+
+                //Busca a imagem generica e preenche foto byte para depois preencher em base 64
                 ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
                 this.fotoByte = Files.readAllBytes(imgFile.getFile().toPath());
+                this.fotoBase64 = java.util.Base64.getEncoder().encodeToString(fotoByte);
+
+                //Caso de erro
             } catch (IOException e) {
                 this.fotoByte = null;
                 this.fotoBase64 = null;
                 e.printStackTrace();
             }
+
         }
     }
 
@@ -58,6 +68,7 @@ public class UsuarioModel extends PadraoModel{
     @Column(name = "adm", nullable=false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean adm = false;
 
+    //Transient que dizer que não ira para o BD
     @Transient
     String fotoBase64;
 }

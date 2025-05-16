@@ -2,6 +2,7 @@ package br.edu.cefsa.gametracker.Interfaces;
 
 import java.util.List;
 
+//Interface para a camada de serviço generica 
 public interface InterfaceService <T> {
     public void Inserir(T t);
     public void Editar(T t);

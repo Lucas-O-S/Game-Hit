@@ -15,18 +15,22 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     @Autowired // Injeção de dependência do repositório
     UsuarioRepository usuarioRepository;
 
+    //Só inseri um usuario
     @Override
     public void Inserir(UsuarioModel model) {
         usuarioRepository.save(model);
     }
 
+    //
     @Override
     public void Editar(UsuarioModel model) {
-
+        if(usuarioRepository.existsById(model.getId())){
             usuarioRepository.save(model);
+        }
 
     }
 
+    //Exclui o usuario caso exista
     @Override
     public void Excluir(Long id) {
         if(usuarioRepository.existsById(id)){
@@ -35,10 +39,14 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
         }    
     }
 
+
+    //Devolve o usuario com base no id
     @Override
     public UsuarioModel BuscarPorId(Long id) {
         if(usuarioRepository.existsById(id)){
             UsuarioModel usuario = usuarioRepository.findById(id).get();
+
+            //Configura a imagem em base 64
             usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
             return usuario;
         }else{
@@ -46,23 +54,35 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
         }
     }
 
+    //Busca todos os registros
     @Override
     public List<UsuarioModel> ListarTodos() {
-        return usuarioRepository.findAll();
+        List<UsuarioModel> usuarios = usuarioRepository.findAll();
+
+        //Configura as fotos em base 64
+        for (UsuarioModel usuario : usuarios) {
+            usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
+
+        }
+        return usuarios;
     }
 
+    //Verifica se o email existe
     public boolean VerificarEmail(String email){
-        return  usuarioRepository.existsByEmail(email);
+        return usuarioRepository.existsByEmail(email);
     }
 
+    //Devolve um usuario com email e senha enviados
     public UsuarioModel Login(String email, String senha){
         return usuarioRepository.findByEmailAndSenha(email, senha);
     }
 
+    //Lista todos os usuarios que contenha a string pedida
     public List<UsuarioModel> BuscarPorNome(String nome){
         return usuarioRepository.findByNomeContainingIgnoreCase(nome);
     }
 
+    //Muda o status de adm do usuario com base nos parametros
     public void MudarAdm(boolean status, long id){
         if(usuarioRepository.findById(id) != null){
             UsuarioModel usuario = usuarioRepository.findById(id).orElseThrow();

@@ -10,20 +10,23 @@ import lombok.Setter;
 @Setter
 public abstract class PadraoController<T>{
 
+    //Função abstrata para a tela de cadastro
     protected abstract String Cadastro(Model model);
 
+    //Função abstrata para a tela de editar
     protected abstract String Editar(Model model, HttpSession session, Long id);
 
+    //Função abstrata para validar model
     protected abstract boolean Validar(T model, char operacao, Model valores);
 
+
+    //Função abstrata para a tela de busca
     protected abstract String Buscar(HttpSession session, Model valores, String valor);
 
+    //Função abstrata para a tela de exclusão 
     protected abstract String Excluir(HttpSession session, long id);
-
-    protected boolean Perfil(HttpSession session){
-        return session.getAttribute("usuario") != null;
-    }
         
+    //Verifica se há um login
     protected Boolean VerificarLogin(HttpSession session){
 
         return !(session.getAttribute("usuario") == null);

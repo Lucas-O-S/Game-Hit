@@ -28,39 +28,60 @@ import lombok.Setter;
 @Setter
 public class UsuarioController extends PadraoController <UsuarioModel> {
 
+    /*
+     * Conceitos uteis
+     * Tipo Model: devolve a pagina variaveis do java, util para transfeir dados
+     * Tipo Session: Mantem dados salvos enquanto a sessão estiver rodando
+     * Qualquer variavel que a pagina tenha nas sessões th é obrigatorio o envio, mesmo que seja vazio, se não tera erro ao carregar
+     * @RequestParam("Nome da variavel") permite acessar dados de dentro da url
+     */
+
+
     @Autowired
     UsuarioService usuarioService;
 
+    //Manda para a pagina de formulario para cadastrar
     @Override
     @RequestMapping("/Cadastro")
     public String Cadastro(Model valores){
+        //Adiciona a model um usuario vazio e uma operação
         valores.addAttribute("usuario", new UsuarioModel());
         valores.addAttribute("operacao", 'I');
 
-        return "Usuario/Cadastro";
+        return "Usuario/Form";
     }
 
+    //Manda para a pagina de Formulario para editar
     @Override
     @RequestMapping("/Editar")
     public String Editar(Model valores, HttpSession session, @RequestParam("id") Long id){
+
+        //Verifica se está logado com base na session
         if(!VerificarLogin(session)){
             return "redirect:/Usuario/Login";
         }        
 
+        //Devolve um usuario com base no id
         UsuarioModel usuario = usuarioService.BuscarPorId(id);
+
+        //Devolve par index caso não tenha um usuario 
+        if(usuario == null){
+            return "redirect:/index";
+        }
         valores.addAttribute("usuario", usuario);
         valores.addAttribute("operacao", 'E');
 
-        return "Usuario/Cadastro";
+        return "Usuario/Form";
     }
 
-    
+    //Manda para a pagina de login
     @RequestMapping("/Login")
     public String Login(Model valores){
         valores.addAttribute("usuario", new UsuarioModel());
         return "Usuario/Login";
     }
 
+    //Manda para a pagina de perfil
     @RequestMapping("/Perfil")
     public String Perfil(Model valores, HttpSession session, @RequestParam("id") Long id){
         if(!VerificarLogin( session)){
@@ -68,60 +89,93 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         }        
 
         UsuarioModel usuario = usuarioService.BuscarPorId(id);
+        
+        if(usuario == null){
+            return "redirect:/index";
+        }
+
         valores.addAttribute("usuario", usuario);
         return "Usuario/Perfil";
     }
 
+    //Exclui um usuario
     @Override
     @RequestMapping("/Excluir")
-    protected String Excluir(HttpSession session,@RequestParam("id") long id){
-        if(!VerificarLogin(session)){
-            return "redirect:/Usuario/Login";
-        }       
-        var usuario = (UsuarioModel) session.getAttribute("usuario");
-        usuarioService.Excluir(id); 
+    protected String Excluir(HttpSession session, @RequestParam("id") long id){
+        try{
+            if(!VerificarLogin(session)){
+                return "redirect:/Usuario/Login";
+            }   
 
-        if(usuario.getId() == id){
-            session.invalidate(); 
-            return "redirect:/Usuario/Login";
+            //Pega o usuario da session
+            var usuarioLogado = (UsuarioModel) session.getAttribute("usuario");
+
+            //Se o usuario que esta na session não for adm ou se não for o dono da conta ele sera redirecionado
+            if (usuarioLogado.getAdm() == false || usuarioLogado.getId() != id ) {
+                return "redirect:/index";
+            }
+
+            usuarioService.Excluir(id); 
+
+            //Se o usuario excluido for o mesmo da session a session sera finalizada
+            if(usuarioLogado.getId() == id){
+                session.invalidate(); 
+                return "redirect:/Usuario/Login";
+
+            }
+        }
+        catch(Exception e){
+
+            System.out.println("Erro ao salvar usuario: " + e.getMessage());
+            return "Home/Index";
 
         }
-        usuarioService.Excluir(id); 
+
         return "redirect:/index";
 
     }
 
-    @RequestMapping("/BuscarPerfil")
-    public String BuscarPerfil(HttpSession session, Model valores){
-        if(!VerificarLogin(session)){
-            return "redirect:/Usuario/Login";
-        }        
-        List<UsuarioModel> usuarios = new ArrayList<UsuarioModel>();
-        valores.addAttribute("usuarios", usuarios);
-
-        return "Usuario/Busca";
-    }
-
+    //Busca usuarios com base no nome
     @Override
     @GetMapping("/Buscar")
-    public String Buscar(HttpSession session, Model valores, @RequestParam("nomeBuscar") String nome){
-        if(!VerificarLogin(session)){
-            return "redirect:/Usuario/Login";
-        }        
-        List<UsuarioModel> usuarios = usuarioService.BuscarPorNome(nome);
-        valores.addAttribute("usuarios", usuarios);
-        return "Usuario/Busca";
+    public String Buscar(HttpSession session, Model valores, @RequestParam(name = "nomeBuscar", required = false) String nome){
+        try{
+            if(!VerificarLogin(session)){
+                return "redirect:/Usuario/Login";
+            }   
+
+            List<UsuarioModel> usuarios = new ArrayList<>();
+            
+            //Se o nome não for enviado sera devolvido uma lista vazia
+            if(nome != null && !nome.isEmpty()){
+            usuarios = usuarioService.BuscarPorNome(nome);
+
+            }   
+            
+            valores.addAttribute("usuarios", usuarios);
+            return "Usuario/Busca";
+        }
+        catch(Exception e){
+
+            System.out.println("Erro ao salvar usuario: " + e.getMessage());
+            return "Home/Index";
+
+        }
+
     }
 
+
+    //Salva um usuario, seja editar ou alterar
     @PostMapping("/Salvar")
     public String Save(
         @ModelAttribute UsuarioModel model,
-         @RequestParam("operacao") char operecao,
-          Model valores,
-          @RequestParam("imagem") MultipartFile imagem,
+        @RequestParam("operacao") char operecao,
+        Model valores,
+        @RequestParam("imagem") MultipartFile imagem,
         HttpSession session
-        ) {
+    ) {
         try{
+            //Valida o usuario antes de seguir, caso não aceite sera devolvido um erro e retornara para a pagina de onde veio
             if(Validar(model, operecao, valores)){                    
                 
                 //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
@@ -133,24 +187,14 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
                     model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));  
                 }
                 
-
+                //Se for uma inserção
                 if(operecao == 'I'){
-
-
                     usuarioService.Inserir(model);
-
                 }
-                else{
-                    if(usuarioService.BuscarPorId(model.getId()) != null){
-                        usuarioService.Editar(model);
-                        session.setAttribute("usuario", model);
-                    }
-                    else{
-                        valores.addAttribute("usuario", model);
-                        valores.addAttribute("operacao", operecao);
-                        return "/Usuario/Cadastro";
 
-                    }
+                //Caso seja edição
+                else{
+                    usuarioService.Editar(model);
                 }
                 return "redirect:/index";
 
@@ -158,7 +202,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             else{
                 valores.addAttribute("usuario", model);
                 valores.addAttribute("operacao", operecao);
-                return "/Usuario/Cadastro";
+                return "/Usuario/Form";
             }
 
         }
@@ -170,15 +214,21 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
 
+    //Autentica o usuario na tela de login
     @GetMapping("/Autenticar")
     public String Autenticar(Model valores, UsuarioModel model, HttpSession session){
         try{
+            //Busca o usuario 
             UsuarioModel usuario = usuarioService.Login(model.getEmail(), model.getSenha());
+            
+            //Verifica se existe
             if(usuario != null){
                 session.setAttribute("usuario", usuario);
                 
                 return "redirect:/index";
             }
+
+            //Devolve um erro
             else{
                 valores.addAttribute("usuario", new UsuarioModel());
                 valores.addAttribute("erro", "Email ou senha inválidos");
@@ -195,6 +245,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
 
 
 
+    //Destroi a sessão
     @GetMapping("/logout")
     public String logout(HttpSession session, Model valores) {
         session.invalidate(); 
@@ -203,12 +254,14 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
 
+    //Muda o status de adm
     @RequestMapping("/MudarAdm")
     public String MudarAdm(@RequestParam("id") long id, @RequestParam("status") boolean status){
         usuarioService.MudarAdm(status, id);
         return "redirect:/Usuario/Perfil?id=" + id;
     }
 
+    //Valida o usuario
     @Override
     protected boolean Validar(UsuarioModel model, char operacao, Model valores) {
         if(model.getNome() == null || model.getNome().isEmpty() || model.getNome().length() > 250){
