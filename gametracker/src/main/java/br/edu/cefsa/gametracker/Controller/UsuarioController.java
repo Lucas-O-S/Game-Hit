@@ -109,15 +109,32 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @Override
     @PostMapping("/Excluir")
     protected String Excluir(HttpSession session, @RequestParam("id") long id){
-        try {
+   //Pega o usuario da session
+         try{ 
+            var usuarioLogado = (UsuarioModel) session.getAttribute("usuarioLogado");
+
+            //Se o usuario que esta na session não for adm ou se não for o dono da conta ele sera redirecionado
+            if (usuarioLogado.getAdm() == false && usuarioLogado.getId() != id ) {
+                return "redirect:/index";
+            }
 
             usuarioService.Excluir(id); 
 
-            return "redirect:/index";
-        } catch (Exception e) {
-            System.out.println("Erro ao excluir usuario: " + e.getMessage());
-            return "Home/Index";
+            //Se o usuario excluido for o mesmo da session a session sera finalizada
+            if(usuarioLogado.getId() == id){
+                session.invalidate(); 
+                return "redirect:/Usuario/Login";
+
+            }
         }
+        catch(Exception e){
+
+            System.out.println("Erro ao salvar usuario: " + e.getMessage());
+            return "Home/Index";
+
+        }
+
+        return "redirect:/index";
     }
 
 
