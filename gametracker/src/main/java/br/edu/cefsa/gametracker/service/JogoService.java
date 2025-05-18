@@ -1,15 +1,15 @@
 package br.edu.cefsa.gametracker.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.edu.cefsa.gametracker.Interfaces.InterfaceService;
 import br.edu.cefsa.gametracker.Model.JogoModel;
 import br.edu.cefsa.gametracker.Repository.JogoRepository;
-import br.edu.cefsa.gametracker.Repository.UsuarioRepository;
 
+@Service
 public class JogoService implements InterfaceService<JogoModel>{
 
     @Autowired
@@ -50,6 +50,10 @@ public class JogoService implements InterfaceService<JogoModel>{
     public List<JogoModel> ListarTodos() {
         List<JogoModel> lista = jogoRepository.findAll();
         return lista;
+    }
+
+    public Boolean existeNome(String nome) {
+        return jogoRepository.existByNome(nome);
     }
     
 }
