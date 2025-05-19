@@ -1,17 +1,40 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
-<html lang="pt-BR">
-    <head th:replace="~{fragments/Head :: head('Home')}"></head>
-    <!--
-    <additions>
-        Dicione css e js exclusivos a esta pagina caso nescessario-
-    </additions>
-    -->
+<head th:replace="~{fragments/Head :: head('Home')}">
+    <!-- Se necessário, adicione CSS/JS exclusivo aqui -->
+</head>
 <body>
-    <div th:insert="fragments/header :: Header"></div>
-    <h1>Hello World</h1>
 
-    <div th:insert="fragments/Footer :: Footer"></div>
+    <!-- Header -->
+    <div th:replace="fragments/header :: header"></div>
+
+    <!-- Conteúdo principal -->
+    <main class="container py-5 text-center">
+        <h1 class="mb-4">Bem-vindo ao Game Hit</h1>
+        <p class="lead">Gerencie, acompanhe e descubra seus jogos favoritos em um só lugar.</p>
+
+        <a th:href="@{/Usuario/Cadastro}" class="btn btn-primary btn-lg mt-4">Começar agora</a>
+    </main>
+
+    <!-- Cards de jogos (opcional: insira se já estiver usando jogos dinâmicos) -->
+    <section class="container mt-5">
+        <h2 class="text-center mb-4">Jogos em destaque</h2>
+        <div class="row" th:if="${jogos != null}">
+            <div class="col-md-4 mb-4" th:each="game : ${jogos}">
+                <div class="card h-100 shadow">
+                    <img class="card-img-top" th:src="@{/images/{img}(img=${game.imagem})}" th:alt="${game.nome}" />
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${game.nome}">Nome</h5>
+                        <p class="card-text" th:text="${game.descricao}">Descrição</p>
+                        <a href="#" class="btn btn-outline-primary">Ver mais</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+
 </body>
-
-
 </html>

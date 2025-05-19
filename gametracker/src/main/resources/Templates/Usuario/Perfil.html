@@ -1,66 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
-    <head th:replace="~{fragments/head :: head('Perfil')}"></head>
-    <!--
-    <additions>
-        Adicione css e js exclusivos a esta página, caso necessário.
-    </additions>
-    -->
-<body>
-    <div th:insert="fragments/header :: Header"></div>
+<head th:replace="~{fragments/head :: head('Perfil')}">
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+</head>
+<body class="body-form">
 
-    <div class="container mt-5 form">
-        <!-- Exibição da foto de perfil -->
-        <div class="mb-3">
-            <label for="imagem" class="form-label">Imagem de Perfil</label>
-            <img th:src="|data:image/png;base64,${usuario.fotoBase64}|" alt="Imagem de Perfil" style="max-width: 200px; border-radius: 8px;" />
+<div th:insert="fragments/header :: header"></div>
+
+<main class="container my-5">
+    <div class="form-wrapper mx-auto p-4 shadow rounded">
+        <h2 class="text-center mb-4 h2-form">Perfil do Usuário</h2>
+
+        <!-- Foto de Perfil -->
+        <div class="mb-4 text-center">
+            <img th:src="|data:image/png;base64,${usuario.fotoBase64}|" alt="Imagem de Perfil"
+                 class="img-thumbnail" style="max-width: 200px; border-radius: 8px;" />
         </div>
 
-        <!-- Exibição do nome -->
+        <!-- Nome -->
         <div class="mb-3">
-            <label for="nome" class="form-label"> Nome </label>
+            <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" th:value="${usuario.nome}" readonly />
         </div>
 
-        <!-- Exibição do email -->
+        <!-- Email -->
         <div class="mb-3">
-            <label for="email" class="form-label"> Email </label>
+            <label for="email" class="form-label">Email</label>
             <input type="text" class="form-control" id="email" th:value="${usuario.email}" readonly />
         </div>
 
-        <!-- Exibição do telefone -->
+        <!-- Telefone -->
         <div class="mb-3">
-            <label for="telefone" class="form-label"> Telefone </label>
+            <label for="telefone" class="form-label">Telefone</label>
             <input type="tel" class="form-control" id="telefone" th:value="${usuario.telefone}" readonly />
         </div>
 
-        <!--Botões que apenas o adm ou usuario dono tem acesso-->
-        <div name="BotoesControle" class="mb-3" style="display: flex; gap: 10px;" th:if="${usuarioLogado.id == usuario.id || usuarioLogado.Adm == true}">
+        <!-- Botões de Controle (somente se for dono ou admin) -->
+        <div class="d-flex flex-wrap gap-2 mt-4"
+             th:if="${usuarioLogado.id == usuario.id or usuarioLogado.adm}">
+             
             <a th:href="@{/Usuario/Editar(id=${usuario.id})}" class="btn btn-secondary">Editar Perfil</a>
-            
-            <form th:action="@{/Usuario/Excluir(id=${usuario.id})}" method="post"
-                onsubmit="return confirm('Tem certeza que deseja excluir seu perfil?')">
-                
-                <!-- Simula método DELETE -->
+
+            <form id="formExcluir" th:action="@{/Usuario/Excluir(id=${usuario.id})}" method="post">
                 <input type="hidden" name="_method" value="delete" />
-                
-                <!-- CSRF -->
                 <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                
-                <button type="submit" class="btn btn-danger">Excluir Perfil</button>
-            </form>
-            <!--Mudar status de adm-->
-            <a th:href="@{/Usuario/MudarAdm(id=${usuario.id}, status=${true})}" th:if="${usuarioLogado.Adm == true and usuario.Adm == false}" class="btn btn-secondary">Tornar administrador</a>
-            <a th:href="@{/Usuario/MudarAdm(id=${usuario.id}, status=${false})}" th:if="${usuarioLogado.Adm == true and usuario.Adm == true}" class="btn btn-secondary">Remover administrador</a>
+              
+                <!-- Botão personalizado para usar SweetAlert -->
+                <button type="button" class="btn btn-danger" onclick="confirmarExclusao()">Excluir Perfil</button>
+              </form>
+              
+            
 
+            <!-- Controles de administrador -->
+            <a th:href="@{/Usuario/MudarAdm(id=${usuario.id}, status=${true})}"
+               th:if="${usuarioLogado.adm and !usuario.adm}" class="btn btn-warning">Tornar Administrador</a>
+
+            <a th:href="@{/Usuario/MudarAdm(id=${usuario.id}, status=${false})}"
+               th:if="${usuarioLogado.adm and usuario.adm}" class="btn btn-warning">Remover Administrador</a>
         </div>
-
-
     </div>
+</main>
 
-    <script th:src="@{/JS/Form.js}"></script>
-    <div th:insert="fragments/Footer :: Footer"></div>
-    
+<script th:src="@{/js/FormFunc.js}"></script>
+<div th:insert="fragments/footer :: footer"></div>
 
 </body>
 </html>

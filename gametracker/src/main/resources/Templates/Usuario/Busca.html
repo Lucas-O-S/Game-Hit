@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/Head :: head('Busca Usuario')}"></head>
+<body class="body-form">
 
-    <head th:replace="~{fragments/Head :: head('Busca Usuario')}"></head>
-    <!--
-    <additions>
-        Dicione css e js exclusivos a esta pagina caso nescessario-
-    </additions>
-    -->
-<body>
-    <div th:insert="fragments/header :: Header"></div>
-    <div class="container">
-        <h1>Buscar Usuários</h1>
-        <form th:action="@{/Usuario/Buscar}" method="get">
-            <div class="mb-3">
-                <label for="nomeBuscar" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="nomeBuscar" name="nomeBuscar" placeholder="Digite o nome do usuário">
-            </div>
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </form>
+<div th:insert="fragments/header :: Header"></div>
 
-        <div th:if="${usuarios}">
-            <h2>Resultados da Busca:</h2>
-            <table class="table">
-                <tr>
-                    <th>Nome</th>
-                </tr>
-                <tr th:each="usuario : ${usuarios}">
-                    <a th:href="@{/Usuario/Perfil(id=${usuario.id})}">
-                        <td>
-                            <a th:href="@{/Usuario/Perfil(id=${usuario.id})}" th:text="${usuario.nome}"></a>
-                        </td>
-                    </a>
-                </tr>
-            </table>
+<main class="container mt-5 form">
+    <h2 class="text-center mb-4 h2-form">Buscar Usuários</h2>
+
+    <form th:action="@{/Usuario/Buscar}" method="get" class="mb-4">
+        <div class="mb-3">
+            <label for="nomeBuscar" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nomeBuscar" name="nomeBuscar" placeholder="Digite o nome do usuário">
         </div>
-
-        <div th:if="${usuarios == null or #lists.isEmpty(usuarios)}">
-            <p>Nenhum usuário encontrado.</p>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-custom">Buscar</button>
         </div>
- 
-    <div th:insert="fragments/Footer :: Footer"></div>
+    </form>
+
+    <!-- Lista de resultados -->
+    <div th:if="${usuarios != null}">
+        <h4 class="mb-3">Resultados da Busca:</h4>
+        <div class="list-group">
+            <a th:each="usuario : ${usuarios}"
+               th:href="@{/Usuario/Perfil(id=${usuario.id})}"
+               class="list-group-item list-group-item-action">
+                <span th:text="${usuario.nome}">Nome do Usuário</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Nenhum resultado encontrado -->
+    <div th:if="${usuarios == null or #lists.isEmpty(usuarios)}" class="mt-4">
+        <p class="text-muted text-center">Nenhum usuário encontrado.</p>
+    </div>
+</main>
+
+<div th:insert="fragments/Footer :: Footer"></div>
 </body>
-
-
 </html>

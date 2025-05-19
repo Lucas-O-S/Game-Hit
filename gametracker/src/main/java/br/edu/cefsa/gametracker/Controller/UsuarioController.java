@@ -283,19 +283,25 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         }
 
 
-        if(model.getTelefone() == null || model.getTelefone().isEmpty() || model.getTelefone().length() > 250){
-            valores.addAttribute("erro", "Erro ao validar Telefone");
-
-            return false;
+        // Validação do telefone (opcional, mas se presente, deve ser válido)
+        if (model.getTelefone() != null && !model.getTelefone().isBlank()) {
+            String telefone = model.getTelefone().replaceAll("\\D", ""); // limpa para validar
+        
+            if (!telefone.matches("^\\d{10,11}$")) {
+                valores.addAttribute("erro", "Telefone inválido. Deve conter 10 ou 11 dígitos.");
+                return false;
+            }
+        
+            if (telefone.length() > 250) {
+                valores.addAttribute("erro", "Telefone excede o limite de 250 caracteres.");
+                return false;
+            }
         }
+        
         return true;
     }
-
 
     public boolean checarSenha(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
-
-  
-
 }
