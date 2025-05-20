@@ -12,8 +12,10 @@
     <main class="container py-5 text-center">
         <h1 class="mb-4">Bem-vindo ao Game Hit</h1>
         <p class="lead">Gerencie, acompanhe e descubra seus jogos favoritos em um só lugar.</p>
+    <div   th:if="${usuarioLogado == null}">
+            <a th:href="@{/Usuario/Cadastro}" class="btn btn-primary btn-lg mt-4" >Começar agora</a>
 
-        <a th:href="@{/Usuario/Cadastro}" class="btn btn-primary btn-lg mt-4">Começar agora</a>
+    </div>
     </main>
 
     <!-- Cards de jogos (opcional: insira se já estiver usando jogos dinâmicos) -->
