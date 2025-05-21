@@ -1,0 +1,34 @@
+.body-form {
+    background-color: #FBEED7;
+    color: #665C84;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.h2-form {
+    color: #665C84;
+}
+
+.form-wrapper {
+    background-color: #ffffff;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+}
+
+.btn-custom {
+    background-color: #FFBA5A;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-custom:hover {
+    background-color: #FF7657;
+}
+
+.img-preview {
+    max-width: 200px;
+    border-radius: 8px;
+    margin-top: 10px;
+}

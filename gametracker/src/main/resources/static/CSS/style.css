@@ -1,0 +1,90 @@
+/* Reset básico */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #FBEED7;
+    color: #665C84;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #FFBA5A;
+}
+
+.navbar .nav-link {
+    color: #665C84 !important;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    color: #FF7657 !important;
+}
+
+/* Botões */
+.btn-primary {
+    background-color: #FFBA5A;
+    border-color: #FFBA5A;
+    color: #665C84;
+}
+
+.btn-primary:hover {
+    background-color: #FF7657;
+    border-color: #FF7657;
+    color: #fff;
+}
+
+.btn-outline-primary {
+    border-color: #FFBA5A;
+    color: #FFBA5A;
+}
+
+.btn-outline-primary:hover {
+    background-color: #FFBA5A;
+    color: #fff;
+}
+
+/* Títulos */
+h1, h2, h3, h4 {
+    color: #665C84;
+}
+
+.body-form {
+    background-color: #FBEED7;
+    color: #665C84;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.h2-form {
+    color: #665C84;
+}
+
+.form-wrapper {
+    background-color: #ffffff;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+}
+
+.btn-custom {
+    background-color: #FFBA5A;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-custom:hover {
+    background-color: #FF7657;
+}
+
+/* No seu arquivo form.css */
+.img-preview {
+    max-width: 200px;
+    display: none; /* Inicialmente escondido */
+    margin-top: 10px;
+}
+
+.img-preview.d-none {
+    display: none;
+}

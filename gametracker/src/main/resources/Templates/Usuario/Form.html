@@ -1,74 +1,100 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
-    <head th:replace="~{fragments/head :: head('Form')}"></head>
-    <!--
-    <additions>
-        Dicione css e js exclusivos a esta pagina caso nescessario-
-    </additions>
-    -->
-<body>
-    <div th:insert="fragments/header :: Header"></div>
+<head th:replace="~{fragments/head :: head('Cadastro')}">
+    <!-- Inclui o CSS específico para a página -->
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body class="body-form">
 
-    <div class="container mt-5 form" >
+<div th:insert="fragments/header :: header"></div>
 
 
-        <form th:action="@{/Usuario/Salvar}" method="post" enctype="multipart/form-data"  th:object="${usuario}">
+<main class="container my-5">
+    <div class="form-wrapper mx-auto p-4 shadow rounded">
+        <h2 class="text-center mb-4 h2-form">Cadastro de Usuário</h2>
 
-            <!--Guarda as informações secretas como a operação, mensagem de erro e id do usuario caso tenha-->
+        <form th:action="@{/Usuario/Salvar}" method="post" enctype="multipart/form-data" th:object="${usuario}">
+            <!-- Campos ocultos -->
             <input type="hidden" th:value="${operacao}" name="operacao" />
-            <input type="hidden" th:field="*{id}" name="operacao" />
+            <input type="hidden" th:field="*{id}" name="id" />
             <input type="hidden" th:value="${erro}" name="erro" id="erro" />
 
+            <!-- Imagem -->
+            <div class="upload-container d-flex justify-content-center mb-4">
 
-                 <!-- Campo de imagem -->
-                 <div class="mb-3">
-                    <label for="imagem" class="form-label">Imagem de perfil</label>
-                    <input type="file" class="form-control" id="imagem" name="imagem" accept="image/*" onchange="previewImagem(event)">
-                </div>
-    
-                <!-- Preview da imagem -->
-                <div th:switch="${operacao}">
-                    <div th:case="'I'">
-                        <img id="preview" src="#" alt="Pré-visualização da imagem" style="max-width: 200px; display: none;" />
-                    </div>
-                    <div th:case="*">
-                        <img id="preview" th:src="|data:image/png;base64,${usuario.fotoBase64}|" alt="Pré-visualização da imagem" style="max-width: 200px;" />
-                    </div>
-                </div>
+                <!-- Input de arquivo escondido -->
+                <input type="file" id="logo-upload" name="imagem" accept=".jpg,.jpeg,.png"
+       onchange="exibirImagem(event)" style="display: none;">
 
-
-            <div class="mb-3">
-                <label for="nome" class="form-label"> Nome </label>
-                <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" th:field="*{nome}" required >
-            </div>
             
+                <!-- Container clicável para imagem ou ícone -->
+                <div class="image-upload-box d-flex justify-content-center align-items-center"
+                     style="width: 150px; height: 150px; background-color: white; cursor: pointer; border: 1px solid #ccc; border-radius: 6px;"
+                     onclick="document.getElementById('logo-upload').click();">
+            
+                    <!-- Pré-visualização da imagem -->
+                    <div th:switch="${operacao}">
+                        <div th:case="'I'">
+                            <img id="imgPreview"
+     th:src="${usuario.fotoBase64 != null} ? 'data:image/*;base64,' + ${usuario.fotoBase64} : '#'"
+     style="max-width: 100%; max-height: 100%; display: none; border-radius: 6px;"
+     alt="Pré-visualização da Imagem" />
+                            </div>
+                            <div th:case="*">
+                                <img id="imgPreview"
+                                     th:src="|data:image/png;base64,${usuario.fotoBase64}|"
+                                     th:attr="style=${usuario.fotoBase64} != null ? 'max-width: 100%; max-height: 100%; border-radius: 6px; display: block;' : 'display: none;'"
+                                     alt="Pré-visualização da Imagem" />
+                            </div>
+                    </div>
+            
+                    <!-- Ícone de 'mais' quando não houver imagem -->
+                    <span id="uploadIcon" th:if="${usuario.fotoBase64 == null}" class="text-secondary" style="font-size: 2rem;">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+            </div>            
+
+            <!-- Nome -->
             <div class="mb-3">
-                <label for="email" class="form-label"> Email </label>
-                <input type="text" class="form-control" id="email" placeholder="Digite seu email" th:field="*{email}"  required>
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" th:field="*{nome}" required>
             </div>
 
+            <!-- Email -->
             <div class="mb-3">
-                <label for="senha" class="form-label"> Senha </label>
-                <input type="password" class="form-control" id="senha" placeholder="Digite uma senha" th:field="*{senha}"  required>
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Digite seu email" th:field="*{email}" required>
             </div>
 
+            <!-- Senha -->
             <div class="mb-3">
-                <label for="telefone" class="form-label"> Telefone </label>
-                <input type="tel" class="form-control" id="telefone" placeholder="Digite seu telefone" th:field="*{telefone}" required>
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" placeholder="Digite uma senha" th:field="*{senha}" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <!-- Telefone -->
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input type="tel" class="form-control" id="telefone" placeholder="Digite seu telefone" th:field="*{telefone}">
+            </div>
 
+            <!-- Botão -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Enviar</button>
+            </div>
         </form>
-
-
-
     </div>
+</main>
 
-    <script th:src="@{/js/ImageScripts.js}"></script>
-    <script th:src="@{/js/FormFunc.js}"></script>
-    <div th:insert="fragments/Footer :: Footer"></div>
 
+<div th:insert="fragments/footer :: footer"></div>
+
+
+<script th:src="@{/js/ImageScripts.js}"></script>
+        <!-- jQuery (sempre primeiro) -->
+
+<script th:src="@{/js/FormFunc.js}"></script>
 
 
 </body>
