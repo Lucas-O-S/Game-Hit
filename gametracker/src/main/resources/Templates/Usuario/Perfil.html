@@ -35,10 +35,9 @@
             <input type="tel" class="form-control" id="telefone" th:value="${usuario.telefone}" readonly />
         </div>
 
-        <!-- Botões de Controle (somente se for dono ou admin) -->
-        <div class="d-flex flex-wrap gap-2 mt-4"
-             th:if="${usuarioLogado.id == usuario.id or usuarioLogado.adm}">
-             
+
+        <!--Botões que apenas o adm ou usuario dono tem acesso-->
+        <div name="BotoesControle" class="mb-3" style="display: flex; gap: 10px;" th:if="${(usuarioLogado.id == usuario.id || usuarioLogado.Adm == true) and usuario.id != 1}">
             <a th:href="@{/Usuario/Editar(id=${usuario.id})}" class="btn btn-secondary">Editar Perfil</a>
 
             <form id="formExcluir" th:action="@{/Usuario/Excluir(id=${usuario.id})}" method="post">
