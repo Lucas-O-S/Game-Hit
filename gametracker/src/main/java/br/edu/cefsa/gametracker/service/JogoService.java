@@ -53,7 +53,7 @@ public class JogoService implements InterfaceService<JogoModel>{
     }
 
     public Boolean existeNome(String nome) {
-        return jogoRepository.existByNome(nome);
+        return jogoRepository.existsByNome(nome);
     }
     
 }

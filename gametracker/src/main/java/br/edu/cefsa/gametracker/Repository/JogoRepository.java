@@ -7,5 +7,5 @@ import br.edu.cefsa.gametracker.Model.JogoModel;
 
 @Repository
 public interface JogoRepository extends JpaRepository<JogoModel, Long>{
-    public Boolean existByNome(String nome);
+    public Boolean existsByNome(String nome);
 }

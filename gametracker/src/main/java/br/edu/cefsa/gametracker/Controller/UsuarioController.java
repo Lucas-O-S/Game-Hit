@@ -69,7 +69,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         UsuarioModel usuario = usuarioService.BuscarPorId(id);
 
         //Devolve par index caso não tenha um usuario 
-        if(usuario == null){
+        if(usuario == null || (usuario.getAdm() == false && usuario.getId() != id)){
             return "redirect:/index";
         }
         valores.addAttribute("usuario", usuario);

@@ -35,7 +35,7 @@
         </div>
 
         <!--Botões que apenas o adm ou usuario dono tem acesso-->
-        <div name="BotoesControle" class="mb-3" style="display: flex; gap: 10px;" th:if="${usuarioLogado.id == usuario.id || usuarioLogado.Adm == true}">
+        <div name="BotoesControle" class="mb-3" style="display: flex; gap: 10px;" th:if="${(usuarioLogado.id == usuario.id || usuarioLogado.Adm == true) and usuario.id != 1}">
             <a th:href="@{/Usuario/Editar(id=${usuario.id})}" class="btn btn-secondary">Editar Perfil</a>
             
             <form th:action="@{/Usuario/Excluir(id=${usuario.id})}" method="post"
