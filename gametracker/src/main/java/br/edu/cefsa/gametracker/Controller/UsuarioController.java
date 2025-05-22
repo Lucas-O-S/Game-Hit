@@ -7,13 +7,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,13 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 import br.edu.cefsa.gametracker.Model.UsuarioModel;
 import br.edu.cefsa.gametracker.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Controller
 @RequestMapping("/Usuario")
-@Getter
-@Setter
 public class UsuarioController extends PadraoController <UsuarioModel> {
 
     /*
@@ -141,7 +134,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     //Busca usuarios com base no nome
     @Override
     @GetMapping("/Buscar")
-    public String Buscar(HttpSession session, Model valores, @RequestParam(name = "nomeBuscar", required = false) String nome){
+    public String Buscar( Model valores, @RequestParam(name = "nomeBuscar", required = false) String nome){
         try{ 
 
             List<UsuarioModel> usuarios = new ArrayList<>();
@@ -151,6 +144,9 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             usuarios = usuarioService.BuscarPorNome(nome);
 
             }   
+            else{
+                usuarios = usuarioService.ListarTodos();
+            }
             
             valores.addAttribute("usuarios", usuarios);
             return "Usuario/Busca";
@@ -169,13 +165,13 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     @PostMapping("/Salvar")
     public String Save(
         @ModelAttribute UsuarioModel model,
-        @RequestParam("operacao") char operecao,
+        @RequestParam("operacao") char operacao,
         Model valores,
         @RequestParam("imagem") MultipartFile imagem
     ) {
         try{
             //Valida o usuario antes de seguir, caso não aceite sera devolvido um erro e retornara para a pagina de onde veio
-            if(Validar(model, operecao, valores)){                    
+            if(Validar(model, operacao, valores)){                    
                 
                 //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
                 if (imagem != null && !imagem.isEmpty()) {
@@ -187,7 +183,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
                 }
                 
                 //Se for uma inserção
-                if(operecao == 'I'){
+                if(operacao == 'I'){
                     usuarioService.Inserir(model);
                 }
 
@@ -200,7 +196,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             }
             else{
                 valores.addAttribute("usuario", model);
-                valores.addAttribute("operacao", operecao);
+                valores.addAttribute("operacao", operacao);
                 return "/Usuario/Form";
             }
 

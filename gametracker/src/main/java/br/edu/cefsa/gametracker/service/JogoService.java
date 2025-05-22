@@ -28,6 +28,8 @@ public class JogoService implements InterfaceService<JogoModel>{
     @Override
     public void Editar(JogoModel model) {
         if(jogoRepository.existsById(model.getId())){
+            model.setFotoBase64(java.util.Base64.getEncoder().encodeToString(model.getFotoByte()));
+
             jogoRepository.save(model);
         }
         

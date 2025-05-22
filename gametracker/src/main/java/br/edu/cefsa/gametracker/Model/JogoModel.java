@@ -32,7 +32,7 @@ public class JogoModel extends PadraoModel{
     @Column(name = "criador")
     private String criador;
 
-    @Column(name = "foto")
+    @Column(name = "foto", columnDefinition = "BLOB")
     private byte[] fotoByte;
 
     @Transient // não mapeia o campo como coluna no banco de dados
