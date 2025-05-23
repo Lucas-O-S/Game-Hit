@@ -2,8 +2,12 @@ package br.edu.cefsa.gametracker.Model;
 
 import java.time.LocalDate;
 
+import br.edu.cefsa.gametracker.Enum.Estado;
+import br.edu.cefsa.gametracker.Enum.Genero;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
@@ -41,4 +45,8 @@ public class RegistroModel extends PadraoModel {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private UsuarioModel Usuario;
+
+    @Column(name = "Estado")
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 }

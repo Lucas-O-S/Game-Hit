@@ -139,6 +139,8 @@ public class JogoController extends PadraoController<JogoModel> {
             else{
                 valores.addAttribute("jogo", model);
                 valores.addAttribute("operacao", operacao);
+                valores.addAttribute("generos", Genero.values());
+
 
                 return "/Jogo/Form";
             }

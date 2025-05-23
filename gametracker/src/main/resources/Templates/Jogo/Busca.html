@@ -35,10 +35,10 @@
                     <a th:href="@{/Registro/Adicionar(jogoId=${jogo.id})}" class="btn btn-outline-primary btn-sm" title="Adicionar ao Registro">
                         <img th:src="@{/IMG/add.png}" alt="Adicionar ao Registro" width="20" height="20">
                     </a>
-                    <a th:href="@{/Jogo/Editar(id=${jogo.id})}" class="btn btn-outline-secondary btn-sm" title="Editar">
+                    <a th:href="@{/Jogo/Editar(id=${jogo.id})}" class="btn btn-outline-secondary btn-sm" title="Editar" th:if="${usuarioLogado.Adm == true}">
                         <img th:src="@{/IMG/edit.png}" alt="Editar" width="20" height="20">
                     </a>
-                    <a href="#" class="btn btn-outline-danger btn-sm" title="Excluir"
+                    <a href="#" class="btn btn-outline-danger btn-sm" title="Excluir" th:if="${usuarioLogado.Adm == true}"
                     onclick="if(confirm('Tem certeza que deseja excluir este jogo?')) document.getElementById('form-excluir-[[${jogo.id}]]').submit(); return false;">
                         <img th:src="@{/IMG/delete.png}" alt="Excluir" width="20" height="20">
                     </a>

@@ -89,3 +89,9 @@ h1, h2, h3, h4 {
 .img-preview.d-none {
     display: none;
 }
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}

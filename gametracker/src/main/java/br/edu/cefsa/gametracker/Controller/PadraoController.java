@@ -11,10 +11,10 @@ import lombok.Setter;
 public abstract class PadraoController<T>{
 
     //Função abstrata para a tela de cadastro
-    protected abstract String Cadastro(Model model);
+    protected abstract String Cadastro(Model valores);
 
     //Função abstrata para a tela de editar
-    protected abstract String Editar(Model model, Long id);
+    protected abstract String Editar(Model valores, Long id);
 
     //Função abstrata para validar model
     protected abstract boolean Validar(T model, char operacao, Model valores);

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/Head :: head('Cadastro de Registro')}"></head>
+<body class="body-form">
+<div th:insert="fragments/header :: Header"></div>
+
+<main class="container mt-5">
+    <h2 class="text-center mb-4">Cadastro de Registro</h2>
+
+    <form th:action="@{/Registro/Salvar}" method="post" class="row g-4">
+        <input type="hidden" name="id" th:value="${registro.id}" />
+        <input type="hidden" name="jogo.id" th:value="${jogo.id}" />
+        <input type="hidden" th:value="${operacao}" name="operacao" />
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:value="${erro}" name="erro" id="erro" />
+
+        <!-- Coluna esquerda com info do jogo -->
+        <div class="col-md-6">
+            <h5>Informações do Jogo</h5>
+            <p><strong>Nome:</strong> <span th:text="${jogo.nome}">Nome</span></p>
+            <p><strong>Gênero:</strong> <span th:text="${jogo.genero.descricao}">Gênero</span></p>
+        </div>
+
+        <!-- Coluna direita com campos do registro -->
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <select id="estado" name="estado" class="form-select">
+                    <option value="">Selecione</option>
+                    <option th:each="estado : ${estados}"
+                            th:value="${estado}"
+                            th:text="${estado.descricao}"
+                            th:selected="${registro.estado} == ${estado}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="nota" class="form-label">Nota (0 a 10)</label>
+                <input type="number" class="form-control" id="nota" name="nota"
+                       th:value="${registro.nota}" min="0" max="10" step="0.1">
+            </div>
+
+            <div class="mb-3">
+                <label for="comentario" class="form-label">Comentário</label>
+                <textarea class="form-control" id="comentario" name="comentario" rows="3"
+                          th:text="${registro.comentario}"></textarea>
+            </div>
+        </div>
+
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-custom">Salvar Registro</button>
+            <a th:href="@{/}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<div th:insert="fragments/Footer :: Footer"></div>
+<script th:src="@{/js/ImageScripts.js}"></script>
+<script th:src="@{/js/FormFunc.js}"></script>
+</body>
+</html>
