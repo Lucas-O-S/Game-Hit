@@ -45,7 +45,7 @@ public class JogoController extends PadraoController<JogoModel> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:home/index";   
+            return "redirect:/index";
      }
 
     @Override
@@ -74,7 +74,7 @@ public class JogoController extends PadraoController<JogoModel> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/home/index";
+            return "redirect:/index";
     }
 
     @Override
@@ -114,7 +114,7 @@ public class JogoController extends PadraoController<JogoModel> {
                     model.setFotoByte(imagem.getBytes());
                 }
                 else{
-                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
+                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
                     model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));  
                 }
                 

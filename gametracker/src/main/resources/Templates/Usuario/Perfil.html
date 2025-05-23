@@ -47,6 +47,8 @@
                 <!-- Botão personalizado para usar SweetAlert -->
                 <button type="button" class="btn btn-danger" onclick="confirmarExclusao()">Excluir Perfil</button>
               </form>
+
+
               
             
 
@@ -57,6 +59,17 @@
             <a th:href="@{/Usuario/MudarAdm(id=${usuario.id}, status=${false})}"
                th:if="${usuarioLogado.adm and usuario.adm}" class="btn btn-warning">Remover Administrador</a>
         </div>
+        <div th:if="${usuarioLogado.id == usuario.id}">
+            <button type="button" class="btn btn-danger"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+            </button>
+
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            </form>
+        </div>
+
+
     </div>
 </main>
 
