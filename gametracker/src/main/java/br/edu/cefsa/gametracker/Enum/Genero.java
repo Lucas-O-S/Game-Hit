@@ -1,5 +1,8 @@
 package br.edu.cefsa.gametracker.Enum;
 
+import lombok.Getter;
+
+@Getter
 public enum Genero {
     ACAO("Ação"),
     AVENTURA("Aventura"),
@@ -12,7 +15,8 @@ public enum Genero {
     PUZZLE("Puzzle"),
     TERROR("Terror"),
     PLATAFORMA("Plataforma"),
-    MULTIJOGADOR_ONLINE("Multijogador Online");
+    MULTIJOGADOR_ONLINE("Multijogador Online"),
+    OUTRO("Outro");
 
     private final String descricao;
 
@@ -20,7 +24,4 @@ public enum Genero {
         this.descricao = descricao;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
 }

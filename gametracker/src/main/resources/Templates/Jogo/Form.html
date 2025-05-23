@@ -71,6 +71,19 @@
                 <input type="text" class="form-control" id="criador" placeholder="Nome do criador" th:field="*{criador}">
             </div>
 
+            <!-- Gênero -->
+            <div class="mb-3">
+                <label for="genero" class="form-label">Gênero</label>
+                <select class="form-select" id="genero" th:field="*{genero}" required>
+                    <option value="">Selecione um gênero</option>
+                    <option th:each="g : ${generos}"
+                            th:value="${g}"
+                            th:text="${g.descricao}">
+                    </option>
+                </select>
+            </div>
+
+
             <!-- Botão de envio -->
             <div class="d-grid">
                 <button type="submit" class="btn btn-custom">Salvar</button>

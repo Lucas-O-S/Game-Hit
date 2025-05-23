@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.edu.cefsa.gametracker.Enum.Genero;
 import br.edu.cefsa.gametracker.Model.JogoModel;
 import br.edu.cefsa.gametracker.service.JogoService;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +32,8 @@ public class JogoController extends PadraoController<JogoModel> {
             valores.addAttribute("jogo", new JogoModel());
             valores.addAttribute("operacao", 'I');
             valores.addAttribute("erro", "");
+            valores.addAttribute("generos", Genero.values());
+
             return "Jogo/Form";
     }
 
@@ -41,6 +44,7 @@ public class JogoController extends PadraoController<JogoModel> {
             valores.addAttribute("jogo", jogoService.BuscarPorId(id));
             valores.addAttribute("operacao", 'E');
             valores.addAttribute("erro", "");
+            valores.addAttribute("generos", Genero.values());
             return "Jogo/Form";
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,6 +60,11 @@ public class JogoController extends PadraoController<JogoModel> {
         }
         if (jogoService.existeNome(model.getNome()) && operacao == 'I') {
             valores.addAttribute("erro", "Já existe um jogo cadastrado com esse nome");
+            return false;
+        }
+
+        if (model.getGenero() == null || model.getGenero().toString().isEmpty()) {
+            valores.addAttribute("erro", "Você deve selecionar um gênero para o jogo");
             return false;
         }
 

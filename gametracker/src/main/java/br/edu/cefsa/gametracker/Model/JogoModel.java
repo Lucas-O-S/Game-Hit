@@ -2,6 +2,7 @@ package br.edu.cefsa.gametracker.Model;
 
 import java.time.LocalDate;
 
+import br.edu.cefsa.gametracker.Enum.Genero;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
@@ -37,6 +38,9 @@ public class JogoModel extends PadraoModel{
 
     @Transient // não mapeia o campo como coluna no banco de dados
     private String fotoBase64;
+
+    @Column(name = "Genero")
+    private Genero genero;
 
 
 }
