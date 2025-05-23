@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/head :: head('Cadastro de Jogo')}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body class="body-form">
+
+<div th:insert="fragments/header :: header"></div>
+
+<main class="container my-5">
+    <div class="form-wrapper mx-auto p-4 shadow rounded">
+        <h2 class="text-center mb-4 h2-form">Cadastro de Jogo</h2>
+
+        <form th:action="@{/Jogo/Salvar}" method="post" enctype="multipart/form-data" th:object="${jogo}">
+            <!-- Campos ocultos -->
+            <input type="hidden" th:value="${operacao}" name="operacao" />
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:value="${erro}" name="erro" id="erro" />
+
+            <!-- Upload de Imagem -->
+            <div class="upload-container d-flex justify-content-center mb-4">
+                <input type="file" id="logo-upload" name="imagem" accept=".jpg,.jpeg,.png"
+                       onchange="exibirImagem(event)" style="display: none;">
+
+                <div class="image-upload-box d-flex justify-content-center align-items-center"
+                     style="width: 150px; height: 150px; background-color: white; cursor: pointer; border: 1px solid #ccc; border-radius: 6px;"
+                     onclick="document.getElementById('logo-upload').click();">
+
+                    <div th:switch="${operacao}">
+                        <div th:case="'I'">
+                            <img id="imgPreview"
+                                 th:src="${jogo.fotoBase64 != null} ? 'data:image/*;base64,' + ${jogo.fotoBase64} : '#'"
+                                 style="max-width: 100%; max-height: 100%; display: none; border-radius: 6px;"
+                                 alt="Pré-visualização da Imagem" />
+                        </div>
+                        <div th:case="*">
+                            <img id="imgPreview"
+                                 th:src="|data:image/png;base64,${jogo.fotoBase64}|"
+                                 th:style="${jogo.fotoBase64 != null} ? 'max-width: 100%; max-height: 100%; border-radius: 6px; display: block;' : 'display: none;'"
+                                 alt="Pré-visualização da Imagem" />
+                        </div>
+                    </div>
+
+                    <span id="uploadIcon" th:if="${jogo.fotoBase64 == null}" class="text-secondary" style="font-size: 2rem;">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Nome -->
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" placeholder="Nome do jogo" th:field="*{nome}" required>
+            </div>
+
+            <!-- Data de Lançamento -->
+            <div class="mb-3">
+                <label for="dataLancamento" class="form-label">Data de Lançamento</label>
+                <input type="date" class="form-control" id="dataLancamento" th:field="*{dataLancamento}">
+            </div>
+
+            <!-- Sinopse -->
+            <div class="mb-3">
+                <label for="sinopse" class="form-label">Sinopse</label>
+                <textarea class="form-control" id="sinopse" placeholder="Escreva uma sinopse" th:field="*{sinopse}" rows="4"></textarea>
+            </div>
+
+            <!-- Criador -->
+            <div class="mb-3">
+                <label for="criador" class="form-label">Criador</label>
+                <input type="text" class="form-control" id="criador" placeholder="Nome do criador" th:field="*{criador}">
+            </div>
+
+            <!-- Botão de envio -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Salvar</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<div th:insert="fragments/footer :: footer"></div>
+
+<script th:src="@{/js/ImageScripts.js}"></script>
+<script th:src="@{/js/FormFunc.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/Head :: head('Busca Jogo')}"></head>
+<body class="body-form">
+
+<div th:insert="fragments/header :: Header"></div>
+
+<main class="container mt-5 form">
+    <h2 class="text-center mb-4 h2-form">Buscar Jogos</h2>
+
+    <form th:action="@{/Jogo/Buscar}" method="get" class="mb-4">
+        <div class="mb-3">
+            <label for="nomeBuscar" class="form-label">Nome do Jogo</label>
+            <input type="text" class="form-control" id="nomeBuscar" name="nomeBuscar" placeholder="Digite o nome do jogo">
+        </div>
+
+        <div class="d-flex gap-3 mt-3" >
+            <button type="submit" class="btn btn-custom">Buscar</button>
+            <div th:if="${usuarioLogado.Adm}">
+                <a th:href="@{/Jogo/Cadastro}" class="btn btn-secondary">Cadastrar Novo Jogo</a>
+
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- Lista de resultados -->
+    <div th:if="${jogos != null}">
+        <h4 class="mb-3">Resultados da Busca:</h4>
+        <div class="list-group">
+            <div th:each="jogo : ${jogos}" class="list-group-item d-flex justify-content-between align-items-center">
+                <span th:text="${jogo.nome}">Nome do Jogo</span>
+                <div class="btn-group" role="group">
+                    <a th:href="@{/Registro/Adicionar(jogoId=${jogo.id})}" class="btn btn-outline-primary btn-sm" title="Adicionar ao Registro">
+                        <img th:src="@{/IMG/add.png}" alt="Adicionar ao Registro" width="20" height="20">
+                    </a>
+                    <a th:href="@{/Jogo/Editar(id=${jogo.id})}" class="btn btn-outline-secondary btn-sm" title="Editar">
+                        <img th:src="@{/IMG/edit.png}" alt="Editar" width="20" height="20">
+                    </a>
+                    <a href="#" class="btn btn-outline-danger btn-sm" title="Excluir"
+                    onclick="if(confirm('Tem certeza que deseja excluir este jogo?')) document.getElementById('form-excluir-[[${jogo.id}]]').submit(); return false;">
+                        <img th:src="@{/IMG/delete.png}" alt="Excluir" width="20" height="20">
+                    </a>
+                </div>
+
+                <!-- Formulário oculto dentro do th:each com id corrigido -->
+                <form th:action="@{/Jogo/Excluir(id=${jogo.id})}" method="post" id="form-excluir-[[${jogo.id}]]" style="display: none;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Nenhum resultado encontrado -->
+    <div th:if="${jogos == null or #lists.isEmpty(jogos)}" class="mt-4">
+        <p class="text-muted text-center">Nenhum jogo encontrado.</p>
+    </div>
+
+
+</main>
+
+<div th:insert="fragments/Footer :: Footer"></div>
+</body>
+</html>

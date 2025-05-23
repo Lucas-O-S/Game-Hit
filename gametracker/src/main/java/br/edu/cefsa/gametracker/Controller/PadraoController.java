@@ -21,7 +21,7 @@ public abstract class PadraoController<T>{
 
 
     //Função abstrata para a tela de busca
-    protected abstract String Buscar(HttpSession session, Model valores, String valor);
+    protected abstract String Buscar( Model valores, String valor);
 
     //Função abstrata para a tela de exclusão 
     protected abstract String Excluir(HttpSession session, long id);

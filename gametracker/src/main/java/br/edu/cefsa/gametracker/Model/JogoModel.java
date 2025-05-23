@@ -1,6 +1,5 @@
 package br.edu.cefsa.gametracker.Model;
 
-import java.io.FileInputStream;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -21,7 +20,7 @@ public class JogoModel extends PadraoModel{
         this.criador = criador;
     }
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome", nullable = false, unique=true)
     private String nome;
 
     @Column(name = "dataLancamento")
@@ -33,9 +32,11 @@ public class JogoModel extends PadraoModel{
     @Column(name = "criador")
     private String criador;
 
-    @Column(name = "foto")
+    @Column(name = "foto", columnDefinition = "BLOB")
     private byte[] fotoByte;
 
     @Transient // não mapeia o campo como coluna no banco de dados
-    private FileInputStream foto;
+    private String fotoBase64;
+
+
 }
