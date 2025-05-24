@@ -68,6 +68,10 @@ public class JogoController extends PadraoController<JogoModel> {
             return false;
         }
 
+        if(model.getFotoByte().length > 2 * 1024 * 1024){
+            valores.addAttribute("erro", "Foto excede limite de 2 mb ");
+            return false;
+        }
         
         
         return true;

@@ -209,35 +209,6 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
 
-    //Autentica o usuario na tela de login
-    @PostMapping("/Autenticar")
-    public String Autenticar(Model valores, UsuarioModel model, HttpSession session){
-        try{
-            //Busca o usuario 
-            UsuarioModel usuario = usuarioService.Login(model.getEmail(), model.getSenha());
-            
-            //Verifica se existe
-            if(usuario != null){
-                session.setAttribute("usuario", usuario);
-                
-                return "redirect:/index";
-            }
-
-            //Devolve um erro
-            else{
-                valores.addAttribute("usuario", new UsuarioModel());
-                valores.addAttribute("erro", "Email ou senha inválidos");
-                return "/Usuario/Login";
-
-            }
-        }
-        catch(Exception e){
-            System.out.println("Erro ao salvar usuario: " + e.getMessage());
-        }
-        return "redirect:/index";
-
-    }
-    
 
     //Muda o status de adm
     @RequestMapping("/MudarAdm")
@@ -293,11 +264,14 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
                 return false;
             }
         }
+
+        if(model.getFotoByte().length > 2 * 1024 * 1024){
+            valores.addAttribute("erro", "Foto excede limite de 2 mb ");
+            return false;
+        }
         
         return true;
     }
 
-    public boolean checarSenha(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
+
 }

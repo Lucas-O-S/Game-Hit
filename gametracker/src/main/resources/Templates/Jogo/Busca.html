@@ -32,7 +32,7 @@
             <div th:each="jogo : ${jogos}" class="list-group-item d-flex justify-content-between align-items-center">
                 <span th:text="${jogo.nome}">Nome do Jogo</span>
                 <div class="btn-group" role="group">
-                    <a th:href="@{/Registro/Adicionar(jogoId=${jogo.id})}" class="btn btn-outline-primary btn-sm" title="Adicionar ao Registro">
+                    <a th:href="@{/Registro/Cadastro(jogoId=${jogo.id})}" class="btn btn-outline-primary btn-sm" title="Adicionar ao Registro">
                         <img th:src="@{/IMG/add.png}" alt="Adicionar ao Registro" width="20" height="20">
                     </a>
                     <a th:href="@{/Jogo/Editar(id=${jogo.id})}" class="btn btn-outline-secondary btn-sm" title="Editar" th:if="${usuarioLogado.Adm == true}">

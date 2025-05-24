@@ -7,11 +7,12 @@
 <main class="container mt-5">
     <h2 class="text-center mb-4">Cadastro de Registro</h2>
 
-    <form th:action="@{/Registro/Salvar}" method="post" class="row g-4">
+    <form th:action="@{/Registro/Save}" method="post" class="row g-4">
         <input type="hidden" th:field="${registro.id}" />
         <input type="hidden" name="jogo.id" th:value="${jogo.id}" />
         <input type="hidden" name="operacao" th:value="${operacao}" />
         <input type="hidden" name="erro" id="erro" th:value="${erro}" />
+        <input type="hidden" name="usuario.id" id="usuario.id" th:value="${usuarioLogado.id}" />
 
         <!-- Coluna esquerda com info do jogo -->
         <div class="col-md-6">
@@ -39,8 +40,8 @@
                         </div>
                         <div class="d-flex align-items-center mb-2">
                             <i class="bi bi-calendar me-2" style="font-size: 1.2rem;"></i>
-                            <strong>Data de Lançamento:</strong>
-                            <span class="ms-2" th:text="${jogo.dataLancamento} ? ${#temporals.format(jogo.dataLancamento, 'dd/MM/yyyy')} : 'Não informada'">Data</span>
+                            <strong>Data de Lançamento: </strong>
+                            <span class="ms-2" th:text="  ${ jogo.dataLancamento} ? ${#temporals.format( jogo.dataLancamento, ' dd/MM/yyyy ')} : 'Não informada'">Data </span>
                         </div>
                         <div class="d-flex align-items-center mb-2">
                             <i class="bi bi-person me-2" style="font-size: 1.2rem;"></i>
