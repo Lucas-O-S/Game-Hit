@@ -34,14 +34,24 @@ public class RegistroModel extends PadraoModel {
     private String comentarios;
 
     @ManyToOne
-    @JoinColumn(name = "jogo_id")
-    private JogoModel Jogo;
-
+    @JoinColumn(name = "jogo_id", nullable=false)
+    private JogoModel jogo;
+    
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private UsuarioModel Usuario;
+    @JoinColumn(name = "usuario_id", nullable=false)
+    private UsuarioModel usuario;
 
     @Column(name = "Estado")
     @Enumerated(EnumType.STRING)
     private Estado estado;
+
+    public String getTempoJogoFormatado() {
+        if (this.tempoJogo == null) {
+            return "0h 0m";
+        }
+        
+        long horas = tempoJogo.toHours();
+        long minutos = tempoJogo.toMinutes() % 60;
+        return String.format("%dh %02dm", horas, minutos);
+    }
 }

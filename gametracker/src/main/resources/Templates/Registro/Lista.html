@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/head :: head('Meus Jogos')}">
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+</head>
+<body class="body-form">
+
+<div th:insert="fragments/header :: header"></div>
+
+<main class="container my-5">
+    
+<!-- Submenu -->
+<div th:insert="~{fragments/submenu :: submenu('jogos')}"></div>
+
+    <div class="form-wrapper mx-auto p-4 shadow rounded">
+        <h2 class="text-center mb-4 h2-form">Meus Registros</h2>
+
+        <!-- Filtros melhorados -->
+        <form th:action="@{/Registro/Listar}" method="get" class="mb-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="jogoNome" class="form-label">Jogo</label>
+                    <input type="text" class="form-control" id="jogoNome" name="jogoNome" 
+                           th:value="${param.jogoNome}" placeholder="Filtrar por nome do jogo">
+                </div>
+                
+                <div class="col-md-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <select class="form-select" id="estado" name="estado">
+                        <option value="">Todos</option>
+                        <option th:each="estado : ${T(br.edu.cefsa.gametracker.Enum.Estado).values()}"
+                                th:value="${estado}" 
+                                th:text="${estado}"
+                                th:selected="${param.estado != null and param.estado == estado.name()}">
+                        </option>
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <label for="minNota" class="form-label">Nota mínima</label>
+                    <input type="number" class="form-control" id="minNota" name="minNota" 
+                           th:value="${param.minNota}" min="0" max="10" placeholder="0-10">
+                </div>
+                
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-custom w-100">
+                        <i class="fas fa-filter me-1"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Lista de Registros melhorada -->
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Jogo</th>
+                        <th>Tempo</th>
+                        <th>Estado</th>
+                        <th>Nota</th>
+                        <th>Finalizado em</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="registro : ${registros}" th:class="${registro.estado.name() == 'JOGANDO'} ? 'table-info' : ''">
+                    <td>
+                        <div class="game-image-container">
+                            <!-- Usa a string completa já montada no service -->
+                            <img th:if="${registro.jogo.fotoBase64 != null and registro.jogo.fotoBase64.startsWith('data:image/')}"
+                                th:src="${registro.jogo.fotoBase64}" 
+                                alt="Capa do jogo"
+                                class="img-thumbnail game-image">
+                                
+                            <img th:unless="${registro.jogo.fotoBase64 != null and registro.jogo.fotoBase64.startsWith('data:image/')}"
+                                th:src="${registro.jogo.fotoBase64 != null} ? ${registro.jogo.fotoBase64} : @{/images/default-game.png}"
+                                alt="Sem imagem"
+                                class="img-thumbnail game-image">
+                                
+                            <span th:text="${registro.jogo.nome}" class="game-name"></span>
+                        </div>
+                    </td>
+                        <td th:text="${registro.getTempoJogoFormatado()}">0h 0m</td>
+                        <td>
+                            <span class="badge" 
+                                th:classappend="${registro.estado.name() == 'FINALIZADO'} ? 'bg-success' : 
+                                                (${registro.estado.name() == 'JOGANDO'} ? 'bg-primary' : 'bg-warning')"
+                                th:text="${registro.estado}">
+                            </span>
+                        </td>
+                        <td>
+                            <span th:if="${registro.nota != null}" th:text="${registro.nota} + '/10'">-</span>
+                            <span th:if="${registro.nota == null}" class="text-muted">-</span>
+                        </td>
+                        <td>
+                            <span th:if="${registro.dataFinalizacao != null}" 
+                                  th:text="${#temporals.format(registro.dataFinalizacao, 'dd/MM/yyyy')}">
+                            </span>
+                            <span th:if="${registro.dataFinalizacao == null}" class="text-muted">-</span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a th:href="@{/Registro/Editar(id=${registro.id})}" 
+                                   class="btn btn-outline-secondary"
+                                   th:if="${usuarioLogado.id == registro.usuario.id or usuarioLogado.Adm}"
+                                   title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                
+                                <button type="button" class="btn btn-outline-danger"
+                                    th:if="${usuarioLogado.id == registro.usuario.id or usuarioLogado.Adm}"
+                                    th:data-id="${registro.id}"
+                                    onclick="confirmarExclusao('form-excluir-' + this.getAttribute('data-id'), 'Deseja realmente excluir este registro?')"
+                                    title="Excluir">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                
+                                <form th:action="@{/Registro/Excluir(id=${registro.id})}" method="post" 
+                                      th:id="'form-excluir-'+${registro.id}" style="display: none;">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr th:if="${#lists.isEmpty(registros)}">
+                        <td colspan="6" class="text-center text-muted py-4">
+                            <i class="fas fa-gamepad fa-2x mb-3"></i><br>
+                            Nenhum registro encontrado.<br>
+                            <a th:href="@{/Jogo/Buscar}" class="btn btn-custom mt-2">
+                                <i class="fas fa-plus me-1"></i> Adicionar novo registro
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Paginação melhorada -->
+        <nav th:if="${totalPaginas > 1}" aria-label="Paginação">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${paginaAtual == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{'/Registro/Listar?page=1' + ${filtros}}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                
+                <li class="page-item" th:classappend="${paginaAtual == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{'/Registro/Listar?page=' + (paginaAtual-1) + ${filtros}}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                
+                <li class="page-item" th:each="i : ${#numbers.sequence(max(1, paginaAtual-2), min(paginaAtual+2, totalPaginas))}" 
+                    th:classappend="${i == paginaAtual} ? 'active'">
+                    <a class="page-link" th:href="@{'/Registro/Listar?page=' + ${i} + ${filtros}}" 
+                       th:text="${i}">
+                    </a>
+                </li>
+                
+                <li class="page-item" th:classappend="${paginaAtual == totalPaginas} ? 'disabled'">
+                    <a class="page-link" th:href="@{'/Registro/Listar?page=' + (paginaAtual+1) + ${filtros}}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                
+                <li class="page-item" th:classappend="${paginaAtual == totalPaginas} ? 'disabled'">
+                    <a class="page-link" th:href="@{'/Registro/Listar?page=' + totalPaginas + ${filtros}}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="text-end mt-3">
+            <a th:href="@{/Registro/Cadastro}" class="btn btn-custom">
+                <i class="fas fa-plus me-2"></i> Adicionar Registro
+            </a>
+        </div>
+    </div>
+</main>
+
+<!-- Scripts necessários -->
+ <script th:src="@{/js/ImageScripts.js}"></script>
+
+<script th:src="@{/js/confirmacao.js}"></script>
+<div th:insert="fragments/footer :: footer"></div>
+
+</body>
+</html>

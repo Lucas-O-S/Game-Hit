@@ -68,10 +68,6 @@ public class JogoController extends PadraoController<JogoModel> {
             return false;
         }
 
-        if(model.getFotoByte().length > 2 * 1024 * 1024){
-            valores.addAttribute("erro", "Foto excede limite de 2 mb ");
-            return false;
-        }
         
         
         return true;
@@ -122,15 +118,16 @@ public class JogoController extends PadraoController<JogoModel> {
         try {
             if (Validar(model, model.getId() == null ? 'I' : 'E', valores)) {
 
-                                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
+                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
                 if (imagem != null && !imagem.isEmpty()) {
                     model.setFotoByte(imagem.getBytes());
+                } else {
+                    // Carrega imagem padrão apenas se for novo jogo
+                    if (model.getId() == null) { 
+                        ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
+                        model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                    }
                 }
-                else{
-                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
-                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));  
-                }
-                
 
                 if (model.getId() == null) {
                     jogoService.Inserir(model);

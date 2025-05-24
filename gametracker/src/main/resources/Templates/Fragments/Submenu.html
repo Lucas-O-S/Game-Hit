@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Conteúdo do head será herdado da página principal -->
+</head>
+<body>
+    <input type="hidden" th:field="${usuario.id}" />
+    <div th:fragment="submenu(currentPage)" class="submenu-wrapper">
+        
+        <div class="container">
+            <nav class="submenu-nav">
+                <ul class="submenu-list">
+                    <li class="submenu-item">
+                        <a th:classappend="${currentPage == 'perfil'} ? 'submenu-link active' : 'submenu-link'" 
+                           th:href="@{/Usuario/Perfil(id=${usuario.id})}">
+                           <i class="fas fa-user-circle me-2"></i>Perfil
+                        </a>
+                    </li>
+                    <li class="submenu-item">
+                        <a th:classappend="${currentPage == 'jogos'} ? 'submenu-link active' : 'submenu-link'" 
+                        th:href="@{/Registro/Listar(id=${usuario.id})}">
+                        <i class="fas fa-gamepad me-2"></i>Meus Jogos
+                        </a>
+                    </li>
+                    <li class="submenu-item">
+                        <a th:classappend="${currentPage == 'status'} ? 'submenu-link active' : 'submenu-link'" 
+                           th:href="@{/Usuario/Status}">
+                           <i class="fas fa-chart-line me-2"></i>Status
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>

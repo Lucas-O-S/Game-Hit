@@ -173,13 +173,15 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             //Valida o usuario antes de seguir, caso não aceite sera devolvido um erro e retornara para a pagina de onde veio
             if(Validar(model, operacao, valores)){                    
                 
-                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
-                if (imagem != null && !imagem.isEmpty()) {
+            if (imagem != null && !imagem.isEmpty()) {
                     model.setFotoByte(imagem.getBytes());
                 }
-                else{
-                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
-                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));  
+                else {
+                    // Carrega imagem padrão apenas se for novo jogo
+                    if (model.getId() == null) { 
+                        ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
+                        model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                    }
                 }
                 
                 //Se for uma inserção
@@ -265,10 +267,7 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             }
         }
 
-        if(model.getFotoByte().length > 2 * 1024 * 1024){
-            valores.addAttribute("erro", "Foto excede limite de 2 mb ");
-            return false;
-        }
+
         
         return true;
     }

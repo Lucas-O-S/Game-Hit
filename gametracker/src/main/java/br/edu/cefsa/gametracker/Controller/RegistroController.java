@@ -1,14 +1,16 @@
 package br.edu.cefsa.gametracker.Controller;
-
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.edu.cefsa.gametracker.Enum.Estado;
 import br.edu.cefsa.gametracker.Model.JogoModel;
@@ -44,11 +46,11 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
     }
 
     @Override
-    public String Editar(Model valores,  @RequestParam("id")  Long id,  @RequestParam("id")  long jogoId) {
+    public String Editar(Model valores,  @RequestParam("id")  Long id,  @RequestParam("jogoId")  long jogoId) {
         valores.addAttribute("jogo", jogoService.BuscarPorId(jogoId));
         valores.addAttribute("operacao", 'E');
         valores.addAttribute("erro", "");
-        valores.addAttribute("registro", new RegistroModel());
+        valores.addAttribute("registro", registroService.BuscarPorId(id));
         valores.addAttribute("estados", Estado.values());
         
         return "Registro/Form";
@@ -64,16 +66,16 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
         
     }
 
-    @Override
-    public String Buscar(Model valores, String valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Buscar'");
-    }
 
     @Override
     public String Excluir(HttpSession session, long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Excluir'");
+        try {
+            registroService.Excluir(id);
+            return "redirect:/Registro/Listar";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/Registro/Listar?erro=Erro ao excluir registro";
+        }
     }
 
     @PostMapping("/Save")
@@ -101,8 +103,62 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
         return "redirect:/index";
     }
 
+    @GetMapping("/Listar")
+    public String listarRegistros(
+            @RequestParam(value = "jogoNome", required = false) String jogoNome,
+            @RequestParam(value = "estado", required = false) Estado estado,
+            @RequestParam(value = "minNota", required = false) Integer minNota,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam("id") Long usuarioId,
+            Model model) {
+        
+        try {
+            Pageable pageable = PageRequest.of(page - 1, 10);
+            
+            Page<RegistroModel> registrosPage = registroService.filtrarRegistros(
+                    usuarioId, 
+                    jogoNome,
+                    estado,
+                    minNota,
+                    pageable);
+            
+            model.addAttribute("registros", registrosPage.getContent());
+            model.addAttribute("totalPaginas", registrosPage.getTotalPages());
+            model.addAttribute("paginaAtual", page);
+            model.addAttribute("estados", Estado.values());
+            model.addAttribute("filtros", buildFiltrosString(jogoNome, estado, minNota));
+            model.addAttribute("usuario", usuarioService.BuscarPorId(usuarioId));
 
+            return "Registro/Lista";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("erro", "Ocorreu um erro ao carregar os registros");
+            return "redirect:/Usuario/Perfil";
+        }
+    }
 
+    private String buildFiltrosString(String jogoNome, Estado estado, Integer minNota) {
+        StringBuilder filtros = new StringBuilder();
+        
+        if (jogoNome != null && !jogoNome.isEmpty()) {
+            filtros.append("&jogoNome=").append(jogoNome);
+        }
+        if (estado != null) {
+            filtros.append("&estado=").append(estado);
+        }
+        if (minNota != null) {
+            filtros.append("&minNota=").append(minNota);
+        }
+        
+        return filtros.toString();
+    }
+
+    @Override
+    protected String Buscar(Model valores, String valor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Buscar'");
+    }
 
 
 }

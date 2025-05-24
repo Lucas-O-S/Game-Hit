@@ -349,3 +349,126 @@ body, .navbar, .container, .form-control,
 .btn-secondary, .btn-danger, .btn-warning, .btn-logout {
     transition: all 0.3s ease;
 }
+/* Estilos para o submenu - Versão melhorada */
+.submenu-wrapper {
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid #FFE8CC;
+    position: relative;
+    z-index: 10;
+}
+
+.submenu-nav {
+    padding: 0;
+    margin: 0 auto;
+    max-width: 900px;
+}
+
+.submenu-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+}
+
+.submenu-item {
+    flex: 1;
+    text-align: center;
+}
+
+.submenu-link {
+    display: block;
+    padding: 1rem 0.5rem;
+    color: #665C84;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    margin: 0 2px;
+}
+
+.submenu-link:hover {
+    color: #FF7657;
+    background-color: #FFF5EB;
+}
+
+.submenu-link.active {
+    color: #FF7657;
+    background-color: #FFF5EB;
+    box-shadow: 0 -3px 0 #FF7657 inset;
+    font-weight: 700;
+}
+
+.submenu-link i {
+    font-size: 1.1rem;
+    margin-right: 8px;
+}
+
+/* Efeito de "aba" para o item ativo */
+.submenu-link.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FFBA5A, #FF7657);
+    border-radius: 3px 3px 0 0;
+}
+
+/* Responsividade para o submenu */
+@media (max-width: 768px) {
+    .submenu-list {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .submenu-link {
+        padding: 0.75rem;
+        border-radius: 0;
+        margin: 0;
+        border-bottom: 1px solid #FFE8CC;
+    }
+    
+    .submenu-link.active {
+        box-shadow: 3px 0 0 #FF7657 inset;
+    }
+    
+    .submenu-link.active::before {
+        width: 3px;
+        height: 100%;
+        right: auto;
+        border-radius: 3px 0 0 3px;
+    }
+}
+
+        /* Estilos adicionais para melhorar a aparência */
+        .badge {
+            padding: 0.5em 0.75em;
+            font-weight: 500;
+        }
+        .table-info {
+            background-color: #e7f5ff;
+        }
+        .img-thumbnail {
+            max-width: 50px;
+            height: auto;
+        }
+
+            .game-image-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .game-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+    
+    .game-name {
+        flex-grow: 1;
+    }

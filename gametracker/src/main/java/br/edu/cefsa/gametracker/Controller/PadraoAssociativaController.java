@@ -20,7 +20,7 @@ public abstract class PadraoAssociativaController<T,A,B>{
 
     //Função abstrata para validar model
     protected abstract boolean Validar(T model, char operacao, Model valores);
-
+ 
 
     //Função abstrata para a tela de busca
     protected abstract String Buscar( Model valores, String valor);
