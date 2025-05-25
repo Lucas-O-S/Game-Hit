@@ -1,6 +1,5 @@
 package br.edu.cefsa.gametracker.Model;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
 import br.edu.cefsa.gametracker.Enum.Estado;
@@ -22,7 +21,7 @@ import lombok.Setter;
 public class RegistroModel extends PadraoModel {
 
     @Column(name = "tempoJogo")
-    private Duration tempoJogo;
+    private Long tempoJogo;
 
     @Column(name = "dataFinalizacao")
     private LocalDate dataFinalizacao;
@@ -49,9 +48,8 @@ public class RegistroModel extends PadraoModel {
         if (this.tempoJogo == null) {
             return "0h 0m";
         }
-        
-        long horas = tempoJogo.toHours();
-        long minutos = tempoJogo.toMinutes() % 60;
+        long horas = tempoJogo / 60;
+        long minutos = tempoJogo % 60;
         return String.format("%dh %02dm", horas, minutos);
     }
 }

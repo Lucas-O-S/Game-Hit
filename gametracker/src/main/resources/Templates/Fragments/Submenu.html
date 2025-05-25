@@ -6,7 +6,6 @@
 <body>
     <input type="hidden" th:field="${usuario.id}" />
     <div th:fragment="submenu(currentPage)" class="submenu-wrapper">
-        
         <div class="container">
             <nav class="submenu-nav">
                 <ul class="submenu-list">
@@ -24,7 +23,7 @@
                     </li>
                     <li class="submenu-item">
                         <a th:classappend="${currentPage == 'status'} ? 'submenu-link active' : 'submenu-link'" 
-                           th:href="@{/Usuario/Status}">
+                           th:href="@{/Registro/Status(id=${usuario.id})}">
                            <i class="fas fa-chart-line me-2"></i>Status
                         </a>
                     </li>

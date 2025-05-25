@@ -17,6 +17,7 @@
 
         <!-- Filtros melhorados -->
         <form th:action="@{/Registro/Listar}" method="get" class="mb-4">
+            <input type="hidden" name="id" th:value="${param.id}">
             <div class="row g-3">
                 <div class="col-md-4">
                     <label for="jogoNome" class="form-label">Jogo</label>
@@ -101,7 +102,7 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
-                                <a th:href="@{/Registro/Editar(id=${registro.id})}" 
+                                <a th:href="@{/Registro/Editar(jogoId=${registro.jogo.id}, id=${registro.id})}" 
                                    class="btn btn-outline-secondary"
                                    th:if="${usuarioLogado.id == registro.usuario.id or usuarioLogado.Adm}"
                                    title="Editar">
@@ -175,7 +176,7 @@
         </nav>
         
         <div class="text-end mt-3">
-            <a th:href="@{/Registro/Cadastro}" class="btn btn-custom">
+            <a th:href="@{/Jogo/Buscar}" class="btn btn-custom">
                 <i class="fas fa-plus me-2"></i> Adicionar Registro
             </a>
         </div>

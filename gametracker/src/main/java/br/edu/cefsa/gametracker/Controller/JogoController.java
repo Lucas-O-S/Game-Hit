@@ -92,7 +92,7 @@ public class JogoController extends PadraoController<JogoModel> {
         try {
             List<JogoModel> lista = new ArrayList<>();
             if (nome != null && !nome.isEmpty()) {
-
+                lista = jogoService.BuscarPorNome(nome);
                 
 
             } else {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import br.edu.cefsa.gametracker.Enum.Estado;
 import br.edu.cefsa.gametracker.Model.RegistroModel;
 
+
 @Repository
 public interface RegistroRepository extends JpaRepository<RegistroModel, Long> {
 
@@ -26,8 +27,46 @@ public interface RegistroRepository extends JpaRepository<RegistroModel, Long> {
                                     @Param("minNota") Integer minNota,
                                     Pageable pageable);
 
-    @Query("SELECT r FROM RegistroModel r JOIN r.jogo j WHERE LOWER(j.nome) LIKE LOWER(CONCAT('%', :nome, '%'))")
-    List<RegistroModel> findByJogoNomeContainingIgnoreCase(@Param("nome") String nome);
+   
+    // Consulta corrigida para contar registros por usuário
+    @Query("SELECT COUNT(r) FROM RegistroModel r WHERE r.usuario.id = :usuarioId")
+    Long countByUsuarioId(@Param("usuarioId") Long usuarioId);
+
+    // Consulta corrigida para contar registros por estado
+    @Query("SELECT r.estado, COUNT(r) FROM RegistroModel r WHERE r.usuario.id = :usuarioId GROUP BY r.estado")
+    List<Object[]> countByEstadoGrouped(@Param("usuarioId") Long usuarioId);
+
+    // Consulta para somar tempo de jogo (agora retorna Long de minutos)
+    @Query("SELECT SUM(r.tempoJogo) FROM RegistroModel r WHERE r.usuario.id = :usuarioId")
+    Long sumTempoJogoByUsuarioId(@Param("usuarioId") Long usuarioId);
+
+    // Consulta para média de notas (retorna Optional)
+    @Query("SELECT AVG(r.nota) FROM RegistroModel r WHERE r.usuario.id = :usuarioId AND r.nota IS NOT NULL")
+    Double avgNotaByUsuarioId(@Param("usuarioId") Long usuarioId);
+
+    // Consulta para dados mensais
+    @Query("SELECT FUNCTION('MONTH', r.dataFinalizacao) as mes, COUNT(r) as total " +
+           "FROM RegistroModel r WHERE r.usuario.id = :usuarioId " +
+           "AND (:ano IS NULL OR FUNCTION('YEAR', r.dataFinalizacao) = :ano) " +
+           "AND r.dataFinalizacao IS NOT NULL " +
+           "GROUP BY FUNCTION('MONTH', r.dataFinalizacao) " +
+           "ORDER BY FUNCTION('MONTH', r.dataFinalizacao)")
+    List<Object[]> obterDadosMensais(@Param("usuarioId") Long usuarioId, @Param("ano") Integer ano);
+
+    // Consulta para jogos por gênero
+    @Query("SELECT j.genero, COUNT(r) FROM RegistroModel r JOIN r.jogo j " +
+           "WHERE r.usuario.id = :usuarioId GROUP BY j.genero")
+    List<Object[]> countJogosByGenero(@Param("usuarioId") Long usuarioId);
+
+    // Consulta para anos com registros
+    @Query("SELECT DISTINCT FUNCTION('YEAR', r.dataFinalizacao) FROM RegistroModel r " +
+           "WHERE r.usuario.id = :usuarioId AND r.dataFinalizacao IS NOT NULL " +
+           "ORDER BY FUNCTION('YEAR', r.dataFinalizacao) DESC")
+    List<Integer> findAnosComRegistros(@Param("usuarioId") Long usuarioId);
+
+    @Query("SELECT r.jogo.nome, AVG(r.nota) as notaMedia FROM RegistroModel r WHERE r.usuario.id = :usuarioId AND r.nota IS NOT NULL GROUP BY r.jogo.nome ORDER BY notaMedia DESC")
+    List<Object[]> findTopJogosByUsuarioId(@Param("usuarioId") Long usuarioId, Pageable pageable);
+
 }
 
 

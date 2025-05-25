@@ -1,8 +1,11 @@
 package br.edu.cefsa.gametracker.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import br.edu.cefsa.gametracker.Interfaces.InterfaceService;
@@ -19,6 +22,14 @@ public class JogoService implements InterfaceService<JogoModel>{
     public JogoModel BuscarPorId(Long id) {
         if(jogoRepository.existsById(id)){
             JogoModel model = jogoRepository.findById(id).get();
+                if(model.getFotoByte() == null){
+                ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
+                try {
+                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                } catch (IOException ex) {
+
+                }
+            }
             model.setFotoBase64(java.util.Base64.getEncoder().encodeToString(model.getFotoByte()));
             return model;
         }
@@ -56,6 +67,10 @@ public class JogoService implements InterfaceService<JogoModel>{
 
     public Boolean existeNome(String nome) {
         return jogoRepository.existsByNome(nome);
+    }
+
+    public List<JogoModel> BuscarPorNome(String nome) {
+        return jogoRepository.findByNomeContainingIgnoreCase(nome);
     }
     
 }

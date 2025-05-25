@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 // T é a classe associativa
 //A e B são as classes da relação
-public abstract class PadraoAssociativaController<T,A,B>{
+public abstract class PadraoAssociativaController<T>{
 
     //Função abstrata para a tela de cadastro
     protected abstract String Cadastro(Model valores, Long idA);
@@ -26,7 +26,7 @@ public abstract class PadraoAssociativaController<T,A,B>{
     protected abstract String Buscar( Model valores, String valor);
 
     //Função abstrata para a tela de exclusão 
-    protected abstract String Excluir(HttpSession session, long id);
+    protected abstract String Excluir(Model valores, long id);
         
     //Verifica se há um login
     protected Boolean VerificarLogin(HttpSession session){

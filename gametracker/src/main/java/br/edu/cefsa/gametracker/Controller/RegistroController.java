@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.cefsa.gametracker.Enum.Estado;
-import br.edu.cefsa.gametracker.Model.JogoModel;
 import br.edu.cefsa.gametracker.Model.RegistroModel;
 import br.edu.cefsa.gametracker.Model.UsuarioModel;
 import br.edu.cefsa.gametracker.service.JogoService;
@@ -23,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/Registro")
-public class RegistroController extends PadraoAssociativaController<RegistroModel, JogoModel, UsuarioModel> {
+public class RegistroController extends PadraoAssociativaController<RegistroModel> {
 
     @Autowired
     RegistroService registroService;
@@ -46,6 +45,7 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
     }
 
     @Override
+    @RequestMapping("/Editar")
     public String Editar(Model valores,  @RequestParam("id")  Long id,  @RequestParam("jogoId")  long jogoId) {
         valores.addAttribute("jogo", jogoService.BuscarPorId(jogoId));
         valores.addAttribute("operacao", 'E');
@@ -66,16 +66,18 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
         
     }
 
-
     @Override
-    public String Excluir(HttpSession session, long id) {
+    @PostMapping("/Excluir")
+    public String Excluir(Model valores, @RequestParam("id") long id) {
         try {
+            RegistroModel model = registroService.BuscarPorId(id);
             registroService.Excluir(id);
-            return "redirect:/Registro/Listar";
+                return "redirect:/Registro/Listar?id=" + model.getUsuario().getId();
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/Registro/Listar?erro=Erro ao excluir registro";
         }
+        return "redirect:/index";
+
     }
 
     @PostMapping("/Save")
@@ -94,7 +96,7 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
                 else{
                     registroService.Editar(model);
                 }
-                return("redirect:/Usuario/Perfil?id=" + model.getUsuario().getId());
+                return "redirect:/Registro/Listar?id=" + model.getUsuario().getId();
             }
 
         } catch (Exception e) {
@@ -153,6 +155,43 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
         
         return filtros.toString();
     }
+
+    @GetMapping("/Status")
+    public String statusDashboard(
+        @RequestParam("id") Long usuarioId,
+        @RequestParam(value = "ano", required = false) Integer anoFiltro,
+        Model model
+    ) {
+        try{
+            UsuarioModel usuario = usuarioService.BuscarPorId(usuarioId);
+            if (usuario == null) {
+                model.addAttribute("erro", "Usuário não encontrado");
+                return "redirect:/index";
+            }
+            model.addAttribute("usuario", usuario);
+            Object estatisticas = registroService.obterEstatisticasUsuario(usuarioId, anoFiltro);
+            if (estatisticas == null) estatisticas = new java.util.HashMap<>();
+            model.addAttribute("estatisticas", estatisticas);
+            Object jogosPorGenero = registroService.contarJogosPorGenero(usuarioId);
+            if (jogosPorGenero == null) jogosPorGenero = new java.util.HashMap<>();
+            model.addAttribute("jogosPorGenero", jogosPorGenero);
+            Object jogosPorEstado = registroService.contarJogosPorEstado(usuarioId);
+            if (jogosPorEstado == null) jogosPorEstado = new java.util.HashMap<>();
+            model.addAttribute("jogosPorEstado", jogosPorEstado);
+            Object anosComRegistros = registroService.obterAnosComRegistros(usuarioId);
+            if (anosComRegistros == null) anosComRegistros = new java.util.ArrayList<>();
+            model.addAttribute("anosComRegistros", anosComRegistros);
+            model.addAttribute("topJogos", registroService.buscarTopJogos(usuarioId, 5));
+            return "Registro/Status";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("erro", "Ocorreu um erro ao carregar os registros");
+            return "redirect:/Usuario/Perfil?id=" + usuarioId;
+        }
+
+    }
+
 
     @Override
     protected String Buscar(Model valores, String valor) {
