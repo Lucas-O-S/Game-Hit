@@ -1,8 +1,11 @@
 package br.edu.cefsa.gametracker.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +62,17 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     @Override
     public UsuarioModel BuscarPorId(Long id) {
         if(usuarioRepository.existsById(id)){
+
             UsuarioModel usuario = usuarioRepository.findById(id).get();
+
+            if(usuario.getFotoByte() == null){
+                ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
+                try {
+                    usuario.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                } catch (IOException ex) {
+
+                }
+            }
 
             //Configura a imagem em base 64
             usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
@@ -76,7 +89,10 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
 
         //Configura as fotos em base 64
         for (UsuarioModel usuario : usuarios) {
-            usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
+            if(usuario.getFotoByte() != null){
+                usuario.setFotoBase64(java.util.Base64.getEncoder().encodeToString(usuario.getFotoByte()));
+
+            }
 
         }
         return usuarios;

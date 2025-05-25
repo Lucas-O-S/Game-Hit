@@ -6,6 +6,7 @@ import br.edu.cefsa.gametracker.Enum.Genero;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,13 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @lombok.NoArgsConstructor
+@AllArgsConstructor
 public class JogoModel extends PadraoModel{
-        public JogoModel(String nome, LocalDate dataLancamento, String sinopse, String criador) {
-        this.nome = nome;
-        this.dataLancamento = dataLancamento;
-        this.sinopse = sinopse;
-        this.criador = criador;
-    }
 
     @Column(name = "nome", nullable = false, unique=true)
     private String nome;

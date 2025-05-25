@@ -92,7 +92,7 @@ public class JogoController extends PadraoController<JogoModel> {
         try {
             List<JogoModel> lista = new ArrayList<>();
             if (nome != null && !nome.isEmpty()) {
-
+                lista = jogoService.BuscarPorNome(nome);
                 
 
             } else {
@@ -118,15 +118,16 @@ public class JogoController extends PadraoController<JogoModel> {
         try {
             if (Validar(model, model.getId() == null ? 'I' : 'E', valores)) {
 
-                                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
+                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
                 if (imagem != null && !imagem.isEmpty()) {
                     model.setFotoByte(imagem.getBytes());
+                } else {
+                    // Carrega imagem padrão apenas se for novo jogo
+                    if (model.getId() == null) { 
+                        ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
+                        model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                    }
                 }
-                else{
-                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
-                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));  
-                }
-                
 
                 if (model.getId() == null) {
                     jogoService.Inserir(model);
@@ -139,6 +140,8 @@ public class JogoController extends PadraoController<JogoModel> {
             else{
                 valores.addAttribute("jogo", model);
                 valores.addAttribute("operacao", operacao);
+                valores.addAttribute("generos", Genero.values());
+
 
                 return "/Jogo/Form";
             }

@@ -173,13 +173,15 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             //Valida o usuario antes de seguir, caso não aceite sera devolvido um erro e retornara para a pagina de onde veio
             if(Validar(model, operacao, valores)){                    
                 
-                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
-                if (imagem != null && !imagem.isEmpty()) {
+            if (imagem != null && !imagem.isEmpty()) {
                     model.setFotoByte(imagem.getBytes());
                 }
-                else{
-                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
-                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));  
+                else {
+                    // Carrega imagem padrão apenas se for novo jogo
+                    if (model.getId() == null) { 
+                        ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
+                        model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                    }
                 }
                 
                 //Se for uma inserção
@@ -209,35 +211,6 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
     }
 
 
-    //Autentica o usuario na tela de login
-    @PostMapping("/Autenticar")
-    public String Autenticar(Model valores, UsuarioModel model, HttpSession session){
-        try{
-            //Busca o usuario 
-            UsuarioModel usuario = usuarioService.Login(model.getEmail(), model.getSenha());
-            
-            //Verifica se existe
-            if(usuario != null){
-                session.setAttribute("usuario", usuario);
-                
-                return "redirect:/index";
-            }
-
-            //Devolve um erro
-            else{
-                valores.addAttribute("usuario", new UsuarioModel());
-                valores.addAttribute("erro", "Email ou senha inválidos");
-                return "/Usuario/Login";
-
-            }
-        }
-        catch(Exception e){
-            System.out.println("Erro ao salvar usuario: " + e.getMessage());
-        }
-        return "redirect:/index";
-
-    }
-    
 
     //Muda o status de adm
     @RequestMapping("/MudarAdm")
@@ -293,11 +266,11 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
                 return false;
             }
         }
+
+
         
         return true;
     }
 
-    public boolean checarSenha(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
+
 }

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/head :: head('Status do Usuário')}">
+
+</head>
+<body class="body-status">
+
+<div th:insert="fragments/header :: header"></div>
+
+<main class="container my-5">
+    
+    <!-- Submenu -->
+    <div th:insert="~{fragments/submenu :: submenu('status')}"></div>
+
+    <div class="dashboard-wrapper mx-auto p-4 shadow rounded">
+<h2 class="text-center mb-4 h2-form">Status do Jogador</h2>
+        
+        <!-- Filtros -->
+        <div class="filtros-container mb-4 p-3 rounded" style="background-color: #FFF5EB;">
+            <form th:action="@{/Registro/Status}" method="get" class="row g-3 align-items-end">
+                <input type="hidden" name="id" th:value="${usuario.id}">
+                
+                <div class="col-md-4">
+                    <label for="ano" class="form-label">Filtrar por ano:</label>
+                    <select class="form-select" id="ano" name="ano" onchange="this.form.submit()">
+                        <option value="">Todos os anos</option>
+                        <option th:each="ano : ${anosComRegistros}"
+                                th:value="${ano}"
+                                th:text="${ano}"
+                                th:selected="${param.ano != null and param.ano == ano.toString()}">
+                        </option>
+                    </select>
+                </div>
+                
+                <div class="col-md-4 d-flex align-items-end">
+                    <a th:href="@{/Registro/Status(id=${usuario.id})}" class="btn btn-secondary ms-2">
+                        <i class="fas fa-sync-alt me-1"></i> Limpar Filtros
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Cards de Estatísticas -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="stat-card bg-primary text-white rounded p-3 shadow">
+                    <h5 class="stat-title">Total de Jogos</h5>
+                    <div class="stat-value" th:text="${estatisticas != null ? estatisticas.totalJogos : 0}">0</div>
+                    <i class="fas fa-gamepad stat-icon"></i>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stat-card bg-success text-white rounded p-3 shadow">
+                    <h5 class="stat-title">Finalizados</h5>
+                    <div class="stat-value" th:text="${estatisticas != null ? estatisticas.jogosFinalizados : 0}">0</div>
+                    <i class="fas fa-check-circle stat-icon"></i>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stat-card bg-info text-white rounded p-3 shadow">
+                    <h5 class="stat-title">Tempo Total</h5>
+                    <div class="stat-value" th:text="${estatisticas != null ? estatisticas.tempoTotal : '0h'}">0h</div>
+                    <i class="fas fa-clock stat-icon"></i>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="stat-card bg-warning text-dark rounded p-3 shadow">
+                    <h5 class="stat-title">Média de Notas</h5>
+                    <div class="stat-value" th:text="${estatisticas != null ? #numbers.formatDecimal(estatisticas.mediaNotas, 1, 1) : '0.0'}">0.0</div>
+                    <i class="fas fa-star stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-8">
+                <div class="chart-container p-3 rounded shadow">
+                    <h5 class="chart-title">Atividade Mensal</h5>
+                    <canvas id="graficoMensal"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="chart-container p-3 rounded shadow">
+                    <h5 class="chart-title">Jogos por Gênero</h5>
+                    <canvas id="graficoGenero"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="chart-container p-3 rounded shadow">
+                    <h5 class="chart-title">Status dos Jogos</h5>
+                    <canvas id="graficoEstado"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="top-jogos p-3 rounded shadow">
+                    <h5 class="chart-title">Top 5 Jogos</h5>
+                    <div class="list-group">
+                        <div th:if="${topJogos != null and !#lists.isEmpty(topJogos)}">
+                            <div class="list-group-item" th:each="jogo : ${topJogos}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span th:text="${jogo.nome}">Nome do Jogo</span>
+                                    <span class="badge bg-primary top-nota" th:text="${jogo.notaMedia} + '/10'">0/10</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${topJogos == null or #lists.isEmpty(topJogos)}" class="list-group-item text-center text-muted">
+                            Nenhum jogo encontrado.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Elementos para passar dados do Thymeleaf para o JavaScript -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.chartData = {
+        dadosMensais: /*[[${estatisticas != null and estatisticas.dadosMensais != null ? estatisticas.dadosMensais : #lists.newArrayList()}]]*/ [],
+        generos: {
+            labels: /*[[${jogosPorGenero != null ? jogosPorGenero.keySet() : #sets.newHashSet()}]]*/ [],
+            values: /*[[${jogosPorGenero != null ? jogosPorGenero.values() : #lists.newArrayList()}]]*/ []
+        },
+        estados: {
+            labels: /*[[${jogosPorEstado != null ? jogosPorEstado.keySet() : #sets.newHashSet()}]]*/ [],
+            values: /*[[${jogosPorEstado != null ? jogosPorEstado.values() : #lists.newArrayList()}]]*/ []
+        }
+    };
+    /*]]>*/
+</script>
+<div th:insert="fragments/footer :: footer"></div>
+<script th:src="@{/js/status-charts.js}"></script>
+
+</body>
+</html>

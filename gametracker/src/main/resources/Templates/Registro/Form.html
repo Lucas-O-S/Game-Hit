@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/Head :: head('Cadastro de Registro')}"></head>
+<body class="body-form">
+<div th:insert="fragments/header :: Header"></div>
+
+<main class="container mt-5">
+    <h2 class="text-center mb-4">Cadastro de Registro</h2>
+
+    <form th:action="@{/Registro/Save}" method="post" class="row g-4">
+        <input type="hidden" th:field="${registro.id}" />
+        <input type="hidden" name="jogo.id" th:value="${jogo.id}" />
+        <input type="hidden" name="operacao" th:value="${operacao}" />
+        <input type="hidden" name="erro" id="erro" th:value="${erro}" />
+        <input type="hidden" name="usuario.id" id="usuario.id" th:value="${usuarioLogado.id}" />
+
+        <!-- Coluna esquerda com info do jogo -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">Informações do Jogo</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                                 
+                        <div th:if="${jogo.fotoBase64}" class="text-center mt-3">
+                            <img th:src="'data:image/jpeg;base64,' + ${jogo.fotoBase64}" 
+                                alt="Capa do jogo" class="img-fluid rounded" style="max-height: 200px;">
+                        </div>
+                        <br>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-controller me-2" style="font-size: 1.2rem;"></i>
+                            <strong>Nome:</strong>
+                            <span class="ms-2" th:text="${jogo.nome}">Nome</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-tag me-2" style="font-size: 1.2rem;"></i>
+                            <strong>Gênero:</strong>
+                            <span class="ms-2" th:text="${jogo.genero.descricao}">Gênero</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-calendar me-2" style="font-size: 1.2rem;"></i>
+                            <strong>Data de Lançamento:&nbsp; </strong>
+                            <span class="ms-2" th:text="${jogo.dataLancamento != null} ? ${#temporals.format(jogo.dataLancamento, 'dd/MM/yyyy')} : 'Não informada'"></span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-person me-2" style="font-size: 1.2rem;"></i>
+                            <strong>Criador:</strong>
+                            <span class="ms-2" th:text="${jogo.criador}">Criador</span>
+                        </div>
+                    </div>
+                    
+                    <div th:if="${jogo.sinopse}" class="mt-4">
+                        <h6 class="border-bottom pb-2">Sinopse</h6>
+                        <p class="text-muted" th:text="${jogo.sinopse}">Sinopse do jogo</p>
+                    </div>
+           
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna direita com campos do registro -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">Seu Registro</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Estado</label>
+                        <select id="estado" name="estado" class="form-select" required>
+                            <option value="">Selecione</option>
+                            <option th:each="estado : ${estados}"
+                                    th:value="${estado}"
+                                    th:text="${estado.descricao}"
+                                    th:selected="${registro.estado} == ${estado}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tempo Total Jogado</label>
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <input type="number" class="form-control tempo-input" id="horas" 
+                                    placeholder="Horas" min="0" value="0">
+                            </div>
+                            <div class="col-4">
+                                <input type="number" class="form-control tempo-input" id="minutos" 
+                                    placeholder="Minutos" min="0" max="59" value="0">
+                            </div>
+                            <div class="col-4">
+                                <input type="number" class="form-control tempo-input" id="segundos" 
+                                    placeholder="Segundos" min="0" max="59" value="0">
+                            </div>
+                        </div>
+                        <input type="hidden" id="tempoJogo" name="tempoJogo" th:value="${registro.tempoJogo}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dataFinalizacao" class="form-label">Data de Finalização</label>
+                        <input type="date" class="form-control" id="dataFinalizacao" name="dataFinalizacao"
+                               th:value="${registro.dataFinalizacao}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nota" class="form-label">Nota (0 a 10)</label>
+                        <input type="number" class="form-control" id="nota" name="nota"
+                               th:value="${registro.nota}" min="0" max="10" step="0.1">
+                        <div class="form-text">Avalie de 0 a 10</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comentarios" class="form-label">Comentários</label>
+                        <textarea class="form-control" id="comentarios" name="comentarios" rows="5"
+                                  th:text="${registro.comentarios}" maxlength="500"></textarea>
+                        <small class="text-muted">Máximo 500 caracteres</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 text-center mt-4">
+            <button type="submit" class="btn btn-custom px-5 py-2">
+                <i class="bi bi-save me-2"></i>Salvar Registro
+            </button>
+        </div>
+    </form>
+</main>
+
+<div th:insert="fragments/Footer :: Footer"></div>
+
+<script th:src="@{/js/ImageScripts.js}"></script>
+<script th:src="@{/js/ConversorHoras.js}"></script>
+<script th:src="@{/js/FormFunc.js}"></script>
+</body>
+</html>

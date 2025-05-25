@@ -1,0 +1,35 @@
+INSERT INTO registro_model (tempo_jogo, data_finalizacao, nota, comentarios, jogo_id, usuario_id, estado) VALUES
+-- COMPLETO
+(930, '2023-05-15', 9, 'Jogo incrível, história emocionante', 1, 1, 'COMPLETO'),
+(1545, '2023-06-20', 10, 'Melhor RPG que já joguei', 2, 2, 'COMPLETO'),
+(495, '2023-07-10', 8, 'Boa jogabilidade, mas curto', 3, 3, 'COMPLETO'),
+(2400, '2023-08-05', 9, 'Conteúdo vasto e envolvente', 4, 4, 'COMPLETO'),
+(750, '2023-09-12', 7, 'Divertido, mas com alguns bugs', 5, 5, 'COMPLETO'),
+
+-- EM_ANDAMENTO
+(320, NULL, NULL, 'Estou gostando bastante', 6, 6, 'EM_ANDAMENTO'),
+(1125, NULL, NULL, 'Muito conteúdo para explorar', 7, 7, 'EM_ANDAMENTO'),
+(195, NULL, NULL, 'Começando agora, parece promissor', 8, 8, 'EM_ANDAMENTO'),
+(1800, NULL, NULL, 'Jogo complexo, aprendendo ainda', 9, 9, 'EM_ANDAMENTO'),
+(470, NULL, NULL, 'Dificuldade desafiadora', 10, 10, 'EM_ANDAMENTO'),
+
+-- ABANDONADO
+(150, NULL, 4, 'Não me prendeu', 11, 11, 'ABANDONADO'),
+(105, NULL, 3, 'Muito difícil para meu gosto', 12, 12, 'ABANDONADO'),
+(255, NULL, 5, 'História fraca', 13, 13, 'ABANDONADO'),
+(360, NULL, 6, 'Cansativo depois de um tempo', 14, 14, 'ABANDONADO'),
+(630, NULL, 7, 'Bom, mas não terminei', 15, 15, 'ABANDONADO'),
+
+-- REVISITANDO
+(3020, '2023-01-10', 10, 'Voltando para pegar todos os achievements', 16, 16, 'REVISITANDO'),
+(2145, '2023-02-15', 9, 'Rejogando para entender melhor a história', 17, 17, 'REVISITANDO'),
+(1335, '2023-03-20', 8, 'Experimentando novas builds', 18, 18, 'REVISITANDO'),
+(900, '2023-04-25', 9, 'Mods adicionaram muito conteúdo', 19, 19, 'REVISITANDO'),
+(530, '2023-05-30', 7, 'Rejogando com amigos', 20, 20, 'REVISITANDO'),
+
+-- DESEJO
+(NULL, NULL, NULL, 'Quero jogar assim que possível', 21, 1, 'DESEJO'),
+(NULL, NULL, NULL, 'Na minha lista de desejos', 22, 2, 'DESEJO'),
+(NULL, NULL, NULL, 'Esperando promoção', 23, 3, 'DESEJO'),
+(NULL, NULL, NULL, 'Aguardando lançamento', 24, 4, 'DESEJO'),
+(NULL, NULL, NULL, 'Preciso atualizar meu PC primeiro', 25, 5, 'DESEJO');

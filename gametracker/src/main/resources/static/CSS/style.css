@@ -1,47 +1,38 @@
-/* Reset básico */
+/* Reset básico e estilos globais */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', sans-serif;
     background-color: #FBEED7;
     color: #665C84;
+    line-height: 1.6;
 }
 
 /* Navbar */
 .navbar {
     background-color: #FFBA5A;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar .nav-link {
     color: #665C84 !important;
     font-weight: 500;
+    transition: all 0.3s;
 }
 
 .navbar .nav-link:hover {
     color: #FF7657 !important;
+    transform: translateY(-2px);
 }
 
-/* Botões */
-.btn-primary {
-    background-color: #FFBA5A;
-    border-color: #FFBA5A;
-    color: #665C84;
-}
-
-.btn-primary:hover {
-    background-color: #FF7657;
-    border-color: #FF7657;
-    color: #fff;
-}
-
-.btn-outline-primary {
-    border-color: #FFBA5A;
-    color: #FFBA5A;
-}
-
-.btn-outline-primary:hover {
-    background-color: #FFBA5A;
-    color: #fff;
+/* Container principal */
+.container {
+    max-width: 900px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin: 2rem auto;
 }
 
 /* Títulos */
@@ -49,43 +40,546 @@ h1, h2, h3, h4 {
     color: #665C84;
 }
 
-.body-form {
-    background-color: #FBEED7;
-    color: #665C84;
-    font-family: 'Segoe UI', sans-serif;
+.text-center.mb-4 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem !important;
+    position: relative;
+    padding-bottom: 0.5rem;
 }
 
-.h2-form {
-    color: #665C84;
+.text-center.mb-4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #FFBA5A, #FF7657);
+    border-radius: 2px;
 }
 
-.form-wrapper {
-    background-color: #ffffff;
-    max-width: 600px;
+/* Formulário */
+.form-control, .form-select {
     border: 1px solid #ddd;
-    border-radius: 12px;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s;
+    background-color: #f9f9f9;
 }
 
+.form-control:focus, .form-select:focus {
+    border-color: #FFBA5A;
+    box-shadow: 0 0 0 0.25rem rgba(255, 186, 90, 0.25);
+    background-color: #fff;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #665C84;
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Seções do formulário */
+.col-md-6 {
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s;
+}
+
+.col-md-6 h5 {
+    font-size: 1.25rem;
+    color: #FF7657;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px dashed #FFBA5A;
+}
+
+.col-md-6 p {
+    margin-bottom: 0.75rem;
+}
+
+.col-md-6 strong {
+    color: #665C84;
+    min-width: 80px;
+    display: inline-block;
+}
+
+.col-md-6:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para os botões */
+/* Container dos botões */
+.d-flex.gap-3.mt-3 {
+    justify-content: center;
+    margin-top: 2rem !important;
+}
+
+/* Botão principal */
 .btn-custom {
-    background-color: #FFBA5A;
+    background: linear-gradient(135deg, #FFBA5A, #FF7657);
     border: none;
-    color: #fff;
-    font-weight: 500;
-    transition: 0.3s;
-    margin-right: 2%;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(255, 117, 87, 0.3);
+    transition: all 0.3s;
 }
 
 .btn-custom:hover {
-    background-color: #FF7657;
+    background: linear-gradient(135deg, #FF7657, #FFBA5A);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 117, 87, 0.4);
+    color: white;
 }
 
-/* No seu arquivo form.css */
+/* Botão secundário */
+.btn-secondary {
+    background: linear-gradient(135deg, #665C84, #8A7FB0);
+    border: none;
+    color: white !important;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(101, 92, 132, 0.3);
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #8A7FB0, #665C84);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(101, 92, 132, 0.4);
+    color: white;
+}
+
+/* Botão de perigo (vermelho) */
+.btn-danger {
+    background: linear-gradient(135deg, #FF4D4D, #FF7676);
+    border: none;
+    color: white !important;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+    transition: all 0.3s;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #FF7676, #FF4D4D);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 77, 77, 0.4);
+}
+
+/* Botão de aviso (laranja) */
+.btn-warning {
+    background: linear-gradient(135deg, #FFA500, #FFC04D);
+    border: none;
+    color: #665C84 !important;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+    transition: all 0.3s;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #FFC04D, #FFA500);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
+}
+
+/* Botão de logout */
+.btn-logout {
+    background: linear-gradient(135deg, #FF4D4D, #FF7676);
+    border: none;
+    color: white !important;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+    transition: all 0.3s;
+    margin-top: 1rem;
+}
+
+.btn-logout:hover {
+    background: linear-gradient(135deg, #FF7676, #FF4D4D);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 77, 77, 0.4);
+}
+
+/* Efeitos comuns para botões */
+.btn-custom:active, 
+.btn-secondary:active, 
+.btn-danger:active, 
+.btn-warning:active, 
+.btn-logout:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Container dos botões de controle */
+div[name="BotoesControle"] {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem !important;
+    display: flex;
+    gap: 10px;
+}
+
+/* Espaçamento entre botões */
+div[name="BotoesControle"] > *,
+div[name="BotoesControle"] > form,
+div[th|if="${usuarioLogado.id == usuario.id}"] {
+    margin: 0;
+}
+
+/* Select estilizado */
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23665C84' d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+/* Placeholders */
+::placeholder {
+    color: #aaa;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #aaa;
+}
+
+::-ms-input-placeholder {
+    color: #aaa;
+}
+
+/* Preview de imagens */
 .img-preview {
     max-width: 200px;
-    display: none; /* Inicialmente escondido */
+    display: none;
     margin-top: 10px;
+    border-radius: 8px;
+    border: 2px solid #FFBA5A;
 }
 
 .img-preview.d-none {
     display: none;
+}
+
+/* Cards */
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .text-center.mb-4 {
+        font-size: 1.5rem;
+    }
+    
+    .btn-custom, 
+    .btn-secondary,
+    .btn-danger,
+    .btn-warning,
+    .btn-logout {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .col-md-6 {
+        margin-bottom: 1rem;
+    }
+    
+    div[name="BotoesControle"] {
+        flex-direction: column;
+    }
+    
+    div[name="BotoesControle"] > *,
+    div[name="BotoesControle"] > form {
+        width: 100%;
+    }
+}
+
+/* Efeitos de transição */
+body, .navbar, .container, .form-control, 
+.form-select, .btn-custom, .col-md-6, .card,
+.btn-secondary, .btn-danger, .btn-warning, .btn-logout {
+    transition: all 0.3s ease;
+}
+/* Estilos para o submenu - Versão melhorada */
+.submenu-wrapper {
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid #FFE8CC;
+    position: relative;
+    z-index: 10;
+}
+
+.submenu-nav {
+    padding: 0;
+    margin: 0 auto;
+    max-width: 900px;
+}
+
+.submenu-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+}
+
+.submenu-item {
+    flex: 1;
+    text-align: center;
+}
+
+.submenu-link {
+    display: block;
+    padding: 1rem 0.5rem;
+    color: #665C84;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    margin: 0 2px;
+}
+
+.submenu-link:hover {
+    color: #FF7657;
+    background-color: #FFF5EB;
+}
+
+.submenu-link.active {
+    color: #FF7657;
+    background-color: #FFF5EB;
+    box-shadow: 0 -3px 0 #FF7657 inset;
+    font-weight: 700;
+}
+
+.submenu-link i {
+    font-size: 1.1rem;
+    margin-right: 8px;
+}
+
+/* Efeito de "aba" para o item ativo */
+.submenu-link.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FFBA5A, #FF7657);
+    border-radius: 3px 3px 0 0;
+}
+
+/* Responsividade para o submenu */
+@media (max-width: 768px) {
+    .submenu-list {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .submenu-link {
+        padding: 0.75rem;
+        border-radius: 0;
+        margin: 0;
+        border-bottom: 1px solid #FFE8CC;
+    }
+    
+    .submenu-link.active {
+        box-shadow: 3px 0 0 #FF7657 inset;
+    }
+    
+    .submenu-link.active::before {
+        width: 3px;
+        height: 100%;
+        right: auto;
+        border-radius: 3px 0 0 3px;
+    }
+}
+
+        /* Estilos adicionais para melhorar a aparência */
+        .badge {
+            padding: 0.5em 0.75em;
+            font-weight: 500;
+        }
+        .table-info {
+            background-color: #e7f5ff;
+        }
+        .img-thumbnail {
+            max-width: 50px;
+            height: auto;
+        }
+
+            .game-image-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .game-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+    
+    .game-name {
+        flex-grow: 1;
+    }
+
+/* Estilos específicos para a página de Status */
+.body-status {
+    background-color: #F5F5F5;
+}
+
+.dashboard-wrapper {
+    background-color: #fff;
+    border-radius: 16px;
+}
+
+.stat-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.stat-icon {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 2.5rem;
+    opacity: 0.2;
+}
+
+.chart-container {
+    background-color: #fff;
+    border: 1px solid #eee;
+}
+
+.chart-title {
+    color: #665C84;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #FFE8CC;
+}
+
+.top-jogos .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 1rem;
+}
+
+.top-jogos .list-group-item:first-child {
+    border-top: none;
+}
+
+.top-jogos .list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Cores específicas para os cards */
+.bg-primary {
+    background: linear-gradient(135deg, #665C84, #8A7FB0) !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #4CAF50, #81C784) !important;
+}
+
+.bg-info {
+    background: linear-gradient(135deg, #2196F3, #64B5F6) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #FFBA5A, #FFD180) !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+    }
+}
+
+/* Estilos para o destaque das notas no Top 5 */
+.list-group-item .badge.bg-primary.top-nota {
+    font-size: 1rem;
+    background: linear-gradient(90deg, #ffba5a 0%, #ff7657 100%);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 0.5em 1.2em;
+    box-shadow: 0 2px 8px rgba(255, 186, 90, 0.2);
+    letter-spacing: 1px;
+    border: 2px solid #fff3e0;
 }
