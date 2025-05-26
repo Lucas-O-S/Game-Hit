@@ -172,16 +172,20 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
             Object estatisticas = registroService.obterEstatisticasUsuario(usuarioId, anoFiltro);
             if (estatisticas == null) estatisticas = new java.util.HashMap<>();
             model.addAttribute("estatisticas", estatisticas);
-            Object jogosPorGenero = registroService.contarJogosPorGenero(usuarioId);
+
+            Object jogosPorGenero = registroService.contarJogosPorGenero(usuarioId, anoFiltro);
             if (jogosPorGenero == null) jogosPorGenero = new java.util.HashMap<>();
             model.addAttribute("jogosPorGenero", jogosPorGenero);
-            Object jogosPorEstado = registroService.contarJogosPorEstado(usuarioId);
+            
+            Object jogosPorEstado = registroService.contarJogosPorEstado(usuarioId, anoFiltro);
             if (jogosPorEstado == null) jogosPorEstado = new java.util.HashMap<>();
             model.addAttribute("jogosPorEstado", jogosPorEstado);
-            Object anosComRegistros = registroService.obterAnosComRegistros(usuarioId);
+
+            Object anosComRegistros = registroService.obterAnosComRegistros(usuarioId, anoFiltro);
             if (anosComRegistros == null) anosComRegistros = new java.util.ArrayList<>();
             model.addAttribute("anosComRegistros", anosComRegistros);
-            model.addAttribute("topJogos", registroService.buscarTopJogos(usuarioId, 5));
+
+            model.addAttribute("topJogos", registroService.buscarTopJogos(usuarioId, 5, anoFiltro));
             return "Registro/Status";
         }
         catch (Exception e) {

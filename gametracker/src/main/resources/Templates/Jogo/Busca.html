@@ -32,21 +32,33 @@
             <div th:each="jogo : ${jogos}" class="list-group-item d-flex justify-content-between align-items-center">
                 <span th:text="${jogo.nome}">Nome do Jogo</span>
                 <div class="btn-group" role="group">
-                    <a th:href="@{/Registro/Cadastro(jogoId=${jogo.id})}" class="btn btn-outline-primary btn-sm" title="Adicionar ao Registro">
-                        <img th:src="@{/IMG/add.png}" alt="Adicionar ao Registro" width="20" height="20">
+                    <a th:href="@{/Registro/Cadastro(jogoId=${jogo.id})}" 
+                    class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center"
+                    th:if="${usuarioLogado.Adm}"
+                    title="Adicionar">
+                    <i class="fas fa-plus"></i>
                     </a>
-                    <a th:href="@{/Jogo/Editar(id=${jogo.id})}" class="btn btn-outline-secondary btn-sm" title="Editar" th:if="${usuarioLogado.Adm == true}">
-                        <img th:src="@{/IMG/edit.png}" alt="Editar" width="20" height="20">
+
+                    <a th:href="@{/Jogo/Editar(jogoId=${jogo.id}, id=${jogo.id})}" 
+                        class="btn btn-outline-secondary"
+                        th:if="${usuarioLogado.Adm}"
+                        title="Editar">
+                        <i class="fas fa-edit"></i>
                     </a>
-                    <a href="#" class="btn btn-outline-danger btn-sm" title="Excluir" th:if="${usuarioLogado.Adm == true}"
-                    onclick="if(confirm('Tem certeza que deseja excluir este jogo?')) document.getElementById('form-excluir-[[${jogo.id}]]').submit(); return false;">
-                        <img th:src="@{/IMG/delete.png}" alt="Excluir" width="20" height="20">
-                    </a>
+                    <button type="button" class="btn btn-outline-danger"
+                        th:if="${usuarioLogado.Adm ==true}"
+                        th:data-id="${jogo.id}"
+                        onclick="confirmarExclusao('form-excluir-' + this.getAttribute('data-id'), 'Deseja realmente excluir este jogo?')"
+                        title="Excluir">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </div>
 
                 <!-- Formulário oculto dentro do th:each com id corrigido -->
-                <form th:action="@{/Jogo/Excluir(id=${jogo.id})}" method="post" id="form-excluir-[[${jogo.id}]]" style="display: none;">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <form th:action="@{/Jogo/Excluir(id=${jogo.id})}" method="post" 
+                    th:id="'form-excluir-'+${jogo.id}" style="display: none;">
+                    <input type="hidden" name="_method" value="delete">
+                             <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 </form>
             </div>
 
@@ -61,7 +73,7 @@
 
 
 </main>
-
+<script th:src="@{/js/confirmacao.js}"></script>
 <div th:insert="fragments/Footer :: Footer"></div>
 </body>
 </html>
