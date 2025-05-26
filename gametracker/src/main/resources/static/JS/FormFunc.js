@@ -25,24 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function confirmarExclusao() {
-  Swal.fire({
-    title: 'Tem certeza?',
-    text: "Esta ação não poderá ser desfeita!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#6c757d',
-    confirmButtonText: 'Sim, excluir',
-    cancelButtonText: 'Cancelar',
-    background: '#fff3f3',
-    color: '#721c24'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      document.getElementById('formExcluir').submit();
-    }
-  });
-}
 
 if (window.jQuery) {
   $(document).ready(function () {

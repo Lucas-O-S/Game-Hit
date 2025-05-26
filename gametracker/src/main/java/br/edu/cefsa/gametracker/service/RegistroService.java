@@ -90,12 +90,12 @@ public class RegistroService implements InterfaceService<RegistroModel>{
         
         try {
             // Total de jogos
-            Long totalJogos = registroRepository.countByUsuarioId(usuarioId);
+            Long totalJogos = registroRepository.countByUsuarioId(usuarioId, ano);
             estatisticas.put("totalJogos", totalJogos != null ? totalJogos : 0L);
             
             // Jogos finalizados (COMPLETO ou FINALIZADO dependendo do seu enum)
             Long jogosFinalizados = 0L;
-            List<Object[]> resultadosEstado = registroRepository.countByEstadoGrouped(usuarioId);
+            List<Object[]> resultadosEstado = registroRepository.countByEstadoGrouped(usuarioId, ano);
             
             if (resultadosEstado != null) {
                 jogosFinalizados = resultadosEstado.stream()
@@ -109,7 +109,7 @@ public class RegistroService implements InterfaceService<RegistroModel>{
             estatisticas.put("jogosFinalizados", jogosFinalizados);
             
             // Tempo total jogado
-            Long tempoTotalMinutos = registroRepository.sumTempoJogoByUsuarioId(usuarioId);
+            Long tempoTotalMinutos = registroRepository.sumTempoJogoByUsuarioId(usuarioId, ano);
             Duration tempoTotal = null;
             if (tempoTotalMinutos != null) {
                 tempoTotal = Duration.ofMinutes(tempoTotalMinutos);
@@ -117,7 +117,7 @@ public class RegistroService implements InterfaceService<RegistroModel>{
             estatisticas.put("tempoTotal", tempoTotal != null ? formatDuration(tempoTotal) : "0h");
             
             // Média de notas (com tratamento para divisão por zero)
-            Double mediaNotas = registroRepository.avgNotaByUsuarioId(usuarioId);
+            Double mediaNotas = registroRepository.avgNotaByUsuarioId(usuarioId, ano);
             estatisticas.put("mediaNotas", mediaNotas != null ? 
                 Math.round(mediaNotas * 10.0) / 10.0 : 0.0); // Arredonda para 1 decimal
             
@@ -140,8 +140,8 @@ public class RegistroService implements InterfaceService<RegistroModel>{
         return estatisticas;
     }
 
-    public Map<Genero, Long> contarJogosPorGenero(Long usuarioId) {
-        List<Object[]> resultados = registroRepository.countJogosByGenero(usuarioId);
+    public Map<Genero, Long> contarJogosPorGenero(Long usuarioId, Integer ano) {
+        List<Object[]> resultados = registroRepository.countJogosByGenero(usuarioId, ano);
         return resultados.stream()
             .collect(Collectors.toMap(
                 arr -> (Genero) arr[0],
@@ -149,8 +149,8 @@ public class RegistroService implements InterfaceService<RegistroModel>{
             ));
     }
 
-    public Map<Estado, Long> contarJogosPorEstado(Long usuarioId) {
-        List<Object[]> resultados = registroRepository.countByEstadoGrouped(usuarioId);
+    public Map<Estado, Long> contarJogosPorEstado(Long usuarioId, Integer ano) {
+        List<Object[]> resultados = registroRepository.countByEstadoGrouped(usuarioId, ano);
         return resultados.stream()
             .collect(Collectors.toMap(
                 arr -> (Estado) arr[0],
@@ -158,7 +158,7 @@ public class RegistroService implements InterfaceService<RegistroModel>{
             ));
     }
 
-    public List<Integer> obterAnosComRegistros(Long usuarioId) {
+    public List<Integer> obterAnosComRegistros(Long usuarioId, Integer ano) {
         return registroRepository.findAnosComRegistros(usuarioId);
     }
 
@@ -181,8 +181,8 @@ public class RegistroService implements InterfaceService<RegistroModel>{
         return String.format("%dh %02dm", horas, minutos);
     }
 
-    public List<Map<String, Object>> buscarTopJogos(Long usuarioId, int limite) {
-        List<Object[]> results = registroRepository.findTopJogosByUsuarioId(usuarioId, org.springframework.data.domain.PageRequest.of(0, limite));
+    public List<Map<String, Object>> buscarTopJogos(Long usuarioId, int limite, Integer ano) {
+        List<Object[]> results = registroRepository.findTopJogosByUsuarioId(usuarioId, org.springframework.data.domain.PageRequest.of(0, limite), ano);
         List<Map<String, Object>> topJogos = new java.util.ArrayList<>();
         for (Object[] arr : results) {
             Map<String, Object> jogo = new java.util.HashMap<>();

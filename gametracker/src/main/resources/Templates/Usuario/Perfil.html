@@ -42,13 +42,22 @@
         <div name="BotoesControle" class="mb-3" style="display: flex; gap: 10px;" th:if="${(usuarioLogado.id == usuario.id || usuarioLogado.Adm == true) and usuario.id != 1}">
             <a th:href="@{/Usuario/Editar(id=${usuario.id})}" class="btn btn-secondary">Editar Perfil</a>
 
-            <form id="formExcluir" th:action="@{/Usuario/Excluir(id=${usuario.id})}" method="post">
+            <!-- Botão fora do form, usa data-id -->
+            <button type="button" class="btn btn-danger"
+                    th:if="${usuarioLogado.id == usuario.id or usuarioLogado.Adm}"
+                    th:data-id="${usuario.id}"
+                    onclick="confirmarExclusao('form-excluir-' + this.getAttribute('data-id'), 'Deseja realmente excluir este perfil?')">
+                Excluir Perfil
+            </button>
+
+            <!-- Formulário com id dinâmico correspondente -->
+            <form th:id="'form-excluir-' + ${usuario.id}"
+                th:action="@{/Usuario/Excluir(id=${usuario.id})}"
+                method="post" th:if="${usuarioLogado.id == usuario.id or usuarioLogado.Adm}">
+                
                 <input type="hidden" name="_method" value="delete" />
                 <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-              
-                <!-- Botão personalizado para usar SweetAlert -->
-                <button type="button" class="btn btn-danger" onclick="confirmarExclusao()">Excluir Perfil</button>
-              </form>
+            </form>
 
 
               
@@ -75,7 +84,7 @@
     </div>
 </main>
 
-<script th:src="@{/js/FormFunc.js}"></script>
+<script th:src="@{/js/confirmacao.js}"></script>
 <div th:insert="fragments/footer :: footer"></div>
 
 </body>
