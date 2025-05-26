@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
     <head th:replace="~{fragments/head :: head('Login')}"></head>
-    <!--
-    <additions>
-        Dicione css e js exclusivos a esta pagina caso nescessario-
-    </additions>
-    -->
+
 <body>
     <div th:insert="fragments/header :: Header"></div>
 
@@ -25,7 +21,7 @@
                 <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Fazer Login</button>
+            <button type="submit" class="btn btn-custom">Fazer Login</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         </form>
