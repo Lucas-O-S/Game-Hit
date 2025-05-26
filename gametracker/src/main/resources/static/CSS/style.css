@@ -15,6 +15,10 @@
   --radius-lg: 16px;
   --radius-full: 50px;
   --transition-all: all 0.3s ease;
+  --header-bg: #fff;
+  --header-text: #665C84;
+  --header-hover: #FFBA5A;
+  --header-border: #ddd;
 }
 
 /* Reset básico e estilos globais - MANTIDO ORIGINAL com variáveis */
@@ -41,19 +45,77 @@ body {
 
 /* Navbar - MANTIDO ORIGINAL com variáveis */
 .navbar {
-  background-color: var(--color-secondary);
+  background-color: var(--header-bg) !important;
+  padding: 0.8rem 0;
   box-shadow: var(--shadow-sm);
 }
 
-.navbar .nav-link {
-  color: var(--color-primary) !important;
-  font-weight: 500;
-  transition: var(--transition-all);
+.navbar-brand {
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--header-text);
+  transition: all 0.2s ease;
 }
 
-.navbar .nav-link:hover {
-  color: var(--color-accent) !important;
-  transform: translateY(-2px);
+.navbar-brand:hover {
+  color: var(--header-hover);
+  transform: translateY(-1px);
+}
+
+.nav-link {
+  color: var(--header-text) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  margin: 0 0.2rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--header-hover) !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: var(--header-hover);
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover::after {
+  width: 70%;
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0.5rem;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(236, 240, 241, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 2px rgba(255, 186, 90, 0.3);
+}
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    padding-top: 1rem;
+    border-top: 1px solid var(--header-border);
+  }
+  .nav-link {
+    padding: 0.8rem 0 !important;
+    margin: 0.2rem 0;
+  }
+  .nav-link::after {
+    display: none;
+  }
 }
 
 /* Container principal - MANTIDO com variáveis e animação */
@@ -317,6 +379,9 @@ textarea.form-control {
     --color-white: #393552;
     --color-light-gray: #393552;
     --color-text: #e0def4;
+    --header-bg: #1a1a2e;
+    --header-text: #e2e2e2;
+    --header-hover: #FFBA5A;
   }
   body,
   body.body-status,
