@@ -62,6 +62,19 @@ public class JogoService implements InterfaceService<JogoModel>{
     @Override
     public List<JogoModel> ListarTodos() {
         List<JogoModel> lista = jogoRepository.findAll();
+        for (JogoModel model : lista) {
+            // Corrige: se fotoByte for null ou vazio, usa a default
+            if (model.getFotoByte() == null || model.getFotoByte().length == 0) {
+                ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
+                try {
+                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                } catch (IOException ex) {
+                    // log ou ignore
+                }
+            }
+            // Sempre gera fotoBase64
+            model.setFotoBase64("data:image/png;base64," + java.util.Base64.getEncoder().encodeToString(model.getFotoByte()));
+        }
         return lista;
     }
 

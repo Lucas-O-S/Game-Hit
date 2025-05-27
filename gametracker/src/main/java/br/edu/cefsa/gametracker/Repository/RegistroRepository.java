@@ -71,4 +71,8 @@ public interface RegistroRepository extends JpaRepository<RegistroModel, Long> {
     List<Object[]> findTopJogosByUsuarioId(@Param("usuarioId") Long usuarioId, 
                                            Pageable pageable,
                                           @Param("ano") Integer ano);
+
+    // Top jogos por média de nota de todos os usuários
+    @Query("SELECT r.jogo.id, AVG(r.nota) as mediaNota FROM RegistroModel r WHERE r.nota IS NOT NULL GROUP BY r.jogo.id ORDER BY mediaNota DESC")
+    List<Object[]> findTopJogosByMediaNota(Pageable pageable);
 }
