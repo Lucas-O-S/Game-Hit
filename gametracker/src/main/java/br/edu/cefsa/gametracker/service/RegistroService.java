@@ -192,4 +192,8 @@ public class RegistroService implements InterfaceService<RegistroModel>{
         }
         return topJogos;
     }
+
+    public Integer TotalRegistros() {
+        return (int) registroRepository.count();
+    }
 }

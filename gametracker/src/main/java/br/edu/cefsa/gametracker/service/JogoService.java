@@ -85,5 +85,9 @@ public class JogoService implements InterfaceService<JogoModel>{
     public List<JogoModel> BuscarPorNome(String nome) {
         return jogoRepository.findByNomeContainingIgnoreCase(nome);
     }
+
+    public Integer TotalJogos() {
+        return Math.toIntExact(jogoRepository.count());
+    }
     
 }

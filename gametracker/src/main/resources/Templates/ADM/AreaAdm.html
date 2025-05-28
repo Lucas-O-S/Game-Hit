@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/head :: head('Área Administrativa')}"></head>
+<body class="body-form">
+
+<div th:insert="fragments/header :: header"></div>
+
+<main class="container mt-5 form">
+    <h2 class="text-center mb-4 h2-form">Painel Administrativo</h2>
+    <div class="row g-4 mb-4 justify-content-center">
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
+            <div class="stat-card bg-primary text-white rounded p-3 shadow h-100 d-flex flex-column align-items-center justify-content-center">
+                <h5 class="stat-title">Total de Usuários</h5>
+                <div class="stat-value" th:text="${totalUsuarios[0]}">0</div>
+                <i class="fas fa-users stat-icon"></i>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
+            <div class="stat-card bg-success text-white rounded p-3 shadow h-100 d-flex flex-column align-items-center justify-content-center">
+                <h5 class="stat-title">Não Admins</h5>
+                <div class="stat-value" th:text="${totalUsuarios[1]}">0</div>
+                <i class="fas fa-user stat-icon"></i>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
+            <div class="stat-card text-dark rounded p-3 shadow h-100 d-flex flex-column align-items-center justify-content-center" style="background-color: #fff786; color: #2d2540;">
+                <h5 class="stat-title">Admins</h5>
+                <div class="stat-value" th:text="${totalUsuarios[2]}">0</div>
+                <i class="fas fa-user-shield stat-icon"></i>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
+            <div class="stat-card bg-info text-white rounded p-3 shadow h-100 d-flex flex-column align-items-center justify-content-center">
+                <h5 class="stat-title">Total de Jogos</h5>
+                <div class="stat-value" th:text="${totalJogos}">0</div>
+                <i class="fas fa-gamepad stat-icon"></i>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3 mb-3">
+            <div class="stat-card bg-secondary text-white rounded p-3 shadow h-100 d-flex flex-column align-items-center justify-content-center">
+                <h5 class="stat-title">Total de Registros</h5>
+                <div class="stat-value" th:text="${totalRegistros}">0</div>
+                <i class="fas fa-database stat-icon"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4 mb-4 align-items-stretch">
+        <div class="col-12 col-lg-8 mb-3 mb-lg-0">
+            <div class="chart-container p-3 rounded shadow h-100">
+                <h5 class="chart-title">Usuários Cadastrados por Mês (Último Ano)</h5>
+                <canvas id="usuariosPorMes"></canvas>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="chart-container p-3 rounded shadow h-100">
+                <h5 class="chart-title">Distribuição Admin/Não Admin</h5>
+                <canvas id="distribuicaoAdmin"></canvas>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.usuariosPorMes = /*[[${UsuarioAno}]]*/ [];
+    window.totalAdmins = /*[[${totalUsuarios[2]}]]*/ 0;
+    window.totalNaoAdmins = /*[[${totalUsuarios[1]}]]*/ 0;
+    /*]]>*/
+</script>
+<!-- Certifique-se de que o Chart.js é carregado antes do seu script customizado -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/JS/adm-charts.js"></script>
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>
