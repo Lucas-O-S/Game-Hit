@@ -345,32 +345,6 @@ textarea.form-control {
   opacity: 0.18;
 }
 
-/* --- Responsividade --- */
-@media (max-width: 768px) {
-  .container {
-    padding: 1.2rem;
-    margin: 1rem;
-  }
-  .stat-card {
-    margin-bottom: 1rem;
-    padding: 0.7rem;
-  }
-  .stat-value {
-    font-size: 1rem;
-  }
-  .stat-icon {
-    font-size: 1.1rem;
-  }
-  .table th, .table td {
-    padding: 0.13rem 0.15rem !important;
-  }
-  .game-image {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-/* --- Dark mode aprimorado --- */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #E0D6FF;
@@ -465,6 +439,44 @@ textarea.form-control {
   }
   .card-title, .card-header h5, .card-body label, .card-body strong {
     color: var(--color-primary) !important;
+  }
+  .stat-card .stat-icon,
+  .stat-icon {
+    color: #fff !important;
+    opacity: 0.9;
+  }
+  .hero-title, .hero-subtitle {
+    color: #fff !important;
+    text-shadow: 1px 1px 8px #232136;
+  }
+  .badge.bg-success.bg-opacity-10.text-success {
+    background: rgba(34,197,94,0.25) !important;
+    color: #a3ffb0 !important;
+  }
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.2rem;
+    margin: 1rem;
+  }
+  .stat-card {
+    margin-bottom: 1rem;
+    padding: 0.7rem;
+  }
+  .stat-value {
+    font-size: 1rem;
+  }
+  .stat-icon {
+    font-size: 1.1rem;
+  }
+  .table th, .table td {
+    padding: 0.13rem 0.15rem !important;
+  }
+  .game-image {
+    width: 14px;
+    height: 14px;
   }
 }
 
