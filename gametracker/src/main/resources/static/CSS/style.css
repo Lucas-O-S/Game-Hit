@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 /* --- Otimizações e melhorias gerais --- */
 :root {
   --color-primary: #665C84;
@@ -25,7 +26,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
   background-color: var(--color-background);
   color: var(--color-primary);
   line-height: 1.6;
@@ -584,5 +585,35 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
     height: 100%;
     right: auto;
     border-radius: 3px 0 0 3px;
+  }
+}
+
+/* Estilos da seção Hero - texto claro e sombra */
+.hero-section, .hero-section h1, .hero-section p {
+  color: unset !important;
+  text-shadow: none;
+}
+
+.hero-title, .hero-subtitle {
+  color: #2d2540 !important;
+  text-shadow: 1px 1px 8px #fbeed7;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-title, .hero-subtitle {
+    color: #fff !important;
+    text-shadow: 1px 1px 8px #232136;
+  }
+}
+
+.badge.bg-success.bg-opacity-10.text-success {
+  background: rgba(34,197,94,0.15) !important;
+  color: #22c55e !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .badge.bg-success.bg-opacity-10.text-success {
+    background: rgba(34,197,94,0.25) !important;
+    color: #a3ffb0 !important;
   }
 }

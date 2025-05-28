@@ -1,41 +1,41 @@
-INSERT INTO jogo_model (nome, data_lancamento, sinopse, criador, genero) VALUES
-('Spider-Man: Miles Morales', '2020-11-12', 'A new hero rises in this action-packed adventure.', 'Insomniac Games', 0),  -- ACAO
-('Cuphead', '2017-09-29', 'A run and gun shooter with 1930s animation aesthetics.', 'Studio MDHR', 10),  -- PLATAFORMA
-('Sonic Frontiers', '2022-11-08', 'Sonic explores mysterious open zones on a Starfall island.', 'SEGA', 1),  -- AVENTURA
-('Bayonetta 3', '2022-10-28', 'The witch is back in a multiverse-spanning action romp.', 'PlatinumGames', 0),  -- ACAO
-('Metroid Dread', '2021-10-08', 'Samus Aran faces deadly robots and a new threat.', 'Nintendo', 0),  -- ACAO
-('It Takes Two', '2021-03-26', 'A unique co-op adventure about fixing a relationship.', 'Hazelight Studios', 1),  -- AVENTURA
-('Sonic Generations', '2011-11-01', 'Classic and Modern Sonic team up to restore the timeline.', 'SEGA', 10),  -- PLATAFORMA
-('Honkai: Star Rail', '2023-04-26', 'A space fantasy RPG where you travel through the galaxy.', 'HoYoverse', 2),  -- RPG
-('Baldur’s Gate 3', '2023-08-03', 'A grand D&D adventure with deep roleplaying.', 'Larian Studios', 2),  -- RPG
-('Dead Space Remake', '2023-01-27', 'Revived horror classic set in deep space.', 'Motive Studio', 9),  -- TERROR
-('Fire Emblem: Three Houses', '2019-07-26', 'Strategic battles and deep storytelling at a magical academy.', 'Intelligent Systems', 3),  -- ESTRATEGIA
-('Hollow Knight', '2017-02-24', 'Explore a haunting, beautiful world in this action platformer.', 'Team Cherry', 10),  -- PLATAFORMA
-('Sonic Mania', '2017-08-15', 'A return to retro Sonic gameplay with new levels and remixed classics.', 'SEGA', 10),  -- PLATAFORMA
-('Cyberpunk 2077', '2020-12-10', 'A futuristic RPG set in the dystopian Night City.', 'CD Projekt Red', 2),  -- RPG
-('Uncharted 4: A Thief''s End', '2016-05-10', 'Treasure hunter Nathan Drake goes on one last adventure.', 'Naughty Dog', 1),  -- AVENTURA
-('Red Dead Redemption 2', '2018-10-26', 'An outlaw’s tale in the dying days of the Wild West.', 'Rockstar Games', 1),  -- AVENTURA
-('Sonic Superstars', '2023-10-17', 'Classic Sonic gameplay in a fresh modern style.', 'SEGA', 10),  -- PLATAFORMA
-('The Last of Us Part II', '2020-06-19', 'A dark and emotional journey of survival and revenge.', 'Naughty Dog', 1),  -- AVENTURA
-('Tunic', '2022-03-16', 'A tiny fox goes on a big adventure filled with mystery.', 'Andrew Shouldice', 1),  -- AVENTURA
-('Persona 5 Royal', '2020-03-31', 'High schoolers by day, phantom thieves by night.', 'ATLUS', 2),  -- RPG
-('Octopath Traveler II', '2023-02-24', 'Eight new travelers explore a richly woven fantasy world.', 'Square Enix', 2),  -- RPG
-('Valorant', '2020-06-02', 'Tactical shooter with precise gunplay and special abilities.', 'Riot Games', 4),  -- TIRO
-('Apex Legends', '2019-02-04', 'A fast-paced battle royale with unique heroes.', 'Respawn Entertainment', 4),  -- TIRO
-('Stray', '2022-07-19', 'Play as a lost cat in a futuristic city full of robots.', 'BlueTwelve Studio', 1),  -- AVENTURA
-('Terraria', '2011-05-16', 'Dig, fight, explore, and build in this action-packed sandbox adventure.', 'Re-Logic', 1),  -- AVENTURA
-('Elden Ring', '2022-02-25', 'An epic open-world RPG from the makers of Dark Souls.', 'FromSoftware', 2),  -- RPG
-('Phantom Liberty', '2023-09-26', 'A spy-thriller expansion to Cyberpunk 2077.', 'CD Projekt Red', 2),  -- RPG
-('Minecraft', '2011-11-18', 'Build and explore infinite worlds with endless possibilities.', 'Mojang Studios', 1),  -- AVENTURA
-('The Legend of Zelda: Tears of the Kingdom', '2023-05-12', 'Explore a vast world filled with magic and mystery.', 'Nintendo', 1),  -- AVENTURA
-('Sea of Stars', '2023-08-29', 'A turn-based RPG inspired by the classics.', 'Sabotage Studio', 2),  -- RPG
-('Genshin Impact', '2020-09-28', 'Explore a vast open world with elemental magic and characters.', 'HoYoverse', 2),  -- RPG
-('Splatoon 3', '2022-09-09', 'Ink up the competition in colorful 4v4 battles.', 'Nintendo', 4),  -- TIRO
-('Starfield', '2023-09-06', 'Bethesda’s ambitious space RPG exploration epic.', 'Bethesda Game Studios', 2),  -- RPG
-('League of Legends', '2009-10-27', '5v5 strategy-based game in the world of Runeterra.', 'Riot Games', 11),  -- MULTIJOGADOR_ONLINE
-('Sonic Colors', '2010-11-16', 'Sonic fights Dr. Eggman in a colorful interstellar amusement park.', 'SEGA', 10),  -- PLATAFORMA
-('Monster Hunter Rise', '2021-03-26', 'Slay giant monsters in a beautifully crafted world.', 'Capcom', 0),  -- ACAO
-('Lies of P', '2023-09-19', 'A dark twist on the story of Pinocchio in Soulslike fashion.', 'Neowiz Games', 2),  -- RPG
-('Final Fantasy VII Remake', '2020-04-10', 'A reimagining of the classic RPG with modern graphics and gameplay.', 'Square Enix', 2),  -- RPG
-('Hades', '2020-09-17', 'Battle through the underworld in this action-packed rogue-like.', 'Supergiant Games', 2),  -- RPG
-('Undertale', '2015-09-15', 'A unique RPG where you don''t have to destroy anyone.', 'Toby Fox', 2);  -- RPG
+INSERT INTO jogo_model (nome, data_lancamento, sinopse, criador, genero, CREATED_AT, UPDATED_AT) VALUES
+('Spider-Man: Miles Morales', '2020-11-12', 'A new hero rises in this action-packed adventure.', 'Insomniac Games', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- ACAO
+('Cuphead', '2017-09-29', 'A run and gun shooter with 1930s animation aesthetics.', 'Studio MDHR', 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- PLATAFORMA
+('Sonic Frontiers', '2022-11-08', 'Sonic explores mysterious open zones on a Starfall island.', 'SEGA', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Bayonetta 3', '2022-10-28', 'The witch is back in a multiverse-spanning action romp.', 'PlatinumGames', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- ACAO
+('Metroid Dread', '2021-10-08', 'Samus Aran faces deadly robots and a new threat.', 'Nintendo', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- ACAO
+('It Takes Two', '2021-03-26', 'A unique co-op adventure about fixing a relationship.', 'Hazelight Studios', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Sonic Generations', '2011-11-01', 'Classic and Modern Sonic team up to restore the timeline.', 'SEGA', 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- PLATAFORMA
+('Honkai: Star Rail', '2023-04-26', 'A space fantasy RPG where you travel through the galaxy.', 'HoYoverse', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Baldur’s Gate 3', '2023-08-03', 'A grand D&D adventure with deep roleplaying.', 'Larian Studios', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Dead Space Remake', '2023-01-27', 'Revived horror classic set in deep space.', 'Motive Studio', 9, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- TERROR
+('Fire Emblem: Three Houses', '2019-07-26', 'Strategic battles and deep storytelling at a magical academy.', 'Intelligent Systems', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- ESTRATEGIA
+('Hollow Knight', '2017-02-24', 'Explore a haunting, beautiful world in this action platformer.', 'Team Cherry', 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- PLATAFORMA
+('Sonic Mania', '2017-08-15', 'A return to retro Sonic gameplay with new levels and remixed classics.', 'SEGA', 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- PLATAFORMA
+('Cyberpunk 2077', '2020-12-10', 'A futuristic RPG set in the dystopian Night City.', 'CD Projekt Red', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Uncharted 4: A Thief''s End', '2016-05-10', 'Treasure hunter Nathan Drake goes on one last adventure.', 'Naughty Dog', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Red Dead Redemption 2', '2018-10-26', 'An outlaw’s tale in the dying days of the Wild West.', 'Rockstar Games', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Sonic Superstars', '2023-10-17', 'Classic Sonic gameplay in a fresh modern style.', 'SEGA', 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- PLATAFORMA
+('The Last of Us Part II', '2020-06-19', 'A dark and emotional journey of survival and revenge.', 'Naughty Dog', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Tunic', '2022-03-16', 'A tiny fox goes on a big adventure filled with mystery.', 'Andrew Shouldice', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Persona 5 Royal', '2020-03-31', 'High schoolers by day, phantom thieves by night.', 'ATLUS', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Octopath Traveler II', '2023-02-24', 'Eight new travelers explore a richly woven fantasy world.', 'Square Enix', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Valorant', '2020-06-02', 'Tactical shooter with precise gunplay and special abilities.', 'Riot Games', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- TIRO
+('Apex Legends', '2019-02-04', 'A fast-paced battle royale with unique heroes.', 'Respawn Entertainment', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- TIRO
+('Stray', '2022-07-19', 'Play as a lost cat in a futuristic city full of robots.', 'BlueTwelve Studio', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Terraria', '2011-05-16', 'Dig, fight, explore, and build in this action-packed sandbox adventure.', 'Re-Logic', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Elden Ring', '2022-02-25', 'An epic open-world RPG from the makers of Dark Souls.', 'FromSoftware', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Phantom Liberty', '2023-09-26', 'A spy-thriller expansion to Cyberpunk 2077.', 'CD Projekt Red', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Minecraft', '2011-11-18', 'Build and explore infinite worlds with endless possibilities.', 'Mojang Studios', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('The Legend of Zelda: Tears of the Kingdom', '2023-05-12', 'Explore a vast world filled with magic and mystery.', 'Nintendo', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- AVENTURA
+('Sea of Stars', '2023-08-29', 'A turn-based RPG inspired by the classics.', 'Sabotage Studio', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Genshin Impact', '2020-09-28', 'Explore a vast open world with elemental magic and characters.', 'HoYoverse', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Splatoon 3', '2022-09-09', 'Ink up the competition in colorful 4v4 battles.', 'Nintendo', 4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- TIRO
+('Starfield', '2023-09-06', 'Bethesda’s ambitious space RPG exploration epic.', 'Bethesda Game Studios', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('League of Legends', '2009-10-27', '5v5 strategy-based game in the world of Runeterra.', 'Riot Games', 11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- MULTIJOGADOR_ONLINE
+('Sonic Colors', '2010-11-16', 'Sonic fights Dr. Eggman in a colorful interstellar amusement park.', 'SEGA', 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- PLATAFORMA
+('Monster Hunter Rise', '2021-03-26', 'Slay giant monsters in a beautifully crafted world.', 'Capcom', 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- ACAO
+('Lies of P', '2023-09-19', 'A dark twist on the story of Pinocchio in Soulslike fashion.', 'Neowiz Games', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Final Fantasy VII Remake', '2020-04-10', 'A reimagining of the classic RPG with modern graphics and gameplay.', 'Square Enix', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Hades', '2020-09-17', 'Battle through the underworld in this action-packed rogue-like.', 'Supergiant Games', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),  -- RPG
+('Undertale', '2015-09-15', 'A unique RPG where you don''t have to destroy anyone.', 'Toby Fox', 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);  -- RPG

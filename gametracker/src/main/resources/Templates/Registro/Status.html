@@ -67,7 +67,7 @@
             </div>
             
             <div class="col-md-3">
-                <div class="stat-card bg-warning text-dark rounded p-3 shadow">
+                <div class="stat-card" style="background-color: #fff786; color: #2d2540;" >
                     <h5 class="stat-title">Nota Media</h5>
                     <div class="stat-value" th:text="${estatisticas != null ? #numbers.formatDecimal(estatisticas.mediaNotas, 1, 1) : '0.0'}">0.0</div>
                     <i class="fas fa-star stat-icon"></i>

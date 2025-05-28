@@ -46,6 +46,9 @@
                     <li class="nav-item" th:if="${usuarioLogado != null}">
                         <a class="nav-link" th:href="@{/Jogo/Buscar}" >Jogos</a>
                     </li>
+                    <li class="nav-item" th:if="${usuarioLogado != null} and ${usuarioLogado.adm}">
+                        <a class="nav-link" th:href="@{/ADM/Area}" >Área ADM</a>
+                    </li>
                 </ul>
 
 

@@ -2,7 +2,10 @@ package br.edu.cefsa.gametracker.service;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -121,4 +124,41 @@ public class UsuarioService implements InterfaceService<UsuarioModel> {
     public UsuarioModel BuscarEmail(String email){
         return usuarioRepository.findByEmail(email);
     }
+
+
+    //Retorna numero total de usuarios[0], usuarios normais[1] e adm[2]
+    public List<Integer> TotalUsuarios(){
+        List<Integer> lista = new ArrayList<>();
+        lista.add((int) usuarioRepository.count());
+        lista.add((int) usuarioRepository.countByAdm(false));
+        lista.add((int) usuarioRepository.countByAdm(true));
+        
+        return lista;
+    }
+
+    public Map<Integer, Integer> UsuariosUltimoAno() {
+        Map<Integer, Integer> usuariosUltimoAno = new HashMap<>();
+        List<Object[]> dados = usuarioRepository.usuariosUltimoAno(
+            java.time.LocalDateTime.now().minusYears(1)
+        );
+    
+        for (int i = 1; i <= 12; i++) {
+            Integer mes = i;
+            Integer qnt = 0;
+    
+            for (Object[] dado : dados) {
+                if (dado[0] != null && ((Integer) dado[0]).equals(i)) {
+                    qnt = ((Number) dado[1]).intValue();
+                    break; 
+                }
+            }
+    
+            usuariosUltimoAno.put(mes, qnt);
+        }
+    
+        return usuariosUltimoAno;
+    }
+    
+
+    
 }
