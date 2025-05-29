@@ -35,7 +35,7 @@ gametracker/
 └── README.md
 ```
 
-3. Acesse o sistema em [http://localhost:8080](http://localhost:8081)
+3. Acesse o sistema em [http://localhost:8081](http://localhost:8081)
 
 ## Paleta de Cores
 Utilizada: [Color Hunt Palette](https://colorhunt.co/palette/fbeed7ffba5aff7657665c84)
