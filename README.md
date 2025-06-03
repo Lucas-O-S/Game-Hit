@@ -1,4 +1,4 @@
-# xXGame-HitXx
+# Game-Hit
 
 Game-Hit é um sistema de gerenciamento de jogos, usuários e registros, desenvolvido em Java com Spring Boot e Thymeleaf. O projeto permite o cadastro, busca e administração de jogos, usuários e registros de forma intuitiva, com um painel administrativo completo e visual moderno.
 
