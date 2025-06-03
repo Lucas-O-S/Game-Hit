@@ -41,6 +41,6 @@ gametracker/
 Utilizada: [Color Hunt Palette](https://colorhunt.co/palette/fbeed7ffba5aff7657665c84)
 
 ## Créditos
-Desenvolvido por Lucas e colaboradores.
+Desenvolvido por [Lucas Oliveira Silva]() e [Vitoria Kaori Kuriyama]().
 
 
