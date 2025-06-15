@@ -68,6 +68,12 @@ public class JogoController extends PadraoController<JogoModel> {
             return false;
         }
 
+        if(model.getFotoByte().length > 1048576 * 500) { 
+            valores.addAttribute("erro", "A imagem do jogo não pode ser maior que 500MB");
+            return false;
+
+        }
+
         
         
         return true;
@@ -116,18 +122,20 @@ public class JogoController extends PadraoController<JogoModel> {
     @RequestParam("operacao") char operacao
     ) {
         try {
+
+            //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
+            if (imagem != null && !imagem.isEmpty()) {
+                model.setFotoByte(imagem.getBytes());
+            } else {
+                // Carrega imagem padrão apenas se for novo jogo
+                if (model.getId() == null) { 
+                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
+                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                }
+            }
+
             if (Validar(model, model.getId() == null ? 'I' : 'E', valores)) {
 
-                //Verifica se uma imagem foi enviada, caso não ira ser usado uma default
-                if (imagem != null && !imagem.isEmpty()) {
-                    model.setFotoByte(imagem.getBytes());
-                } else {
-                    // Carrega imagem padrão apenas se for novo jogo
-                    if (model.getId() == null) { 
-                        ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultGameImage.png");
-                        model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
-                    }
-                }
 
                 if (model.getId() == null) {
                     jogoService.Inserir(model);

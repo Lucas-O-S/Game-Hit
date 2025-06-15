@@ -170,20 +170,23 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
         @RequestParam("imagem") MultipartFile imagem
     ) {
         try{
+
+                            
+            if (imagem != null && !imagem.isEmpty() ) {
+                model.setFotoByte(imagem.getBytes());
+            }
+            else {
+                // Carrega imagem padrão apenas se for novo jogo
+                if (model.getId() == null) { 
+                    ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
+                    model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
+                }
+            }
+            
+
             //Valida o usuario antes de seguir, caso não aceite sera devolvido um erro e retornara para a pagina de onde veio
             if(Validar(model, operacao, valores)){                    
-                
-            if (imagem != null && !imagem.isEmpty()) {
-                    model.setFotoByte(imagem.getBytes());
-                }
-                else {
-                    // Carrega imagem padrão apenas se for novo jogo
-                    if (model.getId() == null) { 
-                        ClassPathResource imgFile = new ClassPathResource("static/IMG/DefaultUserImage.png");
-                        model.setFotoByte(Files.readAllBytes(imgFile.getFile().toPath()));
-                    }
-                }
-                
+
                 //Se for uma inserção
                 if(operacao == 'I'){
                     usuarioService.Inserir(model);
@@ -249,6 +252,12 @@ public class UsuarioController extends PadraoController <UsuarioModel> {
             valores.addAttribute("erro", "Erro ao validar senha");
 
             return false;
+        }
+
+        if(model.getFotoByte().length > 1048576 * 500) { 
+            valores.addAttribute("erro", "A imagem do jogo não pode ser maior que 500MB");
+            return false;
+
         }
 
 
