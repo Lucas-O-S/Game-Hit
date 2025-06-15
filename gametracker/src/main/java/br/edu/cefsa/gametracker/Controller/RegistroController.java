@@ -1,6 +1,4 @@
 package br.edu.cefsa.gametracker.Controller;
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -59,9 +57,7 @@ public class RegistroController extends PadraoAssociativaController<RegistroMode
 
     @Override
     public boolean Validar(RegistroModel model, char operacao, Model valores) {
-        if(model.getDataFinalizacao() == null){
-            model.setDataFinalizacao( LocalDate.of(1753, 1, 1));
-        }
+
         return true;
         
     }

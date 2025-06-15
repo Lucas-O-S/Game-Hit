@@ -109,10 +109,10 @@ public class RegistroService implements InterfaceService<RegistroModel>{
             estatisticas.put("jogosFinalizados", jogosFinalizados);
             
             // Tempo total jogado
-            Long tempoTotalMinutos = registroRepository.sumTempoJogoByUsuarioId(usuarioId, ano);
+            Long tempoTotalSegundos = registroRepository.sumTempoJogoByUsuarioId(usuarioId, ano);
             Duration tempoTotal = null;
-            if (tempoTotalMinutos != null) {
-                tempoTotal = Duration.ofMinutes(tempoTotalMinutos);
+            if (tempoTotalSegundos != null) {
+                tempoTotal = Duration.ofSeconds(tempoTotalSegundos);
             }
             estatisticas.put("tempoTotal", tempoTotal != null ? formatDuration(tempoTotal) : "0h");
             

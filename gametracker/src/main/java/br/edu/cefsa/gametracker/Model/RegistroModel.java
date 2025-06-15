@@ -46,10 +46,11 @@ public class RegistroModel extends PadraoModel {
 
     public String getTempoJogoFormatado() {
         if (this.tempoJogo == null) {
-            return "0h 0m";
+            return "0h 0m 0s";
         }
-        long horas = tempoJogo / 60;
-        long minutos = tempoJogo % 60;
-        return String.format("%dh %02dm", horas, minutos);
+        long horas = tempoJogo / 3600;
+        long minutos = (tempoJogo % 3600) / 60;
+        long segundos = tempoJogo % 60;
+        return String.format("%dh %02dm %02ds", horas, minutos, segundos);
     }
 }
