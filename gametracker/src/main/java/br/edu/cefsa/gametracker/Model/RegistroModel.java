@@ -2,6 +2,9 @@ package br.edu.cefsa.gametracker.Model;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import br.edu.cefsa.gametracker.Enum.Estado;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,10 +37,12 @@ public class RegistroModel extends PadraoModel {
 
     @ManyToOne
     @JoinColumn(name = "jogo_id", nullable=false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private JogoModel jogo;
     
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable=false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UsuarioModel usuario;
 
     @Column(name = "Estado")
